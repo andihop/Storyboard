@@ -5,9 +5,26 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
+import com.google.firebase.database.collection.*;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firestore.v1beta1.Document;
+import com.google.firestore.v1beta1.WriteResult;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,14 +35,38 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.new_story_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action - test for githu", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                setUp();
+
             }
         });
+    }
+
+    public void setUp() {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        /*FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        firestore.setFirestoreSettings(settings);*/
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("author", "test_Author2");
+        data.put("genre", "test_genre2");
+        data.put("text", "test_text2");
+        firestore.collection("stories").add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+
+                System.out.println("dasdsadsa");
+                Log.d("stories", "DocumentSnapshot added with ID: " + documentReference.getId());
+            }
+        });
+
     }
 
     @Override
