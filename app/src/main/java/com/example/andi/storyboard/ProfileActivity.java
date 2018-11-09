@@ -18,8 +18,8 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton new_story_button = (FloatingActionButton) findViewById(R.id.new_story_button);
+        new_story_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action - test for githu", Snackbar.LENGTH_LONG)
