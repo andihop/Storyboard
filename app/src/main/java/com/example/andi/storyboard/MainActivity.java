@@ -96,9 +96,42 @@ public class MainActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 storiesList.add(document);
                                 Log.d("storiesByAuthors", document.getId() + " => " + document.getData());
+                                Log.i("Title", document.get("title").toString());
+                                Log.i("Text", document.get("text").toString());
+
                             }
                         } else {
                             Log.d("storiesByAuthors", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+        //Test get stories by Genre
+
+        //Get genre using document ID
+        //document path was obtained by analyzing the firestore database online.
+        DocumentReference genre = firestore.collection("genres").document("E9FH2veRiT4vgoBEk2ZB");
+
+        //use the genre document reference to retrieve list of all stories that have a reference to specified genre
+        //Note difference, uses whereArrayContains() instead of whereEqualTo
+        final ArrayList<QueryDocumentSnapshot> storiesListFromGenre = new ArrayList<QueryDocumentSnapshot>();
+        firestore.collection("stories")
+                .whereArrayContains("genres", genre)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                storiesList.add(document);
+                                Log.d("storiesByGenres", document.getId() + " => " + document.getData());
+                                Log.i("Title", document.get("title").toString());
+                                Log.i("Text", document.get("text").toString());
+
+                            }
+                        } else {
+                            Log.d("storiesByGenres", "Error getting documents: ", task.getException());
                         }
                     }
                 });
