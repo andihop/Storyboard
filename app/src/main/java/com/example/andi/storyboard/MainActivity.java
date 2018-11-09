@@ -14,6 +14,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+//Jee Kang Query database edits
+import com.google.firebase.firestore.*;
+import com.google.android.gms.tasks.*;
+import java.util.ArrayList;
+import android.support.annotation.*;
+
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
@@ -54,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         firestore.setFirestoreSettings(settings);*/
 
+        /*
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("author", "test_Author2");
         data.put("genre", "test_genre2");
@@ -64,10 +73,68 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println("dasdsadsa");
                 Log.d("stories", "DocumentSnapshot added with ID: " + documentReference.getId());
+
             }
         });
+        */
+
+        //Test get stories by author
+
+        //Get author using document ID
+        //document path was obtained by analyzing the firestore database online.
+        DocumentReference author = firestore.collection("authors").document("S4TEFok6UlrLTa64RHv3");
+
+        //use the author document reference to retrieve list of all stories that have a reference to specified author
+        final ArrayList<QueryDocumentSnapshot> storiesList = new ArrayList<QueryDocumentSnapshot>();
+        firestore.collection("stories")
+                .whereEqualTo("author", author)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                storiesList.add(document);
+                                Log.d("storiesByAuthors", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("storiesByAuthors", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
     }
+
+    /*
+    Returns a list of stories in QueryDocumentSnapshot format for a given author.
+    Author must be converted to a document reference object before calling function.
+    Convert author to document reference by calling author.getReference() if needed.
+     */
+    /*
+    public ArrayList<QueryDocumentSnapshot> storiesByAuthors(DocumentReference author) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        final ArrayList<QueryDocumentSnapshot> storiesList = new ArrayList<QueryDocumentSnapshot>();
+        firestore.collection("stories")
+                .whereEqualTo("author", author)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                storiesList.add(document);
+                                Log.d("storiesByAuthors", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("storiesByAuthors", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        return storiesList;
+    }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
