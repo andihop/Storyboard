@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
-        FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
+        //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.new_story_button);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -106,9 +106,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Get author using document ID
         //document path was obtained by analyzing the firestore database online.
-        DocumentReference author = firestore.collection("authors").document("S4TEFok6UlrLTa64RHv3");
+
+        //DocumentReference author = firestore.collection("authors").document("S4TEFok6UlrLTa64RHv3");
 
         //use the author document reference to retrieve list of all stories that have a reference to specified author
+
+        /*
         final ArrayList<QueryDocumentSnapshot> storiesList = new ArrayList<QueryDocumentSnapshot>();
         firestore.collection("stories")
                 .whereEqualTo("author", author)
@@ -129,16 +132,18 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
+        */
 
         //Test get stories by Genre
 
         //Get genre using document ID
         //document path was obtained by analyzing the firestore database online.
-        DocumentReference genre = firestore.collection("genres").document("E9FH2veRiT4vgoBEk2ZB");
+        //DocumentReference genre = firestore.collection("genres").document("E9FH2veRiT4vgoBEk2ZB");
 
         //use the genre document reference to retrieve list of all stories that have a reference to specified genre
         //Note difference, uses whereArrayContains() instead of whereEqualTo
+
+        /*
         final ArrayList<QueryDocumentSnapshot> storiesListFromGenre = new ArrayList<QueryDocumentSnapshot>();
         firestore.collection("stories")
                 .whereArrayContains("genres", genre)
@@ -161,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
+    */
 
     /*
     Returns a list of stories in QueryDocumentSnapshot format for a given author.
@@ -188,8 +194,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         return storiesList;
+        */
     }
-    */
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

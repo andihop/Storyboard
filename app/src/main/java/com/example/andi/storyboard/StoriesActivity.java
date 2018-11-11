@@ -28,6 +28,10 @@ public class StoriesActivity extends AppCompatActivity  {
         mAdapter = new StoriesResultAdapter(getApplicationContext(), stories);
 
         resultsList.setAdapter(mAdapter);
+
+        //Test Query
+        FireStoreOps.searchByRef("stories","authors","S4TEFok6UlrLTa64RHv3", "Author", mAdapter);
+
     }
 
 
