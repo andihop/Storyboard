@@ -30,8 +30,12 @@ public class StoriesActivity extends AppCompatActivity  {
         resultsList.setAdapter(mAdapter);
 
         //Test Query
-        //FireStoreOps.createStory("Sample", "Sample Text","null", "4hQDx7MZsoTvwdOp8EEB");
-        FireStoreOps.searchByRef("stories","authors","S4TEFok6UlrLTa64RHv3", "Author", mAdapter);
+        //FireStoreOps.createStory("Sample 2", "Sample Text","null", "4hQDx7MZsoTvwdOp8EEB");
+        //FireStoreOps.searchByRef("stories","authors","S4TEFok6UlrLTa64RHv3", "Author", mAdapter);
+        FireStoreOps.getAllStories(mAdapter);
+
+        //FireStoreOps.editStory("iIU7KOxtGTsUZ9LeKS5v", null, null, "science fiction");
+
 
     }
 

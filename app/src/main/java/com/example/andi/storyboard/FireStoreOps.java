@@ -52,13 +52,13 @@ public class FireStoreOps {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    stories.clear();
                     for (final QueryDocumentSnapshot document : task.getResult()) {
                         Log.d("getAllStories", document.getId() + " => " + document.getData());
                         document.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
                                 if (task_author.isSuccessful()) {
-                                    stories.clear();
                                     ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                           @Override
                                           public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
@@ -262,9 +262,10 @@ public class FireStoreOps {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         String genre = "default";
 
-        for (GENRE g : GENRE.values()) {
-            if (g.name().equalsIgnoreCase(genre)) {
-                genre = genreInput;
+
+        for (String g : genreDocumentIDs.keySet()) {
+            if (g.equalsIgnoreCase(genreInput)) {
+                genre = g;
             }
         }
 
@@ -329,6 +330,86 @@ public class FireStoreOps {
 
             }
         });
+    }
+
+    //If field is not being updated, use NULL as parameter.
+    //IE, if title is not being changed, 2nd parameter will be null.
+    public static void editStory(String documentID, String title, String text, String genreInput) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference storyRef = firestore.collection("stories").document(documentID);
+
+        final Map<String, Object> story = new HashMap<String, Object>();
+        if (title != null) {
+            story.put("title", title);
+        }
+        if (text != null) {
+            story.put("text", text);
+        }
+        if (genreInput != null) {
+            String genre = "default";
+
+            for (String g : genreDocumentIDs.keySet()) {
+                if (g.equalsIgnoreCase(genreInput)) {
+                    genre = g;
+                }
+            }
+
+            final DocumentReference genreRef = firestore.collection("genres").document(genreDocumentIDs.get(genre));
+            List<DocumentReference> genres = new ArrayList<DocumentReference>();
+            genres.add(genreRef);
+            story.put("genres",genres);
+
+            storyRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    DocumentReference oldGenre = ((List<DocumentReference>) documentSnapshot.get("genres")).get(0);
+                    oldGenre.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                            List<DocumentReference> storyList = new ArrayList<DocumentReference>();
+                            storyList = (List<DocumentReference>) documentSnapshot.get("stories");
+                            storyList.remove(storyRef);
+                            Map<String, Object> newStoryList = new HashMap<String, Object>();
+                            newStoryList.put("stories", storyList);
+                            documentSnapshot.getReference().update(newStoryList);
+                            Log.i("Remove Old Genre", "removed");
+
+                        }
+                    });
+                }
+            });
+            genreRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.get("stories") == null) {
+                        List<DocumentReference> storyList = new ArrayList<DocumentReference>();
+                        storyList.add(storyRef);
+                        Map<String, Object> newStoryList = new HashMap<String, Object>();
+                        newStoryList.put("stories", storyList);
+
+                        documentSnapshot.getReference().update(newStoryList);
+                        Log.i("Added New Genre", "added");
+                        storyRef.update(story);
+
+                    } else {
+                        List<DocumentReference> storyList = new ArrayList<DocumentReference>();
+                        storyList = (List<DocumentReference>) documentSnapshot.get("stories");
+                        storyList.add(storyRef);
+                        Map<String, Object> newStoryList = new HashMap<String, Object>();
+                        newStoryList.put("stories", storyList);
+                        documentSnapshot.getReference().update(newStoryList);
+                        Log.i("Added New Genre", "added");
+                        storyRef.update(story);
+
+
+                    }
+                }
+            });
+        }
+        if (genreInput == null) {
+            storyRef.update(story);
+        }
     }
 
     /////
