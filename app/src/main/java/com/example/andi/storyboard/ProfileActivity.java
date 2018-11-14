@@ -18,11 +18,11 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton new_story_button = (FloatingActionButton) findViewById(R.id.new_story_button);
-        new_story_button.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.search_button);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action - test for githu", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Replace with your own action - test for github", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

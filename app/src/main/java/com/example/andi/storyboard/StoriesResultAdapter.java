@@ -1,0 +1,71 @@
+package com.example.andi.storyboard;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class StoriesResultAdapter extends BaseAdapter{
+
+    private Context context;
+    private ArrayList<Story> stories;
+
+    //TODO: add OnClickListener for item clicks
+
+    public StoriesResultAdapter(Context context, ArrayList<Story> stories) {
+        this.context = context;
+        this.stories = stories;
+    }
+
+    public int getCount() {
+        return stories.size();
+    }
+
+    public Story getItem(int id) {
+        return stories.get(id);
+    }
+
+    public long getItemId(int id) {
+        return id;
+    }
+
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        RelativeLayout itemRelativeLayout = (RelativeLayout) convertView;
+
+        if (itemRelativeLayout == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            itemRelativeLayout = (RelativeLayout) layoutInflater.inflate(R.layout.story_result_item, null);
+        }
+
+        final Story item = (Story) getItem(position);
+
+        final TextView titleView = (TextView) itemRelativeLayout.findViewById(R.id.textView);
+
+        titleView.setText(item.toString());
+
+        ViewHolder holder = new ViewHolder();
+        holder.position = position;
+        holder.mItemLayout = itemRelativeLayout;
+        holder.mTitleView = titleView;
+        itemRelativeLayout.setTag(holder);
+
+        return itemRelativeLayout;
+    }
+
+    static class ViewHolder {
+        int position;
+        RelativeLayout mItemLayout;
+        TextView mTitleView;
+    }
+
+
+}
