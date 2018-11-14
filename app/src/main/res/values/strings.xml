@@ -15,4 +15,17 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    
+    
+    <string name="collection_stories">stories</string>
+    <string name="collection_authors">authors</string>
+    <string name="collection_genres">genres</string>
+
+    <string name="genres_field_type">name</string>
+    <string name="genres_field_stories">stories</string>
+
+    <string name="stories_field_genres">genre</string>
+    <string name="stories_field_author">author</string>
+    <string name="stories_field_title">title</string>
+    <string name="stories_field_text">text</string>
 </resources>
