@@ -56,9 +56,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="assetType" value="TEXT" />
-                                      <entry key="imageAsset" value="C:\Users\andi\Desktop\throwaway\plus2.png" />
-                                      <entry key="outputName" value="new_story" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\aeh12\Desktop\storyboard_logo_transparent_background_32x32.png" />
+                                      <entry key="outputName" value="storyboard_logo" />
                                       <entry key="theme" value="HOLO_DARK" />
                                     </map>
                                   </option>
@@ -68,12 +68,28 @@
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="trimmed" value="true" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground" />
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="foregroundImage" value="C:\Users\aeh12\Desktop\storyboard_logo_transparent_background.jpg" />
                                       <entry key="legacyIconShape" value="NONE" />
-                                      <entry key="outputName" value="" />
+                                      <entry key="outputName" value="storyboard_logo" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -84,6 +100,32 @@
                         <option name="values">
                           <map>
                             <entry key="outputIconType" value="ACTIONBAR" />
+                          </map>
+                        </option>
+                      </PersistentState>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="vectorAssetStep">
+                    <value>
+                      <PersistentState>
+                        <option name="values">
+                          <map>
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="height" value="32" />
+                            <entry key="outputName" value="ic_storyboard_logo_transparent_background" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\aeh12\Desktop\storyboard_logo_transparent_background.psd" />
+                            <entry key="width" value="32" />
                           </map>
                         </option>
                       </PersistentState>
