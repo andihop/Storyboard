@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
         //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.new_story_button);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.search_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
