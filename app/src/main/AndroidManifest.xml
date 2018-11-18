@@ -26,10 +26,11 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
-        <activity android:name=".StoriesActivity">
-        </activity>
+            android:label="@string/title_activity_login"></activity>
+        <activity android:name=".StoriesActivity"></activity>
+        <activity
+            android:name=".StorySearchActivity"
+            android:label="@string/title_activity_story_search"></activity>
     </application>
 
 </manifest>

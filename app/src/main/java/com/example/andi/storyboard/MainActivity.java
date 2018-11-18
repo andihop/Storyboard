@@ -38,7 +38,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final int SEARCH_STORIES_REQUEST = 0;
+    public static final int SEARCH_STORIES_REQUEST = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action - test for github", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                Intent intent = new Intent(getBaseContext(), StoriesActivity.class);
+                Intent intent = new Intent(getBaseContext(), StorySearchActivity.class);
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);
 
             }
