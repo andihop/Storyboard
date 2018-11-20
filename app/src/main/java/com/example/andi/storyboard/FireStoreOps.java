@@ -304,6 +304,70 @@ public class FireStoreOps {
         }
     }
 
+    //Search by  multiple genres, see firebase database for exact string genre matches with.
+    // genres:
+    /*
+    "horror"
+    "science fiction"
+    "comedy"
+    "dystopian"
+    "drama"
+    "tragedy"
+    "action adventure"
+    "fantasy"
+    "romance"
+    "default"
+    */
+
+    public static void searchByMultipleGenres(final List<String> genreList, final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("stories")
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    stories.clear();
+                                    for (final QueryDocumentSnapshot document : task.getResult()) {
+                                        document.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+                                                if (task_author.isSuccessful()) {
+                                                    ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(
+                                                            new OnCompleteListener<DocumentSnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
+                                                                    if (task_genre.isSuccessful()) {
+                                                                        try {
+                                                                            if (genreList.contains(task_genre.getResult().get("type").toString()) ) {
+                                                                                stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                                        task_genre.getResult().get("type").toString()));
+                                                                                Log.i("genre", "match");
+                                                                                mAdapter.notifyDataSetChanged();
+                                                                            }
+                                                                        } catch (Exception e) {
+                                                                            //Accounts for empty arrays
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                            }
+                                                    );
+
+                                                }
+                                            }
+                                        });
+
+
+                                    }
+                                }
+                            }
+                        }
+                );
+    }
+
     //Author is created when user signs up.
     public static void createAuthor(String name) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
