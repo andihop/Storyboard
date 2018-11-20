@@ -42,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int SEARCH_STORIES_REQUEST = 0;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() == null) {
             finish();
         }
@@ -61,11 +62,16 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 Snackbar.make(view, "Replace with your own action - test for github", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 Intent intent = new Intent(getBaseContext(), StoriesActivity.class);
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);
+                */
+                auth.signOut();
+                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                startActivity(intent);
 
             }
         });
