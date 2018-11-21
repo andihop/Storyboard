@@ -31,7 +31,8 @@
 
         </activity>
         <activity android:name=".StoriesActivity" />
-        <activity android:name=".SignupActivity">
+        <activity android:name=".SignupActivity"
+            android:label="Sign up">
         </activity>
 
     <activity

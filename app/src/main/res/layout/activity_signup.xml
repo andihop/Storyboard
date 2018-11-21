@@ -30,7 +30,7 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="name"
+                android:hint="Name"
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:singleLine="true"
