@@ -27,6 +27,7 @@ public class FireStoreOps {
     public static ArrayList<Author> authors = new ArrayList<>();
     public static ArrayList<Genre> genres = new ArrayList<>();
     public static ArrayList<Chapter> chapters = new ArrayList<>();
+    public static ArrayList<String> comments = new ArrayList<>();
     public static Story story = new Story("","","","");
     private FirebaseAuth auth;
 
@@ -799,6 +800,51 @@ public class FireStoreOps {
         if (genreInput == null) {
             storyRef.update(storyMap);
         }
+    }
+
+    //Add a comment to the story. Requires the commenting user's author referenceID,
+    // and the story reference ID
+    public static void addComment(String text, String storyID, String authorID) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference storyRef = firestore.collection("stories").document(storyID);
+        final DocumentReference authorRef = firestore.collection("authors").document(authorID);
+
+
+        Map<String, Object> newComment = new HashMap<String, Object>();
+        newComment.put("author", authorRef);
+        newComment.put("story", storyRef);
+        newComment.put("text", text);
+        firestore.collection("comments").add(newComment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("authors", "DocumentSnapshot added with ID: " + documentReference.getId());
+            }
+        });
+    }
+
+    //Get all comments associated with a story, Document ID is the reference ID of the story in question
+    public static void getComments(String documentID, final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference storyRef = firestore.collection("stories").document(documentID);
+
+
+        firestore.collection("comments").whereEqualTo("story", storyRef)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                               if (task.isSuccessful()) {
+                                                   comments.clear();
+                                                   for (final QueryDocumentSnapshot document : task.getResult()) {
+
+                                                       comments.add(document.get("text").toString());
+                                                       Log.i("comment",document.get("text").toString());
+                                                       mAdapter.notifyDataSetChanged();
+                                                   }
+                                               }
+                                           }
+                                       }
+                );
     }
 
     /////
