@@ -64,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
 
                 Snackbar.make(view, "Replace with your own action - test for github", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
+                /*
                 Intent intent = new Intent(getBaseContext(), StoriesActivity.class);
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);
+                */
 
-                /*
                 auth.signOut();
                 Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                 startActivity(intent);
-                */
+
 
             }
         });
