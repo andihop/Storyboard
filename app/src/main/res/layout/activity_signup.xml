@@ -16,12 +16,21 @@
         android:padding="@dimen/activity_horizontal_margin">
 
 
-        <ImageView
-            android:layout_width="@dimen/logo_w_h"
-            android:layout_height="@dimen/logo_w_h"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
-            android:src="@mipmap/storyboard_logo_round" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -31,11 +40,12 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="@string/hint_email"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black" />
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -44,36 +54,41 @@
 
             <EditText
                 android:id="@+id/password"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:focusableInTouchMode="true"
                 android:hint="@string/hint_password"
+                android:imeActionId="6"
+                android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black" />
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
+
         </android.support.design.widget.TextInputLayout>
 
-        <!-- Login Button -->
-
         <Button
-            android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
+            android:id="@+id/sign_up_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@color/colorPrimary"
-            android:text="@string/btn_login"
-            android:textColor="@android:color/white" />
+            android:layout_marginTop="16dp"
+            android:background="@color/colorAccent"
+            android:text="Sign Up"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
 
 
         <!-- Link to Login Screen -->
 
         <Button
-            android:id="@+id/btn_signup"
+            android:id="@+id/sign_in_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:background="@null"
-            android:text="@string/btn_link_to_register"
+            android:text="@string/btn_link_to_login"
             android:textAllCaps="false"
             android:textColor="@android:color/black"
             android:textSize="15dp" />

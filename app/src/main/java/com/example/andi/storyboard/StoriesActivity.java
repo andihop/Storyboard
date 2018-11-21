@@ -34,6 +34,7 @@ public class StoriesActivity extends AppCompatActivity  {
         //FireStoreOps.searchByRef("stories","authors","S4TEFok6UlrLTa64RHv3", "Author", mAdapter);
         FireStoreOps.getAllStories(mAdapter);
 
+
         //FireStoreOps.getStory("iIU7KOxtGTsUZ9LeKS5v",mAdapter);
         //FireStoreOps.createStory("Sample 3", "Sample Text 3","null", "4hQDx7MZsoTvwdOp8EEB", "sample summary");
         //FireStoreOps.editStory("iIU7KOxtGTsUZ9LeKS5v", null, null, "science fiction" , "new summary");
