@@ -6,6 +6,7 @@ import android.widget.BaseAdapter;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +27,7 @@ public class FireStoreOps {
     public static ArrayList<Author> authors = new ArrayList<>();
     public static ArrayList<Genre> genres = new ArrayList<>();
     public static Story story = new Story("","","","");
+    private FirebaseAuth auth;
 
     //public enum COLLECTION {AUTHORS, GENRES, STORIES};
     public enum GENRE {HORROR, FANTASY, ROMANCE, DRAMA, SCIENCE_FICTION, DYSTOPIAN, TRAGEDY, ACTION_ADVENTURE, COMEDY, THRILLER};
@@ -47,6 +49,46 @@ public class FireStoreOps {
         }
 
     };
+
+    //Pass in user ID via auth.getCurrentUser().getUid()
+    public static void getUserStories(String userID, final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("stories").whereEqualTo("userID", userID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            stories.clear();
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("getAllStories", document.getId() + " => " + document.getData());
+                                document.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+                                        if (task_author.isSuccessful()) {
+                                            ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                                                                                      @Override
+                                                                                                                                      public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
+                                                                                                                                          if (task_genre.isSuccessful()) {
+                                                                                                                                              stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                                                                                                      task_genre.getResult().get("type").toString()));
+                                                                                                                                              Log.i("UserStory", "testing");
+                                                                                                                                              mAdapter.notifyDataSetChanged();
+                                                                                                                                          }
+                                                                                                                                      }
+                                                                                                                                  }
+                                            );
+                                        }
+                                    }
+                                });
+                            }
+
+                        } else {
+                            Log.d("userStories", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
     public static void getStory(String documentID, final BaseAdapter mAdapter) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         DocumentReference ref = firestore.collection("stories").document(documentID);
@@ -369,10 +411,11 @@ public class FireStoreOps {
     }
 
     //Author is created when user signs up.
-    public static void createAuthor(String name) {
+    public static void createAuthor(String name, String userID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         Map<String, Object> newAuthor = new HashMap<String, Object>();
         newAuthor.put("name", name);
+        newAuthor.put("userID", userID);
         firestore.collection("authors").add(newAuthor).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -385,7 +428,6 @@ public class FireStoreOps {
     public static void createStory(String title, String text, String genreInput, String documentID, String summary) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         String genre = "default";
-
 
         for (String g : genreDocumentIDs.keySet()) {
             if (g.equalsIgnoreCase(genreInput)) {
