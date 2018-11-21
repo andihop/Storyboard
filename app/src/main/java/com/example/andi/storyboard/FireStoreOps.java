@@ -26,6 +26,7 @@ public class FireStoreOps {
     public static ArrayList<Story> stories = new ArrayList<>();
     public static ArrayList<Author> authors = new ArrayList<>();
     public static ArrayList<Genre> genres = new ArrayList<>();
+    public static ArrayList<Chapter> chapters = new ArrayList<>();
     public static Story story = new Story("","","","");
     private FirebaseAuth auth;
 
@@ -580,6 +581,62 @@ public class FireStoreOps {
             }
         });
     }
+
+    //documentID = story ID
+    public static void getChapters(String documentID, final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("chapters").whereEqualTo("storyID", documentID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    chapters.clear();
+                    for (final QueryDocumentSnapshot document : task.getResult()) {
+                        chapters.add(new Chapter(document.get("title").toString(), document.get("text").toString()));
+                        Log.i("chapter", document.get("text").toString());
+                        if (mAdapter != null) {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    //text = contents
+    //chapterNumber = number of chapter
+    // title = title
+    // document ID = story ID
+    public static void createChapter(String title, String text, long chapterNumber, final String documentID) {
+        Map<String, Object> newChapter = new HashMap<String, Object>();
+        newChapter.put("text", text);
+        newChapter.put("title", title);
+        newChapter.put("storyID", documentID);
+        newChapter.put("chapter_number", chapterNumber);
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("chapters").add(newChapter).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(final DocumentReference documentReference) {
+
+            }
+        }
+        );
+
+    }
+
+    //Document ID = chapter ID
+    public static void editChapter(String title, String text, final String documentID) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference chapterRef = firestore.collection("chapters").document(documentID);
+
+        Map<String, Object> newChapter = new HashMap<String, Object>();
+        newChapter.put("text", text);
+        newChapter.put("title", title);
+        chapterRef.update(newChapter);
+
+    }
+
+
 
     //If field is not being updated, use NULL as parameter.
     //IE, if title is not being changed, 2nd parameter will be null.
