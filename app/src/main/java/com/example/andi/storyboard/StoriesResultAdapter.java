@@ -17,8 +17,6 @@ public class StoriesResultAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<Story> stories;
 
-    //TODO: add OnClickListener for item clicks
-
     public StoriesResultAdapter(Context context, ArrayList<Story> stories) {
         this.context = context;
         this.stories = stories;
@@ -48,7 +46,7 @@ public class StoriesResultAdapter extends BaseAdapter{
 
         final Story item = (Story) getItem(position);
 
-        final TextView titleView = (TextView) itemRelativeLayout.findViewById(R.id.textView);
+        final TextView titleView = (TextView) itemRelativeLayout.findViewById(R.id.story_result_item);
 
         titleView.setText(item.toString());
 

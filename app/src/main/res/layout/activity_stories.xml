@@ -10,5 +10,6 @@
         android:id="@+id/stories_result_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/no_story_text"
         android:fadeScrollbars="false"/>
 </RelativeLayout>

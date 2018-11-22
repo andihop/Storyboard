@@ -45,8 +45,16 @@ public class Story {
                 "\nGenre: " + genre;
     }
 
-    public String getAllInfo() {
-        return title + " " + authorName + " "+ genre + " "+ summary + " "+ views + " "+ created_on.toString() + " " + last_updated.toString();
+    public String getTitle() {
+        return title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getAuthorName() {
+        return authorName;
     }
 
     public String getText() {

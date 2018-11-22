@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".StoryCommentsActivity">
+
+
+
+        <ListView
+            android:id="@+id/comment_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/add_comment_layout"
+            android:fadeScrollbars="false"
+            android:orientation="vertical"></ListView>
+
+
+    <LinearLayout
+        android:id="@+id/add_comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/edit_comment"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_scrollview"
+        android:layout_weight="1"
+        android:hint="Type comment..." />
+
+    <ImageView
+        android:id="@+id/add_comment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_send_black_24dp" />
+  </LinearLayout>
+
+</RelativeLayout>
