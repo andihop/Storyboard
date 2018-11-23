@@ -13,9 +13,10 @@ public class Story {
     private long views;
     private Date created_on;
     private Date last_updated;
-
+    private String documentID;
 
     //For backwards compatibility with previous version.
+    /*
     public Story(String title, String authorName, String text, String genre) {
         this.title = title;
         this.authorName = authorName;
@@ -25,9 +26,11 @@ public class Story {
         this.views = 0;
         this.created_on = new Date();
         this.last_updated = new Date();
+        this.documentID =
     }
+    */
 
-    public Story(String title, String authorName, String text, String genre, String summary, long views, Date created, Date last) {
+    public Story(String title, String authorName, String text, String genre, String summary, long views, Date created, Date last, String documentID) {
         this.title = title;
         this.authorName = authorName;
         this.text = text;
@@ -36,6 +39,7 @@ public class Story {
         this.views = views;
         this.created_on = created;
         this.last_updated = last;
+        this.documentID = documentID;
     }
 
     @Override
@@ -75,6 +79,10 @@ public class Story {
 
     public Date getLast_Updated() {
         return last_updated;
+    }
+
+    public String getDocumentID() {
+        return documentID;
     }
 
 

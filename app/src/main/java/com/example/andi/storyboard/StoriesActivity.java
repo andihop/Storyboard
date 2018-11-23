@@ -48,6 +48,7 @@ public class StoriesActivity extends AppCompatActivity  {
                 intent.putExtra("views", "" + mAdapter.getItem(i).getViews());
                 intent.putExtra("created_on", mAdapter.getItem(i).getCreated_On().toString());
                 intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
+                intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
 
                 startActivity(intent);
             }

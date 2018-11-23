@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.common.io.Resources;
+import com.google.firebase.auth.FirebaseAuth;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 
@@ -33,16 +35,31 @@ public class StoryCommentsActivity extends AppCompatActivity {
 
         final EditText commentEdit = (EditText) findViewById(R.id.edit_comment);
 
+        //need this before calling add comment
+        mAdapter = new CommentAdapter(getApplicationContext(), FireStoreOps.comments);
+
         ImageView addCommentButton = (ImageView) findViewById(R.id.add_comment_button);
         addCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                commentEdit.getText().toString();
+                FireStoreOps.addComment(commentEdit.getText().toString(),getIntent().getStringExtra("documentID"), FirebaseAuth.getInstance().getCurrentUser().getUid(), mAdapter);
+
                 // TODO: figure out reference id for current story and user reading that story
                 // for firestoreops method
+                commentEdit.getText().clear();
+                //Source for getting rid of keyboard on adding comment:
+                //https://stackoverflow.com/questions/2342620/how-to-hide-keyboard-after-typing-in-edittext-in-android
+
+                InputMethodManager inputManager =
+                        (InputMethodManager) getApplicationContext().
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(
+                        getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
 
+        /*
         ArrayList<String> comments = new ArrayList<>();
         comments.add("comment 1");
         comments.add("comment \n\n\n\n\n\n\n\n");
@@ -50,13 +67,13 @@ public class StoryCommentsActivity extends AppCompatActivity {
         comments.add("comment \n\n\n\n\n\n\n\n");
         comments.add("comment \n\n\n\n\n\n\n\n");
         comments.add("comment \n\n\n\n\n\n\n\n");
+        */
 
 
-
-
-        mAdapter = new CommentAdapter(getApplicationContext(), comments);
+        mAdapter = new CommentAdapter(getApplicationContext(), FireStoreOps.comments);
 
         resultsList.setAdapter(mAdapter);
+        FireStoreOps.getComments(getIntent().getStringExtra("documentID"), mAdapter);
     }
 
     class CommentAdapter extends BaseAdapter {

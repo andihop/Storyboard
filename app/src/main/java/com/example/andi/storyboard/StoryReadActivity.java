@@ -37,6 +37,7 @@ public class StoryReadActivity extends AppCompatActivity {
                 Intent intent = new Intent(getBaseContext(), StoryCommentsActivity.class);
                 // TODO: intent filter to get the list of comments for current story being read
                 intent.putExtra("title", getIntent().getStringExtra("title"));
+                intent.putExtra("documentID", getIntent().getStringExtra("documentID"));
                 startActivity(intent);
             }
         });
@@ -46,6 +47,7 @@ public class StoryReadActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // TODO: add count to number of views to current story being read
+        //note, every time get story is called it automatically increments the view count
     }
 
     @Override

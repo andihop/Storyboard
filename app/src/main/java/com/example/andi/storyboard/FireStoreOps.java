@@ -29,7 +29,7 @@ public class FireStoreOps {
     public static ArrayList<Genre> genres = new ArrayList<>();
     public static ArrayList<Chapter> chapters = new ArrayList<>();
     public static ArrayList<String> comments = new ArrayList<>();
-    public static Story story = new Story("", "", "", "");
+    public static Story story = new Story("", "", "", "", "", 0, new Date(), new Date(), "");
     private FirebaseAuth auth;
 
     //public enum COLLECTION {AUTHORS, GENRES, STORIES};
@@ -78,7 +78,7 @@ public class FireStoreOps {
                                                                                                                                       public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
                                                                                                                                           if (task_genre.isSuccessful()) {
                                                                                                                                               stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
-                                                                                                                                                      task_genre.getResult().get("type").toString()));
+                                                                                                                                                      task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId()));
                                                                                                                                               Log.i("UserStory", "testing");
                                                                                                                                               mAdapter.notifyDataSetChanged();
                                                                                                                                           }
@@ -122,7 +122,7 @@ public class FireStoreOps {
                                                                 if (task_genre.isSuccessful()) {
 
                                                                     story = new Story(doc.get("title").toString(), task_author.getResult().get("name").toString(), doc.get("text").toString(),
-                                                                            task_genre.getResult().get("type").toString(), doc.get("summary").toString(), (long) doc.get("views"), (Date) doc.get("Created_On"), (Date) doc.get("Last_Updated"));
+                                                                            task_genre.getResult().get("type").toString(), doc.get("summary").toString(), (long) doc.get("views"), (Date) doc.get("Created_On"), (Date) doc.get("Last_Updated"), doc.getId());
 
                                                                     mAdapter.notifyDataSetChanged();
 
@@ -175,7 +175,7 @@ public class FireStoreOps {
                                                                                                                                       public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
                                                                                                                                           if (task_genre.isSuccessful()) {
                                                                                                                                               stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
-                                                                                                                                                      task_genre.getResult().get("type").toString()));
+                                                                                                                                                      task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId()));
                                                                                                                                               Log.i("test", "testing");
                                                                                                                                               mAdapter.notifyDataSetChanged();
                                                                                                                                           }
@@ -266,7 +266,7 @@ public class FireStoreOps {
                                                                                                                                               if (task_genre.isSuccessful()) {
                                                                                                                                                   try {
                                                                                                                                                       stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
-                                                                                                                                                              task_genre.getResult().get("type").toString()));
+                                                                                                                                                              task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId()));
                                                                                                                                                       Log.i("test", "testing");
                                                                                                                                                       mAdapter.notifyDataSetChanged();
                                                                                                                                                   } catch (Exception e) {
@@ -311,7 +311,7 @@ public class FireStoreOps {
                                                                                                                                                   if (task_genre.isSuccessful()) {
                                                                                                                                                       try {
                                                                                                                                                           stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
-                                                                                                                                                                  task_genre.getResult().get("type").toString()));
+                                                                                                                                                                  task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId()));
                                                                                                                                                           Log.i("test", "testing");
                                                                                                                                                           mAdapter.notifyDataSetChanged();
                                                                                                                                                       } catch (Exception e) {
@@ -394,7 +394,7 @@ public class FireStoreOps {
                                                                         try {
                                                                             if (genreList.contains(task_genre.getResult().get("type").toString())) {
                                                                                 stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
-                                                                                        task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated")));
+                                                                                        task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId()));
                                                                                 Log.i("genre", "match");
                                                                                 mAdapter.notifyDataSetChanged();
                                                                             }
@@ -813,7 +813,7 @@ public class FireStoreOps {
 
     //Add a comment to the story. Requires the commenting user's author referenceID,
     // and the story reference ID
-    public static void addComment(String text, String storyID, String authorID) {
+    public static void addComment(final String text, String storyID, String authorID, final BaseAdapter mAdapter) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         final DocumentReference storyRef = firestore.collection("stories").document(storyID);
         final DocumentReference authorRef = firestore.collection("authors").document(authorID);
@@ -826,6 +826,8 @@ public class FireStoreOps {
         firestore.collection("comments").add(newComment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
+                comments.add(text);
+                mAdapter.notifyDataSetChanged();
                 Log.d("authors", "DocumentSnapshot added with ID: " + documentReference.getId());
             }
         });
