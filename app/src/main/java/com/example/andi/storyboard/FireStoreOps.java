@@ -57,6 +57,24 @@ public class FireStoreOps {
 
     };
 
+    //When a story is selected and read from the search, increment view count by using this method:
+    public static void incrementViewCount(String documentID) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        DocumentReference ref = firestore.collection("stories").document(documentID);
+        final Map<String, Object> storyMap = new HashMap<String, Object>();
+        ref.get().addOnCompleteListener(
+                new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            storyMap.put("views", ((long) task.getResult().get("views")) + 1);
+                            task.getResult().getReference().update(storyMap);
+
+                        }
+                    }
+                }
+        );
+    }
     //Pass in user ID via auth.getCurrentUser().getUid()
     //All stories, private and public, use for profile
     public static void getUserStories(String userID, final BaseAdapter mAdapter) {
@@ -140,20 +158,6 @@ public class FireStoreOps {
                     }
                 }
         );
-
-        final Map<String, Object> storyMap = new HashMap<String, Object>();
-        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    storyMap.put("views", ((long) task.getResult().get("views")) + 1);
-                                                    task.getResult().getReference().update(storyMap);
-
-                                                }
-                                            }
-                                        }
-        );
-
     }
 
     //Returns ALL stories, private and public. no real reason to use this method.
