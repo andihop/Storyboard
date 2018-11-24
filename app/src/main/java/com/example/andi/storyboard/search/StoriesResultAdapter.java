@@ -1,4 +1,4 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.search;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.andi.storyboard.datatype.Story;
+import com.example.andi.storyboard.R;
 
 import java.util.ArrayList;
 
@@ -57,10 +60,10 @@ public class StoriesResultAdapter extends BaseAdapter{
         return itemRelativeLayout;
     }
 
-    static class ViewHolder {
-        int position;
-        RelativeLayout mItemLayout;
-        TextView mTitleView;
+    public static class ViewHolder {
+        public int position;
+        public RelativeLayout mItemLayout;
+        public TextView mTitleView;
     }
 
 

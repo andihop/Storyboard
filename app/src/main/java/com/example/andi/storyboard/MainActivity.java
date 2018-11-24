@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.andi.storyboard.Create.CreateMaterialChoosingActivity;
+import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
+import com.example.andi.storyboard.login.LoginActivity;
+import com.example.andi.storyboard.search.FilterByGenreSearchActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 //Jee Kang Query database edits
@@ -47,15 +49,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                  Intent intent = new Intent(getBaseContext(), StorySearchActivity.class);
-                  startActivityForResult(intent, SEARCH_STORIES_REQUEST);
-            }
-        });
+//        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.search_button);
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                  Intent intent = new Intent(getBaseContext(), FilterByGenreSearchActivity.class);
+//                  startActivityForResult(intent, SEARCH_STORIES_REQUEST);
+//            }
+//        });
     }
 
     @Override
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.search_button:
-                intent = new Intent(getBaseContext(), StorySearchActivity.class);
+                intent = new Intent(getBaseContext(), FilterByGenreSearchActivity.class);
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);
                 break;
             case R.id.profile_button:

@@ -1,6 +1,4 @@
-package com.example.andi.storyboard;
-
-import com.google.firebase.Timestamp;
+package com.example.andi.storyboard.datatype;
 
 import java.util.Date;
 

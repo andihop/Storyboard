@@ -1,9 +1,13 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.firebase;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.BaseAdapter;
 
+import com.example.andi.storyboard.datatype.Author;
+import com.example.andi.storyboard.datatype.Chapter;
+import com.example.andi.storyboard.datatype.Genre;
+import com.example.andi.storyboard.datatype.Story;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

@@ -20,7 +20,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,21 +28,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StoriesActivity" />
+        <activity android:name=".search.ListFilteredStoriesActivity" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".login.SignupActivity"
             android:label="Sign up" />
         <activity
-            android:name=".StorySearchActivity"
+            android:name=".search.FilterByGenreSearchActivity"
             android:label="@string/title_activity_story_search" />
         <activity
-            android:name=".Create.CreateMaterialChoosingActivity"
+            android:name=".create.CreateMaterialChoosingActivity"
             android:label="@string/title_activity_create_material_choosing"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".StoryReadActivity"
+            android:name=".viewstory.StoryReadActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StoryCommentsActivity" />
+        <activity android:name=".viewstory.StoryCommentsActivity" />
     </application>
 
 </manifest>

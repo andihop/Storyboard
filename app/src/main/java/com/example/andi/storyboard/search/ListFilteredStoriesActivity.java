@@ -1,22 +1,21 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.search;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.lang.reflect.Array;
+import com.example.andi.storyboard.datatype.Story;
+import com.example.andi.storyboard.firebase.FireStoreOps;
+import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.viewstory.StoryReadActivity;
+
 import java.util.ArrayList;
 
-public class StoriesActivity extends AppCompatActivity  {
+public class ListFilteredStoriesActivity extends AppCompatActivity  {
 
     StoriesResultAdapter mAdapter;
 

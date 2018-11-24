@@ -1,4 +1,4 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.viewstory;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -8,14 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.common.io.Resources;
+import com.example.andi.storyboard.firebase.FireStoreOps;
+import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.search.*;
 import com.google.firebase.auth.FirebaseAuth;
 import android.view.inputmethod.InputMethodManager;
 
@@ -113,7 +114,7 @@ public class StoryCommentsActivity extends AppCompatActivity {
 
             titleView.setText(item.toString());
 
-            com.example.andi.storyboard.StoriesResultAdapter.ViewHolder holder = new com.example.andi.storyboard.StoriesResultAdapter.ViewHolder();
+            StoriesResultAdapter.ViewHolder holder = new StoriesResultAdapter.ViewHolder();
             holder.position = position;
             holder.mItemLayout = itemRelativeLayout;
             holder.mTitleView = titleView;

@@ -1,22 +1,19 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.search;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import java.util.ArrayList;
-import java.util.TreeMap;
-
 import com.example.andi.storyboard.MainActivity;
 import com.example.andi.storyboard.R;
-import com.example.andi.storyboard.StoriesActivity;
 
-public class StorySearchActivity extends Activity {
+import java.util.ArrayList;
+
+public class FilterByGenreSearchActivity extends Activity {
     private ArrayList<ConstraintLayout> filterLayoutList;
     private ArrayList<CheckBox> filterCheckBoxList;
     private ArrayList<String> filterGenreNameList;
@@ -88,7 +85,7 @@ public class StorySearchActivity extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), StoriesActivity.class);
+                Intent intent = new Intent(getBaseContext(), ListFilteredStoriesActivity.class);
                 ArrayList<String> genreFilterlist = new ArrayList<>();
 
                 for (int i = 0; i < filterCheckBoxList.size(); i++) {
