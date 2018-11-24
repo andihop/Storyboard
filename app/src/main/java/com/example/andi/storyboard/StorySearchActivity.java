@@ -7,6 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.andi.storyboard.MainActivity;
+import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.StoriesActivity;
+
 public class StorySearchActivity extends Activity {
 
     @Override

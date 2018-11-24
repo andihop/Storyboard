@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
 
 
 public class FireStoreOps {

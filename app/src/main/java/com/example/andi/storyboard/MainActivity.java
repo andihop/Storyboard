@@ -3,37 +3,17 @@ package com.example.andi.storyboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentReference;
+import com.example.andi.storyboard.Create.CreateMaterialChoosingActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 //Jee Kang Query database edits
-import com.google.firebase.firestore.*;
-import com.google.android.gms.tasks.*;
-import java.util.ArrayList;
-import android.support.annotation.*;
 
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-
-import com.google.firebase.database.collection.*;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firestore.v1beta1.Document;
-import com.google.firestore.v1beta1.WriteResult;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.firebase.auth.*;
 
@@ -57,21 +37,11 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
         //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
 
-        FloatingActionButton search_button = (FloatingActionButton) findViewById(R.id.search_button);
-        search_button.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton new_story_button = findViewById(R.id.new_story_button);
+        new_story_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                  Intent intent = new Intent(getBaseContext(), StorySearchActivity.class);
-                  startActivityForResult(intent, SEARCH_STORIES_REQUEST);
-            }
-        });
-
-        FloatingActionButton signout_button = (FloatingActionButton) findViewById(R.id.signout_button);
-        signout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                auth.signOut();
-                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                Intent intent = new Intent(getBaseContext(), CreateMaterialChoosingActivity.class);
                 startActivity(intent);
             }
         });
@@ -216,10 +186,22 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent intent;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.search_button:
+                intent = new Intent(getBaseContext(), StorySearchActivity.class);
+                startActivityForResult(intent, SEARCH_STORIES_REQUEST);
+                break;
+            case R.id.profile_button:
+                return true;
+            case R.id.signout_button:
+                auth.signOut();
+                intent = new Intent(getBaseContext(), LoginActivity.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
