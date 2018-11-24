@@ -27,7 +27,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".StoriesActivity" />
-        <activity android:name=".SignupActivity" />
+        <activity android:name=".SignupActivity"
+          android:label="Sign up">
+        </activity>
         <activity
             android:name=".StorySearchActivity"
             android:label="@string/title_activity_story_search" />

@@ -158,7 +158,6 @@ public class FireStoreOps {
                     }
                 }
         );
-
     }
 
     //Returns ALL stories, private and public. no real reason to use this method.
