@@ -49,6 +49,7 @@ public class StoriesActivity extends AppCompatActivity  {
                 intent.putExtra("created_on", mAdapter.getItem(i).getCreated_On().toString());
                 intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
                 intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
+                intent.putExtra("in_progress", mAdapter.getItem(i).getIn_Progress());
 
                 startActivity(intent);
             }

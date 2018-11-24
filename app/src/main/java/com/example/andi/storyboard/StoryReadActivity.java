@@ -21,9 +21,13 @@ public class StoryReadActivity extends AppCompatActivity {
         String str = getIntent().getStringExtra("title");
         getSupportActionBar().setTitle(str);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String inProg = "Completed!";
+        if (getIntent().getBooleanExtra("in_progress", true)) {
+            inProg = "In Progress";
+        }
 
         str = "By " + getIntent().getStringExtra("author") + "\nCreated on " + getIntent().getStringExtra("created_on") + "\nLast update on " + getIntent().getStringExtra("last_update")
-                + "\n" + getIntent().getStringExtra("views") + " views\n\nSummary:\n" + getIntent().getStringExtra("summary") + "\n\n" +
+                + "\nStatus: " + inProg + "\n" + getIntent().getStringExtra("views") + " views\n\nSummary:\n" + getIntent().getStringExtra("summary") + "\n\n" +
                 getIntent().getStringExtra("text");
 
         TextView textView = (TextView) findViewById(R.id.story_text);
@@ -45,9 +49,9 @@ public class StoryReadActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        FireStoreOps.incrementViewCount(getIntent().getStringExtra("documentID"));
         super.onDestroy();
         // TODO: add count to number of views to current story being read
-        //note, every time get story is called it automatically increments the view count
     }
 
     @Override
