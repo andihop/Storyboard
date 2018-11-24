@@ -1,14 +1,15 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.search;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.andi.storyboard.datatype.Story;
+import com.example.andi.storyboard.R;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,6 @@ public class StoriesResultAdapter extends BaseAdapter{
 
     private Context context;
     private ArrayList<Story> stories;
-
-    //TODO: add OnClickListener for item clicks
 
     public StoriesResultAdapter(Context context, ArrayList<Story> stories) {
         this.context = context;
@@ -48,7 +47,7 @@ public class StoriesResultAdapter extends BaseAdapter{
 
         final Story item = (Story) getItem(position);
 
-        final TextView titleView = (TextView) itemRelativeLayout.findViewById(R.id.textView);
+        final TextView titleView = (TextView) itemRelativeLayout.findViewById(R.id.story_result_item);
 
         titleView.setText(item.toString());
 
@@ -61,10 +60,10 @@ public class StoriesResultAdapter extends BaseAdapter{
         return itemRelativeLayout;
     }
 
-    static class ViewHolder {
-        int position;
-        RelativeLayout mItemLayout;
-        TextView mTitleView;
+    public static class ViewHolder {
+        public int position;
+        public RelativeLayout mItemLayout;
+        public TextView mTitleView;
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.datatype;
 
 import com.google.firebase.firestore.DocumentReference;
 
