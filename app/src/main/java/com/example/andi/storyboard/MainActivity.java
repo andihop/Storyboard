@@ -40,7 +40,6 @@ import com.google.firebase.auth.*;
 
 public class MainActivity extends AppCompatActivity {
 
-
     public static final int SEARCH_STORIES_REQUEST = 0;
     FirebaseAuth auth;
 
@@ -58,20 +57,22 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
         //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.new_story_button);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton search_button = (FloatingActionButton) findViewById(R.id.search_button);
+        search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                  Snackbar.make(view, "Replace with your own action - test for github", Snackbar.LENGTH_LONG)
-                          .setAction("Action", null).show();
-                  /*
-                  Intent intent = new Intent(getBaseContext(), StoriesActivity.class);
+                  Intent intent = new Intent(getBaseContext(), StorySearchActivity.class);
                   startActivityForResult(intent, SEARCH_STORIES_REQUEST);
-                  */
+            }
+        });
 
-                  auth.signOut();
-                  Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                  startActivity(intent);
+        FloatingActionButton signout_button = (FloatingActionButton) findViewById(R.id.signout_button);
+        signout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth.signOut();
+                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -208,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
         return storiesList;
         */
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
