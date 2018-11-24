@@ -21,6 +21,7 @@ import com.google.firebase.auth.*;
 public class MainActivity extends AppCompatActivity {
 
     public static final int SEARCH_STORIES_REQUEST = 0;
+    public static final int RESULT_STORIES_REQUEST = 1;
     FirebaseAuth auth;
 
     @Override
@@ -43,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), CreateMaterialChoosingActivity.class);
                 startActivity(intent);
+            }
+        });
+
+
+        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                  Intent intent = new Intent(getBaseContext(), StorySearchActivity.class);
+                  startActivityForResult(intent, SEARCH_STORIES_REQUEST);
             }
         });
     }

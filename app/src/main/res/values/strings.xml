@@ -58,4 +58,9 @@
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="title_activity_story_search">StorySearchActivity</string>
     <string name="title_activity_create_material_choosing">CreateMaterialChoosingActivity</string>
+    <string name="title_activity_story_read">StoryReadActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
 </resources>
