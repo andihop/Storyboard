@@ -29,14 +29,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // TODO: Change the label to be "Login"
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
 
 
-        if (auth.getCurrentUser() != null) {
+        //if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
-        }
+        //}
 
 
         // set the view now
