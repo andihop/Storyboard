@@ -16,18 +16,33 @@
         completions."
     </string>
 
+    <!--Search-->
+    <string name="search_button_label">Search</string>
 
+    <!--Collections-->
     <string name="collection_stories">stories</string>
     <string name="collection_authors">authors</string>
     <string name="collection_genres">genres</string>
 
-    <string name="genres_field_type">name</string>
-    <string name="genres_field_stories">stories</string>
-
+    <!--Story Fields-->
     <string name="stories_field_genres">genre</string>
     <string name="stories_field_author">author</string>
     <string name="stories_field_title">title</string>
     <string name="stories_field_text">text</string>
+
+    <!--Genres-->
+    <string name="genres_field_type">name</string>
+    <string name="genres_field_stories">stories</string>
+    <string name="stories_genre_horror">Horror</string>
+    <string name="stories_genre_fantasy">Fantasy</string>
+    <string name="stories_genre_romance">Romance</string>
+    <string name="stories_genre_drama">Drama</string>
+    <string name="stories_genre_sciencefiction">Science Fiction</string>
+    <string name="stories_genre_dystopian">Dystopian</string>
+    <string name="stories_genre_tragedy">Tragedy</string>
+    <string name="stories_genre_actionadventure">Action/Adventure</string>
+    <string name="stories_genre_comedy">Comedy</string>
+    <string name="stories_genre_thriller">Thriller</string>
 
 
     <string name="email">Email</string>
@@ -56,9 +71,9 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
-    <string name="title_activity_story_search">StorySearchActivity</string>
-    <string name="title_activity_create_material_choosing">CreateMaterialChoosingActivity</string>
-    <string name="title_activity_story_read">StoryReadActivity</string>
+    <string name="title_activity_story_search">Search for Stories</string>
+    <string name="title_activity_create_material_choosing">Create Works</string>
+    <string name="title_activity_story_read">Read Story</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>

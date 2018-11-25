@@ -48,15 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.search_button);
-//        searchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                  Intent intent = new Intent(getBaseContext(), FilterByGenreSearchActivity.class);
-//                  startActivityForResult(intent, SEARCH_STORIES_REQUEST);
-//            }
-//        });
     }
 
     @Override

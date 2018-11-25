@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // TODO: Change the label to be "Login"
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
