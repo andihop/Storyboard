@@ -21,8 +21,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".user.WritingPromptActivity"
-            android:label="@string/title_writing_prompt">
-        </activity>
+            android:label="@string/title_writing_prompt"></activity>
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login">
@@ -50,10 +49,11 @@
         <activity
             android:name=".CreateStoryActivity"
             android:label="Create Story"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".login.ResetActivity"
             android:label="Reset Password" />
+        <activity android:name=".EditStoryActivity"></activity>
     </application>
 
 </manifest>
