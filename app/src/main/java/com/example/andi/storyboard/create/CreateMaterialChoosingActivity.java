@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import com.example.andi.storyboard.CreateStoryActivity;
+import com.example.andi.storyboard.user.WritingPromptActivity;
+
 
 import com.example.andi.storyboard.R;
 
@@ -43,9 +45,10 @@ public class CreateMaterialChoosingActivity extends AppCompatActivity {
         goto_create_prompt_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), WritingPromptActivity.class);
+                startActivity(intent);
                 finish();
-//                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-//                startActivity(intent);
+
             }
         });
 

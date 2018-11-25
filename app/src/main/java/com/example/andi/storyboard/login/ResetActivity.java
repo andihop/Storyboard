@@ -28,13 +28,15 @@ public class ResetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reset);
+
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
         resetEmail = (EditText) findViewById(R.id.reset_email);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnReset = (Button) findViewById(R.id.btn_reset);
+        btnReset = (Button) findViewById(R.id.reset_send_email);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -44,16 +46,20 @@ public class ResetActivity extends AppCompatActivity {
             String email = resetEmail.getText().toString().trim();
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+                if (email != null && !email.isEmpty()) {
+                    progressBar.setVisibility(View.VISIBLE);
 
-                auth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Reset email sent to " + email, Toast.LENGTH_SHORT).show();
+                    auth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Reset email sent to " + email, Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please enter a valid email.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

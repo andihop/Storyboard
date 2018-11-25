@@ -64,6 +64,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_writing_prompt">Writing Prompt</string>
 
+
     <!-- Genres to select in dialog box for writing prompt activity -->
     <string name="select_genres">Select genres</string>
     <string-array name="genre_list">

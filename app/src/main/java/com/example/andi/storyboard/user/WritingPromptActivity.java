@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class WritingPrompt extends AppCompatActivity {
+public class WritingPromptActivity extends AppCompatActivity {
     Button mSelectGenres, mPostPrompt;
     TextView mGenresSelected;
     String[] listGenres;
@@ -55,7 +55,7 @@ public class WritingPrompt extends AppCompatActivity {
         mSelectGenres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(WritingPrompt.this);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(WritingPromptActivity.this);
                 mBuilder.setTitle(R.string.dialog_title);
                 mBuilder.setMultiChoiceItems(listGenres, checkedGenres, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -127,7 +127,7 @@ public class WritingPrompt extends AppCompatActivity {
                 mRadioButton = findViewById(mRadioGroup.getCheckedRadioButtonId());
                 tag = mRadioButton.getText().toString();
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(WritingPrompt.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(WritingPromptActivity.this);
                 alert.setTitle(R.string.post_prompt);
                 alert.setMessage(R.string.confirm_prompt_post);
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -150,7 +150,8 @@ public class WritingPrompt extends AppCompatActivity {
 
                         dialog.dismiss();
 
-                        Toast.makeText(WritingPrompt.this, R.string.prompt_post_success, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WritingPromptActivity.this, R.string.prompt_post_success, Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -160,7 +161,7 @@ public class WritingPrompt extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
 
-                        Toast.makeText(WritingPrompt.this, R.string.prompt_not_posted, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WritingPromptActivity.this, R.string.prompt_not_posted, Toast.LENGTH_SHORT).show();
                     }
                 });
 

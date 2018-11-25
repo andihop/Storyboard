@@ -20,15 +20,8 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".user.WritingPrompt"
+            android:name=".user.WritingPromptActivity"
             android:label="@string/title_writing_prompt">
-
-            <!-- SET LIKE THIS FOR TESTING PURPOSES. MAY HAVE TO CHANGE THIS INTENT FILTER -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".login.LoginActivity"
@@ -56,8 +49,11 @@
         <activity android:name=".viewstory.StoryCommentsActivity" />
         <activity
             android:name=".CreateStoryActivity"
-            android:label="@string/title_activity_create_story"
+            android:label="Create Story"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".login.ResetActivity"
+            android:label="Reset Password" />
     </application>
 
 </manifest>
