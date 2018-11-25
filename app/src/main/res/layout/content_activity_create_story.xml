@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".CreateStoryActivity"
+    tools:showIn="@layout/activity_create_story">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        >
+
+
+        <TextView
+            android:id="@+id/title_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Title:"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_string"
+
+            android:layout_margin="10dp"
+            android:hint="title"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/summary_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Summary:"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+
+        <EditText
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/summary_string"
+            android:layout_margin="10dp"
+            android:hint="summary"
+            android:textColor="#000000"
+            android:lines="8"
+            android:minLines="6"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/is_private_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/summary"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Privacy Level:"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/privacy_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:layout_below="@+id/summary"
+        android:layout_marginTop="2.5dp"
+        android:layout_marginRight="10dp"
+
+
+        >
+        <RadioButton android:id="@+id/private_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Private"
+            android:checked="true"
+            />
+
+        <RadioButton android:id="@+id/public_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Public"
+            />
+    </RadioGroup>
+
+        <TextView
+            android:id="@+id/progress_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/privacy_rg"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Status:"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/progress_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:layout_below="@+id/privacy_rg"
+            android:layout_marginTop="2.5dp"
+            android:layout_marginRight="10dp"
+
+
+            >
+            <RadioButton android:id="@+id/in_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:checked="true"
+                />
+
+            <RadioButton android:id="@+id/completed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Complete"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/genre_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_string"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Genre:"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+        <Spinner
+            android:id="@+id/genreSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/genre_string"
+            android:drawSelectorOnTop="true"
+            android:entries="@array/genres"
+            android:layout_margin="10dp"
+
+            />
+
+        <TextView
+            android:id="@+id/body_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/genreSpinner"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Start Writing Your Story!:"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+
+        <EditText
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/body_string"
+            android:layout_margin="10dp"
+            android:hint="body"
+            android:textColor="#000000"
+            android:lines="30"
+            android:minLines="15"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
