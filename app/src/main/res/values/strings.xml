@@ -62,5 +62,19 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_activity_create_story">Create Story</string>
+
+    <string-array name="genres">
+        <item>horror</item>
+        <item>science fiction</item>
+        <item>comedy</item>
+        <item>dystopian</item>
+        <item>drama</item>
+        <item>tragedy</item>
+        <item>action adventure</item>
+        <item>thriller</item>
+        <item>fantasy</item>
+        <item>romance</item>
+    </string-array>
 
 </resources>
