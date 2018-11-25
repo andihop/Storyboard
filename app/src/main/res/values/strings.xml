@@ -73,6 +73,7 @@
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="title_activity_story_search">Search for Stories</string>
     <string name="title_activity_create_material_choosing">Create Works</string>
+    <string name="title_activity_create_story">Create Story</string>
     <string name="title_activity_story_read">Read Story</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -83,22 +84,22 @@
     <!-- Genres to select in dialog box for writing prompt activity -->
     <string name="select_genres">Select genres</string>
     <string-array name="genre_list">
-        <item>science fiction</item>
-        <item>comedy</item>
-        <item>horror</item>
-        <item>dystopian</item>
-        <item>drama</item>
-        <item>tragedy</item>
-        <item>action adventure</item>
-        <item>thriller</item>
-        <item>fantasy</item>
-        <item>romance</item>
-        <item>default</item>
+        <item>Science Fiction</item>
+        <item>Comedy</item>
+        <item>Horror</item>
+        <item>Dystopian</item>
+        <item>Drama</item>
+        <item>Tragedy</item>
+        <item>Action Adventure</item>
+        <item>Thriller</item>
+        <item>Fantasy</item>
+        <item>Romance</item>
+        <item>Default</item>
     </string-array>
     <string name="writing_prompt">Writing Prompt</string>
     <string name="writing_prompt_here">Begin writing prompt here.</string>
     <string name="dialog_title">Available Genres</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="dismiss">Dismiss</string>
     <string name="clear_all">Clear all</string>
     <string name="genres_selected">Genres selected:</string>
@@ -113,5 +114,18 @@
     <string name="no">No</string>
     <string name="prompt_post_success">Writing prompt was successfully posted.</string>
     <string name="prompt_not_posted">Writing prompt not posted.</string>
+    <string name="create_story_title">Title:</string>
+    <string name="create_story_title_hint">title</string>
+    <string name="create_story_summary">Summary:</string>
+    <string name="create_story_summary_hint">summary</string>
+    <string name="create_story_privacy_level">Privacy Level:</string>
+    <string name="create_story_privacy_private">Private</string>
+    <string name="create_story_privacy_public">Public</string>
+    <string name="create_story_status">Status:</string>
+    <string name="create_story_status_in_progress">In Progress</string>
+    <string name="create_story_status_complete">Complete</string>
+    <string name="create_story_genre">Genre:</string>
+    <string name="create_story_write_your_story">Start Writing Your Story!</string>
+    <string name="create_story_body">body</string>
 
 </resources>
