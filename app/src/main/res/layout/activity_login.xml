@@ -65,7 +65,7 @@
             android:textColor="@android:color/white" />
 
 
-        <!-- Link to Login Screen -->
+        <!-- Link to Signup Screen -->
 
         <Button
             android:id="@+id/btn_signup"
@@ -74,6 +74,17 @@
             android:layout_marginTop="20dip"
             android:background="@null"
             android:text="@string/btn_link_to_register"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textSize="15dp" />
+
+        <!-- Link to password reset screen-->
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dip"
+            android:background="@null"
             android:textAllCaps="false"
             android:textColor="@android:color/black"
             android:textSize="15dp" />

@@ -54,6 +54,10 @@
             android:name=".viewstory.StoryReadActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".viewstory.StoryCommentsActivity" />
+        <activity
+            android:name=".CreateStoryActivity"
+            android:label="@string/title_activity_create_story"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

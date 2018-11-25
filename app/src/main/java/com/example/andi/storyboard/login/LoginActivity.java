@@ -42,13 +42,13 @@ public class LoginActivity extends AppCompatActivity {
         // set the view now
         setContentView(R.layout.activity_login);
 
-
-
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnSignup = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
+        btnReset = (Button) findViewById(R.id.btn_reset);
+        btnReset.setText("Forgot password?");
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -61,6 +61,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetActivity.class));
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +111,6 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+
     }
 }
