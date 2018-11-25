@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -146,11 +149,12 @@ public class WritingPromptActivity extends AppCompatActivity {
 
                         ///////////////////////////////////////////////////// NEED TO ADJUST "placeholderUser" PARAMETER WITH ACTUAL USER NAME
 
-                        FireStoreOps.createWritingPrompt("placeholderUser", ts, writingPrompt, genresToPost, tag);
+                        FireStoreOps.createWritingPrompt(FirebaseAuth.getInstance().getCurrentUser().getUid(), ts, writingPrompt, genresToPost, tag);
 
                         dialog.dismiss();
 
                         Toast.makeText(WritingPromptActivity.this, R.string.prompt_post_success, Toast.LENGTH_SHORT).show();
+                        finish();
 
                     }
                 });

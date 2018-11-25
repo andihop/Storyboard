@@ -28,13 +28,15 @@ public class ResetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset);
 
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        resetEmail = (EditText) findViewById(R.id.reset_email);
+        setContentView(R.layout.activity_reset);
+
+
+        resetEmail = (EditText) findViewById(R.id.email);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnReset = (Button) findViewById(R.id.reset_send_email);
 
@@ -43,10 +45,10 @@ public class ResetActivity extends AppCompatActivity {
 
 
         btnReset.setOnClickListener(new View.OnClickListener() {
-            String email = resetEmail.getText().toString().trim();
             @Override
             public void onClick(View v) {
-                if (email != null && !email.isEmpty()) {
+                final String email = resetEmail.getText().toString().trim();
+                if (!TextUtils.isEmpty(email)) {
                     progressBar.setVisibility(View.VISIBLE);
 
                     auth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -54,6 +56,7 @@ public class ResetActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Reset email sent to " + email, Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         }
                     });

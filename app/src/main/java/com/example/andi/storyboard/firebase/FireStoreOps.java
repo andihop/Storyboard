@@ -880,21 +880,34 @@ public class FireStoreOps {
                 );
     }
 
-    public static void createWritingPrompt(String user, Timestamp stamp, String prompt, ArrayList<String> genres, String tag) {
-        Map<String, Object> newPrompt = new HashMap<String, Object>();
-        newPrompt.put("user", user);
-        newPrompt.put("time_posted", stamp);
-        newPrompt.put("prompt", prompt);
-        newPrompt.put("tag", tag);
-        newPrompt.put("categories", genres);
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("writing_prompts").add(newPrompt).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(final DocumentReference documentReference) {
+    public static void createWritingPrompt(String documentID, final Timestamp stamp, final String prompt, final ArrayList<String> genres, final String tag) {
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference authorRef = firestore.collection("authors").document(documentID);
+        authorRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                  @Override
+                                                  public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                      if (task.isSuccessful()) {
+                                                          Map<String, Object> newPrompt = new HashMap<String, Object>();
+                                                          newPrompt.put("user", task.getResult().get("name").toString());
+                                                          newPrompt.put("time_posted", stamp);
+                                                          newPrompt.put("prompt", prompt);
+                                                          newPrompt.put("tag", tag);
+                                                          newPrompt.put("categories", genres);
+                                                          firestore.collection("writing_prompts").add(newPrompt).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                                                          @Override
+                                                                                                                                          public void onSuccess(final DocumentReference documentReference) {
 
-                }
-        }
+                                                                                                                                          }
+                                                                                                                                      }
+                                                          );
+                                                      }
+                                                  }
+                                              }
         );
+
+
+
+
 
     }
 

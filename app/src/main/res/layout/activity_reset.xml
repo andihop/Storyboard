@@ -38,14 +38,14 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/reset_email"
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_email"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@android:color/black" />
-
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Back button and Send reset email button -->
@@ -54,14 +54,14 @@
             android:id="@+id/reset_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reset_email"
+            android:layout_below="@id/email"
             android:text="Back" />
 
         <Button
             android:id="@+id/reset_send_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reset_email"
+            android:layout_below="@id/email"
             android:layout_toRightOf="@id/reset_back_button"
             android:elevation="0dp"
             android:text="Send" />
