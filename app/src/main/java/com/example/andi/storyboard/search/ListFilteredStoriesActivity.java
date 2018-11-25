@@ -23,7 +23,7 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_stories);
+        setContentView(R.layout.activity_list_filtered_stories);
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 

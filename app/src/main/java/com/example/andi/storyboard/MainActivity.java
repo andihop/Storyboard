@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() == null) {
-            finish();
-        }
+//        auth = FirebaseAuth.getInstance();
+//        if (auth.getCurrentUser() == null) {
+//            finish();
+//        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -48,15 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.search_button);
-//        searchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                  Intent intent = new Intent(getBaseContext(), FilterByGenreSearchActivity.class);
-//                  startActivityForResult(intent, SEARCH_STORIES_REQUEST);
-//            }
-//        });
     }
 
     @Override

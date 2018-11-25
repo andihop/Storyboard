@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,7 +17,7 @@ import com.example.andi.storyboard.R;
 
 import java.util.ArrayList;
 
-public class FilterByGenreSearchActivity extends Activity {
+public class FilterByGenreSearchActivity extends AppCompatActivity {
     private ArrayList<ConstraintLayout> filterLayoutList;
     private ArrayList<CheckBox> filterCheckBoxList;
     private ArrayList<String> filterGenreNameList;
@@ -21,7 +25,10 @@ public class FilterByGenreSearchActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_story_search);
+        setContentView(R.layout.activity_filter_by_genre_search);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         filterLayoutList = new ArrayList<>();
         filterCheckBoxList = new ArrayList<>();
@@ -98,14 +105,31 @@ public class FilterByGenreSearchActivity extends Activity {
                 startActivityForResult(intent, MainActivity.SEARCH_STORIES_REQUEST);
             }
         });
+    }
 
-        Button backButton = (Button) findViewById(R.id.story_search_back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_side_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Intent intent;
+
+        switch(id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.back_button:
                 finish();
-            }
-        });
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
