@@ -62,5 +62,40 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_writing_prompt">Writing Prompt</string>
+
+    <!-- Genres to select in dialog box for writing prompt activity -->
+    <string name="select_genres">Select genres</string>
+    <string-array name="genre_list">
+        <item>science fiction</item>
+        <item>comedy</item>
+        <item>horror</item>
+        <item>dystopian</item>
+        <item>drama</item>
+        <item>tragedy</item>
+        <item>action adventure</item>
+        <item>thriller</item>
+        <item>fantasy</item>
+        <item>romance</item>
+        <item>default</item>
+    </string-array>
+    <string name="writing_prompt">Writing Prompt</string>
+    <string name="writing_prompt_here">Begin writing prompt here.</string>
+    <string name="dialog_title">Available Genres</string>
+    <string name="ok">Ok</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="clear_all">Clear all</string>
+    <string name="genres_selected">Genres selected:</string>
+    <string name="select_tags">Select tag</string>
+    <string name="tag_as">Tag as:</string>
+    <string name="in_progress">in-progress</string>
+    <string name="complete">complete</string>
+    <string name="updated">updated</string>
+    <string name="post_prompt">Post</string>
+    <string name="confirm_prompt_post">Are you sure you want to post this writing prompt?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="prompt_post_success">Writing prompt was successfully posted.</string>
+    <string name="prompt_not_posted">Writing prompt not posted.</string>
 
 </resources>

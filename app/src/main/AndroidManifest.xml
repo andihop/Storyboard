@@ -20,6 +20,17 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".user.WritingPrompt"
+            android:label="@string/title_writing_prompt">
+
+            <!-- SET LIKE THIS FOR TESTING PURPOSES. MAY HAVE TO CHANGE THIS INTENT FILTER -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>

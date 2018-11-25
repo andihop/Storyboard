@@ -10,6 +10,7 @@ import com.example.andi.storyboard.datatype.Genre;
 import com.example.andi.storyboard.datatype.Story;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -877,6 +878,24 @@ public class FireStoreOps {
                                            }
                                        }
                 );
+    }
+
+    public static void createWritingPrompt(String user, Timestamp stamp, String prompt, ArrayList<String> genres, String tag) {
+        Map<String, Object> newPrompt = new HashMap<String, Object>();
+        newPrompt.put("user", user);
+        newPrompt.put("time_posted", stamp);
+        newPrompt.put("prompt", prompt);
+        newPrompt.put("tag", tag);
+        newPrompt.put("categories", genres);
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("writing_prompts").add(newPrompt).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(final DocumentReference documentReference) {
+
+                }
+        }
+        );
+
     }
 
     /////
