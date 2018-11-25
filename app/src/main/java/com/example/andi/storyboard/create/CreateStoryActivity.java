@@ -1,4 +1,4 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.create;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.andi.storyboard.MainActivity;
+import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.google.firebase.auth.FirebaseAuth;
 

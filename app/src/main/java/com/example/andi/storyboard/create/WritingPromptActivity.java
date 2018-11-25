@@ -1,4 +1,4 @@
-package com.example.andi.storyboard.user;
+package com.example.andi.storyboard.create;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -16,8 +16,6 @@ import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;

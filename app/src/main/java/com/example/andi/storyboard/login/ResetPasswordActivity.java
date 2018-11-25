@@ -18,7 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ResetActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText resetEmail;
     private FirebaseAuth auth;
