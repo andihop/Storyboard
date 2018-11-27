@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.login.LoginActivity;
 import com.example.andi.storyboard.search.FilterByGenreSearchActivity;
+import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 //Jee Kang Query database edits
@@ -199,7 +200,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);
                 break;
             case R.id.profile_button:
-                return true;
+                intent = new Intent(getBaseContext(), ProfileActivity.class);
+                startActivity(intent);
+                break;
             case R.id.signout_button:
                 auth.signOut();
                 intent = new Intent(getBaseContext(), LoginActivity.class);
