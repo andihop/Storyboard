@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         Intent intent;
 
+        //I forgot to add a commit message
         switch(id) {
             case R.id.action_settings:
                 return true;
