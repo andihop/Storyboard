@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "462834213825",
+    "firebase_url": "https://storyboard-cmsc436.firebaseio.com",
+    "project_id": "storyboard-cmsc436",
+    "storage_bucket": "storyboard-cmsc436.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462834213825:android:7ddff389cdfd5b09",
+        "android_client_info": {
+          "package_name": "com.example.andi.storyboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462834213825-opmgj14aaa96nau41td4lonmcg2l0j8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.andi.storyboard",
+            "certificate_hash": "5737c8927398378772d2245c0f319266e657f4cf"
+          }
+        },
+        {
+          "client_id": "462834213825-j9s6tpfenc6o8kjpeq2gricctogtnn8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfiZI3yw1uB5Y9yoHfU-5sfldEXhkN-28"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462834213825-j9s6tpfenc6o8kjpeq2gricctogtnn8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

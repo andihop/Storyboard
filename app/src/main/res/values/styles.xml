@@ -17,4 +17,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--&lt;!&ndash; The launcher theme. It sets the main window background to the launch_screen drawable &ndash;&gt;-->
+    <!--<style name="AppTheme.Launcher">-->
+    <!--<item name="android:windowBackground">@mipmap/storyboard_logo</item>-->
+    <!--&lt;!&ndash; Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding&ndash;&gt;-->
+    <!--&lt;!&ndash; <item name="colorPrimaryDark">@android:color/white</item> &ndash;&gt;-->
+    <!--</style>-->
+
 </resources>

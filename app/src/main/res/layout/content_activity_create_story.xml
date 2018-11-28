@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".create.CreateStoryActivity"
+    tools:showIn="@layout/activity_create_story">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <TextView
+                android:id="@+id/title_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/create_story_title"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_string"
+                android:layout_margin="10dp"
+                android:hint="@string/create_story_title_hint"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:inputType="text"/>
+
+            <TextView
+                android:id="@+id/summary_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/create_story_summary"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+            <EditText
+                android:id="@+id/summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/summary_string"
+                android:layout_margin="10dp"
+                android:hint="@string/create_story_summary_hint"
+                android:textColor="#000000"
+                android:lines="8"
+                android:minLines="6"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/is_private_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/summary"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/create_story_privacy_level"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/privacy_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_below="@+id/summary"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginEnd="10dp" >
+                <RadioButton android:id="@+id/private_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_story_privacy_private"
+                    android:checked="true" />
+                <RadioButton android:id="@+id/public_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_story_privacy_public" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/progress_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/is_private_string"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/create_story_status"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/progress_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_below="@+id/is_private_string"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginEnd="10dp" >
+                <RadioButton android:id="@+id/in_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_story_status_in_progress"
+                    android:checked="true" />
+                <RadioButton android:id="@+id/completed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_story_status_complete" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/genre_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/progress_string"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/create_story_genre"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+            <Spinner
+                android:id="@+id/genreSpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genre_string"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/genre_list"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:id="@+id/body_string"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/genreSpinner"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/create_story_write_your_story"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+            <EditText
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/body_string"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="top"
+                android:hint="@string/create_story_body"
+                android:inputType="textMultiLine"
+                android:lines="30"
+                android:minLines="15"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
