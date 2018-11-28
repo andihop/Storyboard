@@ -31,8 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".search.ListFilteredStoriesActivity" />
+        <activity android:name=".search.ListFilteredStoriesActivity" />
         <activity
             android:name=".login.SignupActivity"
             android:label="Sign up" />
@@ -47,8 +46,7 @@
         <activity
             android:name=".viewstory.StoryReadActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".viewstory.StoryCommentsActivity" />
+        <activity android:name=".viewstory.StoryCommentsActivity" />
         <activity
             android:name=".create.CreateStoryActivity"
             android:label="Create Story"
@@ -57,6 +55,9 @@
             android:name=".login.ResetPasswordActivity"
             android:label="Reset Password" />
         <activity android:name=".EditStoryActivity" />
+        <activity
+            android:name=".user.ProfileActivity"
+            android:label="User Profile" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,10 +22,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword, inputConfirmPassword, inputName;
+    private EditText inputEmail, inputPassword, inputConfirmPassword, inputName, inputUsername;
     private Button btnSignIn, btnSignUp;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -44,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
         inputConfirmPassword = (EditText) findViewById(R.id.confirm_password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         inputName = (EditText) findViewById(R.id.name);
-
+        inputUsername = (EditText) findViewById(R.id.username);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,32 +63,51 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                final String name = inputName.getText().toString().trim();
+                final String username = inputUsername.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 String confirm_password = inputConfirmPassword.getText().toString().trim();
-                final String name = inputName.getText().toString().trim();
+
 
 
                 if (TextUtils.isEmpty(name)) {
-                    Toast.makeText(getApplicationContext(), "Enter your name!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Enter your name!", Toast.LENGTH_SHORT).show();
+                    inputName.setError("Please enter your name");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(username)) {
+                    //Toast.makeText(getApplicationContext(), "Enter your username!", Toast.LENGTH_SHORT).show();
+                    inputUsername.setError("Please enter an username");
+                    return;
+                }
+
+                if (username.length() > 16) {
+                    //Toast.makeText(getApplicationContext(), "Maximum length allowed is 16 characters", Toast.LENGTH_SHORT).show();
+                    inputUsername.setError("Maximum length allowed is 16 characters");
                     return;
                 }
 
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    inputEmail.setError("Please enter an email");
                     return;
                 }
 
                 if (TextUtils.isEmpty(password) || TextUtils.isEmpty(confirm_password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    inputPassword.setError("Please enter a password");
                     return;
                 }
                 if (!password.equals(confirm_password)) {
-                    Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT).show();
+                    inputConfirmPassword.setError("Passwords do not match");
                     return;
                 }
                 if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    inputPassword.setError("Password too short, enter minimum 6 characters!");
                     return;
                 }
 
@@ -92,7 +117,7 @@ public class SignupActivity extends AppCompatActivity {
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
 
                                 // If sign in fails, display a message to the user. If sign in succeeds
@@ -101,14 +126,33 @@ public class SignupActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
+
                                 } else {
                                     FireStoreOps.createAuthor(name, auth.getCurrentUser().getUid());
+
+                                    //Update the user's display name/username
+                                    UserProfileChangeRequest profileUpdates =
+                                            new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(username)
+                                            .build();
+
+                                    auth.getCurrentUser().updateProfile(profileUpdates)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(SignupActivity.this, "User account successfully created!", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(SignupActivity.this, "User account creation failed.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }
                             }
                         });
-
             }
         });
     }
