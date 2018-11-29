@@ -5,17 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".user.ProfileActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="235dp">
 
         <LinearLayout
             android:background="@drawable/profile_bg_header"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="280dp">
+            android:layout_height="235dp">
 
             <ImageView
                 android:id="@+id/profilepic"
@@ -28,15 +30,77 @@
             <TextView
                 android:id="@+id/username"
                 tools:text="John Smith"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <!-- Infobar-->
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Subscribers"
+                        android:layout_gravity="center"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        tools:text="99"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="24dp"
+                        android:textColor="#d9d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_gravity="center"
+                    android:weightSum="3"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="#d9d9d9" />
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Stories"
+                        android:layout_gravity="center"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        tools:text="999"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="24dp"
+                        android:textColor="#d9d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <android.support.v7.widget.CardView
+<!--        <android.support.v7.widget.CardView
             android:id="@+id/infoBar"
 
             android:layout_marginTop="170dp"
@@ -70,7 +134,86 @@
                 </LinearLayout>
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>-->
     </RelativeLayout>
 
+    <!--Stories-->
+    <LinearLayout
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_margin="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <!--Featured stories-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_featured_stories"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+            
+            <TextView
+                android:text="Featured Stories"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!--Recent stories-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_recent_stories"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:text="Recent Stories"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!--Archive-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_story_archive"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:text="Archive"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_story_archive"
+                android:drawableLeft="@drawable/ic_arrow_forward"
+                android:layout_marginLeft="5dp"
+                android:background="#FFF"
+                android:layout_width="30dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
