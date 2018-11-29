@@ -66,6 +66,9 @@
             android:name=".login.ResetPasswordActivity"
             android:label="Reset Password" />
         <activity android:name=".EditStoryActivity" />
+        <activity
+            android:name=".user.ProfileActivity"
+            android:label="User Profile" />
     </application>
 
 </manifest>
