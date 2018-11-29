@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private final String TAG = "ProfileActivity";
     private TextView username;
     private ImageView propic;
     private CardView infoBar;
@@ -36,8 +38,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Grab the profile user name and set the text
         username.setText(auth.getCurrentUser().getDisplayName());
-        infoBar.bringToFront();
-        infoBar.requestLayout();
+        infoBar.setCardElevation(10);
+        Log.i(TAG, "Elevation: " + infoBar.getElevation());
 /*        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {

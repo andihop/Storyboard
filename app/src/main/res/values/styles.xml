@@ -17,6 +17,17 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--Dividers for UI purposes -->
+    <style name="HorizontalDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#FFF</item>
+    </style>
+    <style name="VerticalDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#FFF</item>
+    </style>
     <!--&lt;!&ndash; The launcher theme. It sets the main window background to the launch_screen drawable &ndash;&gt;-->
     <!--<style name="AppTheme.Launcher">-->
     <!--<item name="android:windowBackground">@mipmap/storyboard_logo</item>-->

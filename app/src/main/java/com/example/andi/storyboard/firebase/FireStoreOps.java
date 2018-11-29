@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -83,10 +84,15 @@ public class FireStoreOps {
         );
     }
     //Pass in user ID via auth.getCurrentUser().getUid()
-    //All stories, private and public, use for profile
-    public static void getUserStories(String userID, final BaseAdapter mAdapter) {
+    //Pass in auth as well, so only if current user = profile user the private stories are returned.
+    //otherwise, only public ones are returned.
+    public static void getUserStories(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
+        Log.d("getUserStories", "Entered Function");
+
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("stories").whereEqualTo("userID", userID)
+        DocumentReference authorRef = firestore.collection("authors").document(userID);
+
+        firestore.collection("stories").whereEqualTo("author", authorRef).orderBy("title")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -103,11 +109,21 @@ public class FireStoreOps {
                                                                                                                                       @Override
                                                                                                                                       public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
                                                                                                                                           if (task_genre.isSuccessful()) {
-                                                                                                                                              stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
-                                                                                                                                                      task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
-                                                                                                                                                      document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
-                                                                                                                                              Log.i("UserStory", "testing");
-                                                                                                                                              mAdapter.notifyDataSetChanged();
+                                                                                                                                              if ((Boolean) document.get("is_private")) {
+                                                                                                                                                  if (userID.equals(auth.getCurrentUser().getUid())) {
+                                                                                                                                                      stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                                                                                                              task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
+                                                                                                                                                              document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                                                                                                      Log.i("UserStory", "testing");
+                                                                                                                                                      mAdapter.notifyDataSetChanged();
+                                                                                                                                                  }
+                                                                                                                                              } else {
+                                                                                                                                                  stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                                                                                                          task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
+                                                                                                                                                          document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                                                                                                  Log.i("UserStory", "testing");
+                                                                                                                                                  mAdapter.notifyDataSetChanged();
+                                                                                                                                              }
                                                                                                                                           }
                                                                                                                                       }
                                                                                                                                   }
@@ -123,6 +139,121 @@ public class FireStoreOps {
                     }
                 });
     }
+
+    //Pass in user ID via auth.getCurrentUser().getUid()
+    //Pass in auth as well, so only if current user = profile user the private stories are returned.
+    //otherwise, only public ones are returned.
+    //Returns at most 5 most recentlyupdated stories in the static stories list.
+    public static void getRecentUserStories(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        DocumentReference authorRef = firestore.collection("authors").document(userID);
+        firestore.collection("stories").whereEqualTo("author", authorRef).orderBy("Last_Updated", Query.Direction.DESCENDING).limit(5)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            stories.clear();
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("getAllStories", document.getId() + " => " + document.getData());
+                                document.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+                                        if (task_author.isSuccessful()) {
+                                            ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(
+                                                    new OnCompleteListener<DocumentSnapshot>() {
+                                                          @Override
+                                                          public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
+                                                              if (task_genre.isSuccessful()) {
+                                                                  if ((Boolean) document.get("is_private")) {
+                                                                      if (userID.equals(auth.getCurrentUser().getUid())) {
+                                                                          stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                                  task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
+                                                                                  document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                          Log.i("UserStory", "testing");
+                                                                          mAdapter.notifyDataSetChanged();
+                                                                      }
+                                                                  } else {
+                                                                      stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                              task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
+                                                                              document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                      Log.i("UserStory", "testing");
+                                                                      mAdapter.notifyDataSetChanged();
+                                                                  }
+                                                              }
+                                                          }
+                                                      }
+                                            );
+                                        }
+                                    }
+                                });
+                            }
+
+                        } else {
+                            Log.d("userStories", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    //Pass in user ID via auth.getCurrentUser().getUid()
+    //Pass in auth as well, so only if current user = profile user the private stories are returned.
+    //otherwise, only public ones are returned.
+    public static void getFeaturedUserStories(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        DocumentReference authorRef = firestore.collection("authors").document(userID);
+
+        firestore.collection("stories").whereEqualTo("author", authorRef).orderBy("views", Query.Direction.DESCENDING).limit(3)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            stories.clear();
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("getAllStories", document.getId() + " => " + document.getData());
+                                document.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+                                        if (task_author.isSuccessful()) {
+                                            ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(
+                                                    new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
+                                                            if (task_genre.isSuccessful()) {
+                                                                if ((Boolean) document.get("is_private")) {
+                                                                    if (userID.equals(auth.getCurrentUser().getUid())) {
+                                                                        stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                                task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
+                                                                                document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                        Log.i("UserStory", document.get("views").toString() + " " + document.get("title").toString());
+                                                                        mAdapter.notifyDataSetChanged();
+                                                                    }
+                                                                } else {
+                                                                    stories.add(new Story(document.get("title").toString(), task_author.getResult().get("name").toString(), document.get("text").toString(),
+                                                                            task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
+                                                                            document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                    Log.i("UserStory", document.get("views").toString() + " " + document.get("title").toString());
+                                                                    mAdapter.notifyDataSetChanged();
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                            );
+                                        }
+                                    }
+                                });
+                            }
+
+                        } else {
+                            Log.d("userStories", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
 
     //Get story using story documentID
     public static void getStory(String documentID, final BaseAdapter mAdapter) {
@@ -438,10 +569,10 @@ public class FireStoreOps {
 
     //Author is created when user signs up.
     //userID : auth.getCurrentUser().getUid();
-    public static void createAuthor(String name, String userID) {
+    public static void createAuthor(String username, String userID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         Map<String, Object> newAuthor = new HashMap<String, Object>();
-        newAuthor.put("name", name);
+        newAuthor.put("username", username);
         newAuthor.put("userID", userID);
         firestore.collection("authors").document(userID).set(newAuthor);
     }

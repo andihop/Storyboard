@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword, inputConfirmPassword, inputName, inputUsername;
+    private EditText inputEmail, inputPassword, inputConfirmPassword, inputUsername;
     private Button btnSignIn, btnSignUp;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -49,7 +49,6 @@ public class SignupActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         inputConfirmPassword = (EditText) findViewById(R.id.confirm_password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        inputName = (EditText) findViewById(R.id.name);
         inputUsername = (EditText) findViewById(R.id.username);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -63,19 +62,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String name = inputName.getText().toString().trim();
                 final String username = inputUsername.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 String confirm_password = inputConfirmPassword.getText().toString().trim();
 
-
-
-                if (TextUtils.isEmpty(name)) {
-                    //Toast.makeText(getApplicationContext(), "Enter your name!", Toast.LENGTH_SHORT).show();
-                    inputName.setError("Please enter your name");
-                    return;
-                }
 
                 if (TextUtils.isEmpty(username)) {
                     //Toast.makeText(getApplicationContext(), "Enter your username!", Toast.LENGTH_SHORT).show();
@@ -128,7 +119,7 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
 
                                 } else {
-                                    FireStoreOps.createAuthor(name, auth.getCurrentUser().getUid());
+                                    FireStoreOps.createAuthor(username, auth.getCurrentUser().getUid());
 
                                     //Update the user's display name/username
                                     UserProfileChangeRequest profileUpdates =
