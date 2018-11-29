@@ -2,7 +2,6 @@ package com.example.andi.storyboard.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,7 @@ import com.example.andi.storyboard.R;
 
 import java.util.ArrayList;
 
-public class FilterByGenreSearchActivity extends AppCompatActivity {
+public class WritingPromptFilterByGenreSearchActivity extends AppCompatActivity {
     private ArrayList<ConstraintLayout> filterLayoutList;
     private ArrayList<CheckBox> filterCheckBoxList;
     private ArrayList<String> filterGenreNameList;
@@ -92,7 +91,7 @@ public class FilterByGenreSearchActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), ListFilteredStoriesActivity.class);
+                Intent intent = new Intent(getBaseContext(), ListFilteredWritingPromptActivity.class);
                 ArrayList<String> genreFilterlist = new ArrayList<>();
 
                 for (int i = 0; i < filterCheckBoxList.size(); i++) {

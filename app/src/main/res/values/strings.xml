@@ -16,18 +16,33 @@
         completions."
     </string>
 
+    <!--Search-->
+    <string name="search_button_label">Search</string>
 
+    <!--Collections-->
     <string name="collection_stories">stories</string>
     <string name="collection_authors">authors</string>
     <string name="collection_genres">genres</string>
 
-    <string name="genres_field_type">name</string>
-    <string name="genres_field_stories">stories</string>
-
+    <!--Story Fields-->
     <string name="stories_field_genres">genre</string>
     <string name="stories_field_author">author</string>
     <string name="stories_field_title">title</string>
     <string name="stories_field_text">text</string>
+
+    <!--Genres-->
+    <string name="genres_field_type">name</string>
+    <string name="genres_field_stories">stories</string>
+    <string name="stories_genre_horror">Horror</string>
+    <string name="stories_genre_fantasy">Fantasy</string>
+    <string name="stories_genre_romance">Romance</string>
+    <string name="stories_genre_drama">Drama</string>
+    <string name="stories_genre_sciencefiction">Science Fiction</string>
+    <string name="stories_genre_dystopian">Dystopian</string>
+    <string name="stories_genre_tragedy">Tragedy</string>
+    <string name="stories_genre_actionadventure">Action/Adventure</string>
+    <string name="stories_genre_comedy">Comedy</string>
+    <string name="stories_genre_thriller">Thriller</string>
 
 
     <string name="email">Email</string>
@@ -56,33 +71,37 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
-    <string name="title_activity_story_search">StorySearchActivity</string>
-    <string name="title_activity_create_material_choosing">CreateMaterialChoosingActivity</string>
-    <string name="title_activity_story_read">StoryReadActivity</string>
+    <string name="title_activity_story_search">Search for Stories</string>
+    <string name="title_activity_create_material_choosing">Create Works</string>
+    <string name="title_activity_create_story">Create Story</string>
+    <string name="title_activity_story_read">Read Story</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_writing_prompt">Writing Prompt</string>
 
+
     <!-- Genres to select in dialog box for writing prompt activity -->
     <string name="select_genres">Select genres</string>
     <string-array name="genre_list">
-        <item>science fiction</item>
-        <item>comedy</item>
-        <item>horror</item>
-        <item>dystopian</item>
-        <item>drama</item>
-        <item>tragedy</item>
-        <item>action adventure</item>
-        <item>thriller</item>
-        <item>fantasy</item>
-        <item>romance</item>
-        <item>default</item>
+        <item>Science Fiction</item>
+        <item>Comedy</item>
+        <item>Horror</item>
+        <item>Dystopian</item>
+        <item>Drama</item>
+        <item>Tragedy</item>
+        <item>Action Adventure</item>
+        <item>Thriller</item>
+        <item>Fantasy</item>
+        <item>Romance</item>
+        <item>Default</item>
     </string-array>
+
+    <!-- strings used in writing prompt -->
     <string name="writing_prompt">Writing Prompt</string>
     <string name="writing_prompt_here">Begin writing prompt here.</string>
     <string name="dialog_title">Available Genres</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="dismiss">Dismiss</string>
     <string name="clear_all">Clear all</string>
     <string name="genres_selected">Genres selected:</string>
@@ -97,5 +116,21 @@
     <string name="no">No</string>
     <string name="prompt_post_success">Writing prompt was successfully posted.</string>
     <string name="prompt_not_posted">Writing prompt not posted.</string>
+    <string name="please_select_genre">Please select the genre/genres to go with this prompt.</string>
+    <string name="please_write_prompt">You must write a prompt first!</string>
+
+    <string name="create_story_title">Title:</string>
+    <string name="create_story_title_hint">title</string>
+    <string name="create_story_summary">Summary:</string>
+    <string name="create_story_summary_hint">summary</string>
+    <string name="create_story_privacy_level">Privacy Level:</string>
+    <string name="create_story_privacy_private">Private</string>
+    <string name="create_story_privacy_public">Public</string>
+    <string name="create_story_status">Status:</string>
+    <string name="create_story_status_in_progress">In Progress</string>
+    <string name="create_story_status_complete">Complete</string>
+    <string name="create_story_genre">Genre:</string>
+    <string name="create_story_write_your_story">Start Writing Your Story!</string>
+    <string name="create_story_body">body</string>
 
 </resources>

@@ -10,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
+import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.login.LoginActivity;
 import com.example.andi.storyboard.search.FilterByGenreSearchActivity;
+import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
+import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 //Jee Kang Query database edits
@@ -48,15 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        FloatingActionButton searchButton = (FloatingActionButton) findViewById(R.id.search_button);
-//        searchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                  Intent intent = new Intent(getBaseContext(), FilterByGenreSearchActivity.class);
-//                  startActivityForResult(intent, SEARCH_STORIES_REQUEST);
-//            }
-//        });
     }
 
     @Override
@@ -200,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         Intent intent;
 
+        //I forgot to add a commit message
         switch(id) {
             case R.id.action_settings:
                 return true;
@@ -208,7 +203,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);
                 break;
             case R.id.profile_button:
-                return true;
+                intent = new Intent(getBaseContext(), ProfileActivity.class);
+                startActivity(intent);
+                break;
             case R.id.signout_button:
                 auth.signOut();
                 intent = new Intent(getBaseContext(), LoginActivity.class);

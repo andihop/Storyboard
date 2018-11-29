@@ -1,4 +1,4 @@
-package com.example.andi.storyboard.user;
+package com.example.andi.storyboard.create;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,12 +15,13 @@ import android.widget.Toast;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class WritingPrompt extends AppCompatActivity {
+public class WritingPromptActivity extends AppCompatActivity {
     Button mSelectGenres, mPostPrompt;
     TextView mGenresSelected;
     String[] listGenres;
@@ -49,13 +50,17 @@ public class WritingPrompt extends AppCompatActivity {
         // radio buttons for tagging prompt's status
         mRadioGroup = findViewById(R.id.tag_group);
 
+        // setting default radio button "in-progress"
+        mRadioGroup.check(R.id.tag_in_progress);
+
         listGenres = getResources().getStringArray(R.array.genre_list);
         checkedGenres = new boolean[listGenres.length];
 
+        // selecting genres
         mSelectGenres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(WritingPrompt.this);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(WritingPromptActivity.this);
                 mBuilder.setTitle(R.string.dialog_title);
                 mBuilder.setMultiChoiceItems(listGenres, checkedGenres, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -123,46 +128,73 @@ public class WritingPrompt extends AppCompatActivity {
             public void onClick(View v) {
                 // retrieve writing prompt as a string
                 writingPrompt = mWritingPrompt.getText().toString();
-                // retrieve prompt's tag status
-                mRadioButton = findViewById(mRadioGroup.getCheckedRadioButtonId());
-                tag = mRadioButton.getText().toString();
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(WritingPrompt.this);
-                alert.setTitle(R.string.post_prompt);
-                alert.setMessage(R.string.confirm_prompt_post);
-                alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                AlertDialog.Builder alert = new AlertDialog.Builder(WritingPromptActivity.this);
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        /* NEED TO STORE THE FOLLOWING TO FIRE BASE:
-                         *
-                         *      writingPrompt, tag, and genresToPost
-                         *
-                         */
+                // validate that the prompt has no empty fields
 
-                        // MAKE STORE HERE
-                        Date currentTime = Calendar.getInstance().getTime();
-                        Timestamp ts = new Timestamp(currentTime);
+                // if no genres selected
+                if (genresToPost.isEmpty()) {
+                    // alert that says "please select genres"
+                    alert.setTitle(R.string.post_prompt);
+                    alert.setMessage(R.string.please_select_genre);
+                    alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
-                        ///////////////////////////////////////////////////// NEED TO ADJUST "placeholderUser" PARAMETER WITH ACTUAL USER NAME
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                } else {
+                    // if no text typed in writing text field
+                    if (writingPrompt.trim().length() == 0) {
+                        // please fill out the writing prompt
+                        alert.setTitle(R.string.post_prompt);
+                        alert.setMessage(R.string.please_write_prompt);
+                        alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
-                        FireStoreOps.createWritingPrompt("placeholderUser", ts, writingPrompt, genresToPost, tag);
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                    } else {
+                        // retrieve prompt's tag status
+                        mRadioButton = findViewById(mRadioGroup.getCheckedRadioButtonId());
+                        tag = mRadioButton.getText().toString();
 
-                        dialog.dismiss();
+                        alert.setTitle(R.string.post_prompt);
+                        alert.setMessage(R.string.confirm_prompt_post);
 
-                        Toast.makeText(WritingPrompt.this, R.string.prompt_post_success, Toast.LENGTH_SHORT).show();
+                        // user clicks "yes" to post the prompt
+                        alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            // storing in fire base
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Date currentTime = Calendar.getInstance().getTime();
+                                Timestamp ts = new Timestamp(currentTime);
+
+                                FireStoreOps.createWritingPrompt(FirebaseAuth.getInstance().getCurrentUser().getUid(), ts, writingPrompt, genresToPost, tag);
+
+                                dialog.dismiss();
+
+                                Toast.makeText(WritingPromptActivity.this, R.string.prompt_post_success, Toast.LENGTH_SHORT).show();
+                                finish();
+
+                            }
+                        });
+
+                        // user clicks "no" so the prompt is not posted
+                        alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                                Toast.makeText(WritingPromptActivity.this, R.string.prompt_not_posted, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                });
-
-                alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-                        Toast.makeText(WritingPrompt.this, R.string.prompt_not_posted, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
 
                 alert.show();
             }

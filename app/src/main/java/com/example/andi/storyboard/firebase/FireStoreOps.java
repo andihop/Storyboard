@@ -8,6 +8,7 @@ import com.example.andi.storyboard.datatype.Author;
 import com.example.andi.storyboard.datatype.Chapter;
 import com.example.andi.storyboard.datatype.Genre;
 import com.example.andi.storyboard.datatype.Story;
+import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -33,6 +34,8 @@ public class FireStoreOps {
     public static ArrayList<Genre> genres = new ArrayList<>();
     public static ArrayList<Chapter> chapters = new ArrayList<>();
     public static ArrayList<String> comments = new ArrayList<>();
+    public static ArrayList<WritingPrompt> writingprompts = new ArrayList<>();
+
     public static Story story = new Story("", "", "", "", "", 0, new Date(), new Date(), "", true, true);
     private FirebaseAuth auth;
 
@@ -880,22 +883,68 @@ public class FireStoreOps {
                 );
     }
 
-    public static void createWritingPrompt(String user, Timestamp stamp, String prompt, ArrayList<String> genres, String tag) {
-        Map<String, Object> newPrompt = new HashMap<String, Object>();
-        newPrompt.put("user", user);
-        newPrompt.put("time_posted", stamp);
-        newPrompt.put("prompt", prompt);
-        newPrompt.put("tag", tag);
-        newPrompt.put("categories", genres);
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("writing_prompts").add(newPrompt).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(final DocumentReference documentReference) {
+    public static void createWritingPrompt(String documentID, final Timestamp stamp, final String prompt, final ArrayList<String> genres, final String tag) {
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference authorRef = firestore.collection("authors").document(documentID);
+        authorRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                  @Override
+                                                  public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                      if (task.isSuccessful()) {
+                                                          Map<String, Object> newPrompt = new HashMap<String, Object>();
+                                                          newPrompt.put("user", task.getResult().get("name").toString());
+                                                          newPrompt.put("time_posted", stamp);
+                                                          newPrompt.put("prompt", prompt);
+                                                          newPrompt.put("tag", tag);
+                                                          newPrompt.put("categories", genres);
+                                                          firestore.collection("writing_prompts").add(newPrompt).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                                                          @Override
+                                                                                                                                          public void onSuccess(final DocumentReference documentReference) {
 
-                }
-        }
+                                                                                                                                          }
+                                                                                                                                      }
+                                                          );
+                                                      }
+                                                  }
+                                              }
         );
 
+
+
+
+
+    }
+
+    public static void searchWritingPromptByMultipleGenres(final List<String> genreList, final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("writing_prompts")
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    writingprompts.clear();
+                                    for (final QueryDocumentSnapshot document : task.getResult()) {
+                                        Log.i("WP", "get writing prompt");
+                                        ArrayList<String> categories = (ArrayList<String>) document.get("categories");
+
+
+                                        for (int i = 0; i < categories.size(); i++) {
+                                            if (genreList.contains(categories.get(i))) {
+                                                    writingprompts.add(new WritingPrompt(document.get("prompt").toString(), categories, document.getDate("time_posted"),
+                                                            document.get("user").toString(), document.get("tag").toString()));
+                                                    Log.i("writing prompt", "match");
+                                                    mAdapter.notifyDataSetChanged();
+
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                );
     }
 
     /////
