@@ -438,10 +438,10 @@ public class FireStoreOps {
 
     //Author is created when user signs up.
     //userID : auth.getCurrentUser().getUid();
-    public static void createAuthor(String name, String userID) {
+    public static void createAuthor(String username, String userID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         Map<String, Object> newAuthor = new HashMap<String, Object>();
-        newAuthor.put("name", name);
+        newAuthor.put("username", username);
         newAuthor.put("userID", userID);
         firestore.collection("authors").document(userID).set(newAuthor);
     }
