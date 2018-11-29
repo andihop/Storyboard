@@ -2,6 +2,7 @@ package com.example.andi.storyboard.user;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +14,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView author_name;
     private TextView username;
     private ImageView propic;
+    private CardView infoBar;
     private FirebaseAuth auth;
 
     @Override
@@ -29,13 +30,14 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        author_name = (TextView) findViewById(R.id.author_name);
         username = (TextView) findViewById(R.id.username);
         propic = (ImageView) findViewById(R.id.profilepic);
+        infoBar = (CardView) findViewById(R.id.infoBar);
 
         //Grab the profile user name and set the text
-        author_name.setText(auth.getCurrentUser().getUid());
-
+        username.setText(auth.getCurrentUser().getDisplayName());
+        infoBar.bringToFront();
+        infoBar.requestLayout();
 /*        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
