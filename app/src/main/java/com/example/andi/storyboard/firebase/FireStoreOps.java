@@ -254,7 +254,7 @@ public class FireStoreOps {
 
     //Get the top ten stories from firebase
     //The top ten stories are based on view count, and are updated every time oneone views a story
-    public static void getTopTenStories(final FirebaseAuth auth, final BaseAdapter mAdapter) {
+    public static void getTopTenStories(final BaseAdapter mAdapter) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection("toptenstories").orderBy("views", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
@@ -274,20 +274,25 @@ public class FireStoreOps {
                                         if (task_story.isSuccessful()) {
                                             // get the author
                                             final DocumentSnapshot story = task_story.getResult();
+                                            Log.d("getTopTenStories", story.getId() + " => " + story.getData());
                                             story.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
                                                     //we have dereferenced the author of a story.
                                                     if (task_author.isSuccessful()) {
+                                                        final DocumentSnapshot author = task_author.getResult();
+                                                        Log.d("getTopTenStories", author.getId() + " => " + author.getData());
                                                         //get the genre of the story.
                                                         ((List<DocumentReference>) story.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                             @Override
                                                             public void onComplete(@NonNull final Task<DocumentSnapshot> task_genre) {
                                                                 //we have dereferenced the generes of a story
                                                                 if (task_genre.isSuccessful()) {
+                                                                    final DocumentSnapshot genre = task_genre.getResult();
+                                                                    Log.d("getTopTenStories", genre.getId() + " => " + genre.getData());
                                                                     // add that story to our list of stories
-                                                                    stories.add(new Story(story.get("title").toString(), task_author.getResult().get("name").toString(), story.get("text").toString(),
-                                                                            task_genre.getResult().get("type").toString(), story.get("summary").toString(), document.getLong("views"), story.getDate("Created_On"),
+                                                                    stories.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
+                                                                            genre.get("type").toString(), story.get("summary").toString(), document.getLong("views"), story.getDate("Created_On"),
                                                                             story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress")));
                                                                     Log.i("getTopTenStories", "retrieved story");
                                                                     mAdapter.notifyDataSetChanged();
