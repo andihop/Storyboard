@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         username = (TextView) findViewById(R.id.username);
         propic = (ImageView) findViewById(R.id.profilepic);
-        infoBar = (CardView) findViewById(R.id.infoBar);
+        //infoBar = (CardView) findViewById(R.id.infoBar);
 
         //Grab the profile user name and set the text
         username.setText(auth.getCurrentUser().getDisplayName());
