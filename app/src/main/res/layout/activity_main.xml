@@ -19,14 +19,15 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
+        android:id="@+id/username_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        tools:text="Hello, xxxThunderStorm!"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="Hello, xxxThunderStorm!" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/new_story_button"

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.datatype.WritingPrompt;
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
-        //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
+        TextView username_greeting = (TextView) findViewById(R.id.username_greeting);
+        username_greeting.setText("Hello, " + auth.getCurrentUser().getDisplayName() + "!");
 
         FloatingActionButton new_story_button = findViewById(R.id.new_story_button);
         new_story_button.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
+        //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
     }
 
     @Override
