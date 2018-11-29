@@ -2,8 +2,6 @@ package com.example.andi.storyboard.create;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,7 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.andi.storyboard.MainActivity;
+import com.example.andi.storyboard.main.MainActivity;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.google.firebase.auth.FirebaseAuth;
