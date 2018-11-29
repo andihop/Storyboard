@@ -18,7 +18,6 @@ public class ProfileActivity extends AppCompatActivity {
     private final String TAG = "ProfileActivity";
     private TextView username;
     private ImageView propic;
-    private CardView infoBar;
     private FirebaseAuth auth;
 
     @Override
@@ -34,12 +33,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         username = (TextView) findViewById(R.id.username);
         propic = (ImageView) findViewById(R.id.profilepic);
-        infoBar = (CardView) findViewById(R.id.infoBar);
 
         //Grab the profile user name and set the text
         username.setText(auth.getCurrentUser().getDisplayName());
-        infoBar.setCardElevation(10);
-        Log.i(TAG, "Elevation: " + infoBar.getElevation());
+
 /*        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
