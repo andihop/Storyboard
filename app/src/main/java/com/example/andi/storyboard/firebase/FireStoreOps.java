@@ -409,8 +409,8 @@ public class FireStoreOps {
                                                    authors.clear();
                                                    for (final QueryDocumentSnapshot document : task.getResult()) {
                                                        Log.d("searchByRef (authors)", document.getId() + " => " + document.getData());
-                                                       Log.i("Name", document.get("name").toString());
-                                                       authors.add(new Author(document.get("name").toString(), document.getReference()));
+                                                       Log.i("Name", document.get("username").toString());
+                                                       authors.add(new Author(document.get("username").toString(), document.getReference()));
                                                        mAdapter.notifyDataSetChanged();
                                                    }
                                                }
@@ -538,8 +538,8 @@ public class FireStoreOps {
                                     authors.clear();
                                     for (final QueryDocumentSnapshot document : task.getResult()) {
                                         Log.d("searchByRef (authors)", document.getId() + " => " + document.getData());
-                                        Log.i("Name", document.get("name").toString());
-                                        authors.add(new Author(document.get("name").toString(), document.getReference()));
+                                        Log.i("Name", document.get("username").toString());
+                                        authors.add(new Author(document.get("username").toString(), document.getReference()));
                                         mAdapter.notifyDataSetChanged();
                                     }
                                 } else if ("genres".compareToIgnoreCase(collectionName) == 0) {
@@ -1080,7 +1080,7 @@ public class FireStoreOps {
                                                   public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                       if (task.isSuccessful()) {
                                                           Map<String, Object> newPrompt = new HashMap<String, Object>();
-                                                          newPrompt.put("user", task.getResult().get("name").toString());
+                                                          newPrompt.put("user", task.getResult().get("username").toString());
                                                           newPrompt.put("time_posted", stamp);
                                                           newPrompt.put("prompt", prompt);
                                                           newPrompt.put("tag", tag);
