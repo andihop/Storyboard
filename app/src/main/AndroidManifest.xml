@@ -31,7 +31,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".search.ListFilteredStoriesActivity" />
+        <activity
+            android:name=".search.ListFilteredStoriesActivity" />
+        <activity
+            android:name=".search.ListFilteredWritingPromptActivity" />
         <activity
             android:name=".login.SignupActivity"
             android:label="Sign up" />
@@ -40,13 +43,21 @@
             android:label="@string/title_activity_story_search"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".search.WritingPromptFilterByGenreSearchActivity"
+            android:label="Search For Writing Prompts"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".create.CreateMaterialChoosingActivity"
             android:label="@string/title_activity_create_material_choosing"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".viewstory.StoryReadActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".viewstory.StoryCommentsActivity" />
+        <activity
+            android:name=".viewstory.WritingPromptReadActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".viewstory.StoryCommentsActivity" />
         <activity
             android:name=".create.CreateStoryActivity"
             android:label="Create Story"

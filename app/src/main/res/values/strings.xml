@@ -96,6 +96,8 @@
         <item>Romance</item>
         <item>Default</item>
     </string-array>
+
+    <!-- strings used in writing prompt -->
     <string name="writing_prompt">Writing Prompt</string>
     <string name="writing_prompt_here">Begin writing prompt here.</string>
     <string name="dialog_title">Available Genres</string>
@@ -114,6 +116,9 @@
     <string name="no">No</string>
     <string name="prompt_post_success">Writing prompt was successfully posted.</string>
     <string name="prompt_not_posted">Writing prompt not posted.</string>
+    <string name="please_select_genre">Please select the genre/genres to go with this prompt.</string>
+    <string name="please_write_prompt">You must write a prompt first!</string>
+
     <string name="create_story_title">Title:</string>
     <string name="create_story_title_hint">title</string>
     <string name="create_story_summary">Summary:</string>

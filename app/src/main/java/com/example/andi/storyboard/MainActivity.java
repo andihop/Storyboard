@@ -11,8 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
+import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.login.LoginActivity;
 import com.example.andi.storyboard.search.FilterByGenreSearchActivity;
+import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -197,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         Intent intent;
 
+        //I forgot to add a commit message
         switch(id) {
             case R.id.action_settings:
                 return true;
