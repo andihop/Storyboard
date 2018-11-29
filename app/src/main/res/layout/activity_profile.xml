@@ -61,7 +61,7 @@
                         tools:text="99"
                         android:layout_gravity="center"
                         android:textStyle="bold"
-                        android:textSize="24dp"
+                        android:textSize="24sp"
                         android:textColor="#d9d9d9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -92,7 +92,7 @@
                         tools:text="999"
                         android:layout_gravity="center"
                         android:textStyle="bold"
-                        android:textSize="24dp"
+                        android:textSize="24sp"
                         android:textColor="#d9d9d9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
