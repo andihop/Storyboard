@@ -87,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
         final StoriesResultAdapter mRecentAdapter = new StoriesResultAdapter(this, recentStories);
         recentStoryList.setAdapter(mRecentAdapter);
 
-        FireStoreOps.getRecentUserStories(auth.getCurrentUser().getUid(),auth, mAdapter);
+        FireStoreOps.getRecentUserStories(auth.getCurrentUser().getUid(),auth, mRecentAdapter);
         recentStoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
