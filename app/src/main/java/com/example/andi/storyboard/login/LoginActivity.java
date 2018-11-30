@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.andi.storyboard.MainActivity;
+import com.example.andi.storyboard.main.MainActivity;
 import com.example.andi.storyboard.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

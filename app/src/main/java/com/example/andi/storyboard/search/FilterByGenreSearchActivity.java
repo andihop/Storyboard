@@ -2,7 +2,6 @@ package com.example.andi.storyboard.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.example.andi.storyboard.MainActivity;
+import com.example.andi.storyboard.main.MainActivity;
 import com.example.andi.storyboard.R;
 
 import java.util.ArrayList;

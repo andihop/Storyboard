@@ -1,15 +1,19 @@
-package com.example.andi.storyboard;
+package com.example.andi.storyboard.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.login.LoginActivity;
@@ -31,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     public static final int RESULT_STORIES_REQUEST = 1;
     FirebaseAuth auth;
 
+    private TabLayout tabLayout;
+    private ViewPager tabsPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,15 +47,27 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        setContentView(R.layout.activity_main);
+        setContentView(com.example.andi.storyboard.R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(com.example.andi.storyboard.R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
-        //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
+        TextView username_greeting = (TextView) findViewById(com.example.andi.storyboard.R.id.username_greeting);
+        String username = auth.getCurrentUser().getDisplayName();
+        if (username == null || username == "") {
+            username_greeting.setText("Hello, Storyboarder!");
+        } else {
+            username_greeting.setText("Hello, " + username + "!");
+        }
 
-        FloatingActionButton new_story_button = findViewById(R.id.new_story_button);
+        tabsPager = (ViewPager) findViewById(R.id.tabspager);
+        TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager());
+        tabsPager.setAdapter(adapter);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(tabsPager);
+
+        FloatingActionButton new_story_button = findViewById(com.example.andi.storyboard.R.id.new_story_button);
         new_story_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,22 +75,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
+        //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(requestCode == SEARCH_STORIES_REQUEST && resultCode == RESULT_OK){
             // TODO: change fragment of this activity to be the search filter fragment
         }
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(com.example.andi.storyboard.R.menu.menu_main, menu);
         return true;
     }
 
@@ -201,13 +220,13 @@ public class MainActivity extends AppCompatActivity {
 
         //I forgot to add a commit message
         switch(id) {
-            case R.id.action_settings:
+            case com.example.andi.storyboard.R.id.action_settings:
                 return true;
-            case R.id.search_button:
+            case com.example.andi.storyboard.R.id.search_button:
                 intent = new Intent(getBaseContext(), FilterByGenreSearchActivity.class);
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);
                 break;
-            case R.id.profile_button:
+            case com.example.andi.storyboard.R.id.profile_button:
                 intent = new Intent(getBaseContext(), ProfileActivity.class);
                 startActivity(intent);
                 break;
