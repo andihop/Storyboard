@@ -22,7 +22,6 @@ public class EditStoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_story);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         final EditText title = findViewById(R.id.title);
         final EditText summary = findViewById(R.id.summary);
@@ -71,7 +70,8 @@ public class EditStoryActivity extends AppCompatActivity {
         }
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        android.widget.Button fab = (android.widget.Button) findViewById(R.id.create_story_create_button);
+        fab.setText("Finish Edit");
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
