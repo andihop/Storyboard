@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int RESULT_STORIES_REQUEST = 1;
     FirebaseAuth auth;
 
+    TabsAdapter adapter;
     private TabLayout tabLayout;
     private ViewPager tabsPager;
 
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         tabsPager = (ViewPager) findViewById(R.id.tabspager);
-        TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager());
+        adapter = new TabsAdapter(getSupportFragmentManager());
         tabsPager.setAdapter(adapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -78,6 +80,31 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: Figure out how to get stuff from firestore before inflating new layouts in another activity
         //FireStoreOps.searchByRef(getString(R.string.collection_stories), getString(R.string.collection_authors), "S4TEFok6UlrLTa64RHv3", getString(R.string.stories_field_author));
+    }
+
+    @Override
+    public void onPause() {
+        try {
+            adapter = null;
+            tabsPager.setAdapter(null);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        try {
+            tabsPager = (ViewPager) findViewById(R.id.tabspager);
+            adapter = new TabsAdapter(getSupportFragmentManager());
+            tabsPager.setAdapter(adapter);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onResume();
     }
 
     @Override

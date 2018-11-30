@@ -3,6 +3,8 @@ package com.example.andi.storyboard.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,8 @@ import java.util.ArrayList;
 public class TabsFragment extends Fragment {
 
     int position;
-    TextView tab1;
+    FragmentManager fM;
+    FragmentTransaction fT;
 
     public static Fragment getInstance(int position) {
         Bundle bundle = new Bundle();
@@ -34,6 +37,7 @@ public class TabsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fM = getFragmentManager();
         position = getArguments().getInt("position");
     }
 

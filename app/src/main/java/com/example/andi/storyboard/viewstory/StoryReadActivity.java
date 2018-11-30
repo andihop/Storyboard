@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.main.TabsFragment;
 
 public class StoryReadActivity extends AppCompatActivity {
 
@@ -51,7 +53,15 @@ public class StoryReadActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        FireStoreOps.incrementViewCount(getIntent().getStringExtra("documentID"));
+        Log.d("StoryReadActivity", "views" + getIntent().getStringExtra("views"));
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run(){
+                // change UI elements here
+                FireStoreOps.incrementViewCount(getIntent().getStringExtra("documentID"));
+                FireStoreOps.updateTopTen(getIntent().getStringExtra("documentID"), Integer.parseInt(getIntent().getStringExtra("views")) + 1);
+            }
+        });
         super.onDestroy();
         // TODO: add count to number of views to current story being read
     }

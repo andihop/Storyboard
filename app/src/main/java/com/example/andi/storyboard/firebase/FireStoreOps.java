@@ -67,20 +67,103 @@ public class FireStoreOps {
     //When a story is selected and read from the search, increment view count by using this method:
     public static void incrementViewCount(String documentID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        DocumentReference ref = firestore.collection("stories").document(documentID);
         final Map<String, Object> storyMap = new HashMap<String, Object>();
+
+        DocumentReference ref = firestore.collection("stories").document(documentID);
         ref.get().addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            storyMap.put("views", ((long) task.getResult().get("views")) + 1);
-                            task.getResult().getReference().update(storyMap);
-
+                            DocumentSnapshot document = task.getResult();
+                            int viewCount = Integer.parseInt(document.get("views").toString()) + 1;
+                            storyMap.put("views", viewCount);
+                            document.getReference().update(storyMap);
                         }
                     }
                 }
         );
+    }
+
+    //When a story is selected and read from the search, increment view count by using this method:
+    public static void updateTopTen(final String documentID, final int viewCount) {
+        Log.d("updateTopTen", "starting update");
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        Log.d("updateTopTen", "documentID " + documentID);
+        firestore.collection("toptenstories").orderBy("views", Query.Direction.ASCENDING).get().addOnCompleteListener(
+                new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task_update) {
+                        // we have the top ten stories by reference, hopefully.
+                        if (task_update.isSuccessful()) {
+                            final Map<String, Object> storyMap = new HashMap<String, Object>();
+
+                            List<DocumentSnapshot> result = task_update.getResult().getDocuments();
+
+                            if (result == null) {
+                                return;
+                            }
+
+                            DocumentReference storyid = firestore.collection("stories").document(documentID);
+
+                            boolean update = false;
+                            DocumentSnapshot upDoc = null;
+                            for (DocumentSnapshot doc : result) {
+                                if (doc.get("storyid").equals(storyid)) {
+                                    update = true;
+                                    upDoc = doc;
+                                }
+                            }
+
+                            if (update) {
+                                // we have an entry to update the viewcount of
+                                Log.d("updateTopTen", "update viewcount of " + upDoc.getId());
+                                storyMap.put("views", ((long) viewCount));
+                                upDoc.getReference().update(storyMap);
+                            } else {
+                                Log.d("updateTopTen", "checking if we need to update the top ten stories");
+                                // we could not find an existing reference to the storyid.
+                                // query the smallest viewcount in the list.
+                                // if it beats it, replace the smallest with its information.
+
+                                // if the size is less than 10, just add a new document
+                                if (result.size() < 10) {
+                                    Log.d("updateTopTen", "list size less than 10!!!");
+                                    Map<String, Object> newRef = new HashMap<String, Object>();
+
+                                    newRef.put("storyid", storyid);
+                                    newRef.put("views", viewCount);
+                                    firestore.collection("toptenstories").add(newRef)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(final DocumentReference documentReference) {
+                                                    Log.d("updateTopTen", "added a story to the list!");
+                                                    }
+                                            });
+                                }
+                                // else, replace a document
+                                // get the first document
+                                else {
+                                    Log.d("updateTopTen", "list size equal to 10!!!");
+                                    DocumentSnapshot smallestViewCount = result.get(0);
+                                    // since we sorted by ascending order, this should replace the smallest value
+                                    if ((int) smallestViewCount.get("views") < viewCount) {
+                                        // find the story id in the stories collection
+                                        storyMap.put("storyid", documentID);
+                                        storyMap.put("views", viewCount);
+                                        Log.d("updateTopTen", "need to update item");
+                                        smallestViewCount.getReference().update(storyMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("updateTopTen", "updating item in toptenstories!");
+                                                }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
     }
 
     //Pass in user ID via auth.getCurrentUser().getUid()
