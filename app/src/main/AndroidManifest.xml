@@ -31,10 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".search.ListFilteredStoriesActivity" />
-        <activity
-            android:name=".search.ListFilteredWritingPromptActivity" />
+        <activity android:name=".search.ListFilteredStoriesActivity" />
+        <activity android:name=".search.ListFilteredWritingPromptActivity" />
         <activity
             android:name=".login.SignupActivity"
             android:label="Sign up" />
@@ -56,8 +54,7 @@
         <activity
             android:name=".viewstory.WritingPromptReadActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".viewstory.StoryCommentsActivity" />
+        <activity android:name=".viewstory.StoryCommentsActivity" />
         <activity
             android:name=".create.CreateStoryActivity"
             android:label="Create Story"
@@ -69,6 +66,12 @@
         <activity
             android:name=".user.ProfileActivity"
             android:label="User Profile" />
+        <activity
+            android:name=".user.StoryArchiveActivity"
+            android:label="@string/title_activity_story_archive"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".search.ListUserStoriesActivity"
+            android:label="User Stories" />
     </application>
 
 </manifest>
