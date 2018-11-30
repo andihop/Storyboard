@@ -10,10 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.andi.storyboard.EditStoryActivity;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.main.TabsAdapter;
 import com.example.andi.storyboard.main.TabsFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class StoryReadActivity extends AppCompatActivity {
 
@@ -29,6 +31,13 @@ public class StoryReadActivity extends AppCompatActivity {
         String inProg = "Completed!";
         if (getIntent().getBooleanExtra("in_progress", true)) {
             inProg = "In Progress";
+        }
+        FloatingActionButton editButton = (FloatingActionButton) findViewById(R.id.edit_button);
+
+        if (getIntent().getStringExtra("userID").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            editButton.setVisibility(View.VISIBLE);
+        } else {
+            editButton.setVisibility(View.INVISIBLE);
         }
 
         str = "By " + getIntent().getStringExtra("author") + "\nCreated on " + getIntent().getStringExtra("created_on") + "\nLast update on " + getIntent().getStringExtra("last_update")
@@ -48,6 +57,24 @@ public class StoryReadActivity extends AppCompatActivity {
                 intent.putExtra("title", getIntent().getStringExtra("title"));
                 intent.putExtra("documentID", getIntent().getStringExtra("documentID"));
                 startActivity(intent);
+            }
+        });
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), EditStoryActivity.class);
+                // TODO: intent filter to get the list of comments for current story being read
+                intent.putExtra("title", getIntent().getStringExtra("title"));
+                intent.putExtra("documentID", getIntent().getStringExtra("documentID"));
+                intent.putExtra("summary", getIntent().getStringExtra("summary"));
+                intent.putExtra("text", getIntent().getStringExtra("text"));
+                intent.putExtra("genre", getIntent().getStringExtra("genre"));
+                intent.putExtra("is_private", getIntent().getStringExtra("is_private"));
+                intent.putExtra("in_progress", getIntent().getBooleanExtra("in_progress", true));
+                startActivity(intent);
+
+
+
             }
         });
     }

@@ -42,7 +42,7 @@ public class FireStoreOps {
     public static ArrayList<String> comments = new ArrayList<>();
     public static ArrayList<WritingPrompt> writingprompts = new ArrayList<>();
 
-    public static Story story = new Story("", "", "", "", "", 0, new Date(), new Date(), "", true, true);
+    public static Story story = new Story("", "", "", "", "", 0, new Date(), new Date(), "", true, true, "");
     private FirebaseAuth auth;
 
     //public enum COLLECTION {AUTHORS, GENRES, STORIES};
@@ -200,14 +200,14 @@ public class FireStoreOps {
                                                                                                                                                   if (userID.equals(auth.getCurrentUser().getUid())) {
                                                                                                                                                       stories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
                                                                                                                                                               task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
-                                                                                                                                                              document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                                                                                                              document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress"), userID));
                                                                                                                                                       Log.i("UserStory", "testing");
                                                                                                                                                       mAdapter.notifyDataSetChanged();
                                                                                                                                                   }
                                                                                                                                               } else {
                                                                                                                                                   stories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
                                                                                                                                                           task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
-                                                                                                                                                          document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                                                                                                          document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress"), userID));
                                                                                                                                                   Log.i("UserStory", "testing");
                                                                                                                                                   mAdapter.notifyDataSetChanged();
                                                                                                                                               }
@@ -332,14 +332,14 @@ public class FireStoreOps {
                                                                     if (userID.equals(auth.getCurrentUser().getUid())) {
                                                                         recentProfileStories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
                                                                                 task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
-                                                                                document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                                document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress"), userID));
                                                                         Log.i("UserStory", "testing");
                                                                         mAdapter.notifyDataSetChanged();
                                                                     }
                                                                 } else {
                                                                     recentProfileStories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
                                                                             task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
-                                                                            document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                            document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress"), userID));
                                                                     Log.i("UserStory", "testing");
                                                                     mAdapter.notifyDataSetChanged();
                                                                 }
@@ -388,14 +388,14 @@ public class FireStoreOps {
                                                                     if (userID.equals(auth.getCurrentUser().getUid())) {
                                                                         featuredProfileStories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
                                                                                 task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
-                                                                                document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                                document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress"), userID));
                                                                         Log.i("UserStory", document.get("views").toString() + " " + document.get("title").toString());
                                                                         mAdapter.notifyDataSetChanged();
                                                                     }
                                                                 } else {
                                                                     featuredProfileStories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
                                                                             task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"),
-                                                                            document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                            document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress"), userID));
                                                                     Log.i("UserStory", document.get("views").toString() + " " + document.get("title").toString());
                                                                     mAdapter.notifyDataSetChanged();
                                                                 }
@@ -456,7 +456,7 @@ public class FireStoreOps {
                                                                     // add that story to our list of stories
                                                                     stories.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
                                                                             genre.get("type").toString(), story.get("summary").toString(), document.getLong("views"), story.getDate("Created_On"),
-                                                                            story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress")));
+                                                                            story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"), author.getId()));
                                                                     Log.i("getTopTenStories", "retrieved story");
                                                                     mAdapter.notifyDataSetChanged();
                                                                 }
@@ -501,7 +501,7 @@ public class FireStoreOps {
                                                             public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
                                                                 if (task_genre.isSuccessful()) {
                                                                     story = new Story(doc.get("title").toString(), task_author.getResult().get("username").toString(), doc.get("text").toString(),
-                                                                            task_genre.getResult().get("type").toString(), doc.get("summary").toString(), (long) doc.get("views"), (Date) doc.get("Created_On"), (Date) doc.get("Last_Updated"), doc.getId(), (Boolean) doc.get("is_private"), (Boolean) doc.get("in_progress"));
+                                                                            task_genre.getResult().get("type").toString(), doc.get("summary").toString(), (long) doc.get("views"), (Date) doc.get("Created_On"), (Date) doc.get("Last_Updated"), doc.getId(), (Boolean) doc.get("is_private"), (Boolean) doc.get("in_progress"), task_author.getResult().getId());
 
                                                                     mAdapter.notifyDataSetChanged();
 
@@ -541,7 +541,7 @@ public class FireStoreOps {
                                                                                                                                       public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
                                                                                                                                           if (task_genre.isSuccessful()) {
                                                                                                                                               stories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
-                                                                                                                                                      task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress")));
+                                                                                                                                                      task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (Boolean) document.get("is_private"), (Boolean) document.get("in_progress"), task_author.getResult().getId()));
                                                                                                                                               Log.i("test", "testing");
                                                                                                                                               mAdapter.notifyDataSetChanged();
                                                                                                                                           }
@@ -633,7 +633,7 @@ public class FireStoreOps {
                                                                                                                                                   try {
                                                                                                                                                       if (!(Boolean) document.get("is_private")) {
                                                                                                                                                           stories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
-                                                                                                                                                                  task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (boolean) document.get("is_private"), (boolean) document.get("in_progress")));
+                                                                                                                                                                  task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (boolean) document.get("is_private"), (boolean) document.get("in_progress"), task_author.getResult().getId()));
                                                                                                                                                           Log.i("test", "testing");
                                                                                                                                                           mAdapter.notifyDataSetChanged();
                                                                                                                                                       }
@@ -679,7 +679,7 @@ public class FireStoreOps {
                                                                                                                                                   if (task_genre.isSuccessful()) {
                                                                                                                                                       try {
                                                                                                                                                           stories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
-                                                                                                                                                                  task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (boolean) document.get("is_private"), (boolean) document.get("in_progress")));
+                                                                                                                                                                  task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (boolean) document.get("is_private"), (boolean) document.get("in_progress"), task_author.getResult().getId()));
                                                                                                                                                           Log.i("test", "testing");
                                                                                                                                                           mAdapter.notifyDataSetChanged();
                                                                                                                                                       } catch (Exception e) {
@@ -763,7 +763,7 @@ public class FireStoreOps {
                                                                             if (genreList.contains(task_genre.getResult().get("type").toString())) {
                                                                                 if (!(Boolean) document.get("is_private")) {
                                                                                     stories.add(new Story(document.get("title").toString(), task_author.getResult().get("username").toString(), document.get("text").toString(),
-                                                                                            task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (boolean) document.get("is_private"), (boolean) document.get("in_progress")));
+                                                                                            task_genre.getResult().get("type").toString(), document.get("summary").toString(), document.getLong("views"), document.getDate("Created_On"), document.getDate("Last_Updated"), document.getId(), (boolean) document.get("is_private"), (boolean) document.get("in_progress"), task_author.getResult().getId()));
                                                                                     Log.i("genre", "match");
                                                                                     mAdapter.notifyDataSetChanged();
                                                                                 }

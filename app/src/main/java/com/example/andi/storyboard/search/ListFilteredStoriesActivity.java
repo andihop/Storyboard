@@ -12,6 +12,7 @@ import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,10 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
                 intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
                 intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
                 intent.putExtra("in_progress", mAdapter.getItem(i).getIn_Progress());
+                intent.putExtra("is_private", mAdapter.getItem(i).getIs_Private());
+                intent.putExtra("genre", mAdapter.getItem(i).getGenre());
+                intent.putExtra("userID", mAdapter.getItem(i).getAuthorID());
+
 
                 startActivity(intent);
             }
