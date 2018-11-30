@@ -15,9 +15,9 @@ import com.example.andi.storyboard.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Favorites extends AppCompatActivity {
+public class FavoritesActivity extends AppCompatActivity {
 
-    private static final String tag = "Favorites";
+    private static final String tag = "FavoritesActivity";
 
     private SectionsPageAdapter mSectionsPageAdapter;
 
@@ -32,7 +32,7 @@ public class Favorites extends AppCompatActivity {
         setContentView(R.layout.activity_display_favorites);
         userHeading = (TextView) findViewById(R.id.toolbar_title);
 
-        String toDisplay = FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + "'s Favorites!";
+        String toDisplay = FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + "'s FavoritesActivity!";
 
         userHeading.setText(toDisplay);
 
@@ -46,8 +46,8 @@ public class Favorites extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FavoriteStories(), "STORIES");
-        adapter.addFragment(new FavoritePrompts(), "PROMPTS");
+        adapter.addFragment(new FavoriteStoriesActivity(), "STORIES");
+        adapter.addFragment(new FavoritePromptsActivity(), "PROMPTS");
 
         viewPager.setAdapter(adapter);
     }

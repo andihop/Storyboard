@@ -1,4 +1,4 @@
-package com.example.andi.storyboard.search;
+package com.example.andi.storyboard.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
+import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 

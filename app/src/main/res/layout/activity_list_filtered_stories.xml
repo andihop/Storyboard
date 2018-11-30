@@ -6,9 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".search.ListFilteredStoriesActivity">
 
-    <ListView
-    android:id="@+id/stories_result_list"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:fadeScrollbars="false"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp">
+        
+        <ListView
+        android:id="@+id/stories_result_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"/>
+    </LinearLayout>
 </RelativeLayout>

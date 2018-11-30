@@ -64,16 +64,12 @@
             android:label="Reset Password" />
         <activity android:name=".EditStoryActivity" />
         <activity
-            android:name=".user.Favorites"
+            android:name=".user.FavoritesActivity"
             android:label="Favorites" />
         <activity
             android:name=".user.ProfileActivity"
             android:label="User Profile" />
-        <activity
-            android:name=".user.StoryArchiveActivity"
-            android:label="@string/title_activity_story_archive"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".search.ListUserStoriesActivity"
+        <activity android:name=".user.ListUserStoriesActivity"
             android:label="User Stories" />
     </application>
 

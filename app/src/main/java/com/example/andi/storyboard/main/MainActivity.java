@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +14,9 @@ import android.widget.TextView;
 
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
-import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.login.LoginActivity;
 import com.example.andi.storyboard.search.FilterByGenreSearchActivity;
-import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
-import com.example.andi.storyboard.user.Favorites;
+import com.example.andi.storyboard.user.FavoritesActivity;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -264,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.view_favorites:
-                intent = new Intent(getBaseContext(), Favorites.class);
+                intent = new Intent(getBaseContext(), FavoritesActivity.class);
                 startActivity(intent);
                 break;
         }
