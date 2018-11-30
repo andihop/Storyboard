@@ -67,6 +67,9 @@
             android:label="Reset Password" />
         <activity android:name=".EditStoryActivity" />
         <activity
+            android:name=".user.Favorites"
+            android:label="Favorites" />
+        <activity
             android:name=".user.ProfileActivity"
             android:label="User Profile" />
     </application>

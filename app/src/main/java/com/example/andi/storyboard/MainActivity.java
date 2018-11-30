@@ -15,6 +15,7 @@ import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.login.LoginActivity;
 import com.example.andi.storyboard.search.FilterByGenreSearchActivity;
 import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
+import com.example.andi.storyboard.user.Favorites;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -214,6 +215,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.signout_button:
                 auth.signOut();
                 intent = new Intent(getBaseContext(), LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.view_favorites:
+                intent = new Intent(getBaseContext(), Favorites.class);
                 startActivity(intent);
                 break;
         }
