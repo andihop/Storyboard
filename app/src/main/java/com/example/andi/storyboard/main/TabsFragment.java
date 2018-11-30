@@ -52,9 +52,14 @@ public class TabsFragment extends Fragment {
 
         // RECENT STORIES
         if (position == 0) {
-//            tab1 = view.findViewById(R.id.main_page_tab);
-//            tab1.setText("Tab 1");
 
+        }
+        // WRITING PROMPTS
+        else if (position == 1) {
+            
+        }
+        // FEATURED STORIES
+        else if (position == 2) {
             ArrayList<Story> stories = FireStoreOps.stories;
             ListView featured_stories_listview = view.findViewById(R.id.featured_stories_list);
 
@@ -83,16 +88,6 @@ public class TabsFragment extends Fragment {
                     startActivity(intent);
                 }
             });
-        }
-        // WRITING PROMPTS
-        else if (position == 1) {
-//            tab1 = view.findViewById(R.id.main_page_tab);
-//            tab1.setText("Tab 2");
-        }
-        // FEATURED STORIES
-        else if (position == 2) {
-//            tab1 = view.findViewById(R.id.main_page_tab);
-//            tab1.setText("Tab 3");
         }
     }
 }
