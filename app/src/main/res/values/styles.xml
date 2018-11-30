@@ -21,12 +21,13 @@
     <style name="HorizontalDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">#FFF</item>
+        <item name="android:background">@android:color/tab_indicator_text</item>
     </style>
+
     <style name="VerticalDivider">
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">#FFF</item>
+        <item name="android:background">@android:color/tab_indicator_text</item>
     </style>
     <!--&lt;!&ndash; The launcher theme. It sets the main window background to the launch_screen drawable &ndash;&gt;-->
     <!--<style name="AppTheme.Launcher">-->

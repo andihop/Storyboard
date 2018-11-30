@@ -3,7 +3,6 @@ package com.example.andi.storyboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.andi.storyboard.firebase.FireStoreOps;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.andi.storyboard.main.MainActivity;
 
 public class EditStoryActivity extends AppCompatActivity {
 
@@ -23,7 +22,6 @@ public class EditStoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_story);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         final EditText title = findViewById(R.id.title);
         final EditText summary = findViewById(R.id.summary);
@@ -72,7 +70,8 @@ public class EditStoryActivity extends AppCompatActivity {
         }
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        android.widget.Button fab = (android.widget.Button) findViewById(R.id.create_story_create_button);
+        fab.setText("Finish Edit");
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

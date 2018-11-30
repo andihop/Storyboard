@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.example.andi.storyboard.MainActivity;
+import com.example.andi.storyboard.main.MainActivity;
 import com.example.andi.storyboard.R;
 
 import java.util.ArrayList;

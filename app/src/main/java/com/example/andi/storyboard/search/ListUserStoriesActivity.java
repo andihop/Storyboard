@@ -1,22 +1,22 @@
 package com.example.andi.storyboard.search;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
-import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class ListFilteredStoriesActivity extends AppCompatActivity  {
+public class ListUserStoriesActivity extends AppCompatActivity  {
 
     StoriesResultAdapter mAdapter;
 
@@ -28,14 +28,14 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 
-        setTitle("Story Result");
+        setTitle("User Archive");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAdapter = new StoriesResultAdapter(getApplicationContext(), stories);
 
         resultsList.setAdapter(mAdapter);
 
-        FireStoreOps.searchByMultipleGenres(getIntent().getStringArrayListExtra("genre_filters"), mAdapter);
+        FireStoreOps.getUserStories(FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance(), mAdapter);
         resultsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -53,7 +53,6 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
                 intent.putExtra("is_private", mAdapter.getItem(i).getIs_Private());
                 intent.putExtra("genre", mAdapter.getItem(i).getGenre());
                 intent.putExtra("userID", mAdapter.getItem(i).getAuthorID());
-
 
                 startActivity(intent);
             }

@@ -1,16 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".main.MainActivity">
+    tools:context="com.example.andi.storyboard.user.StoryArchiveActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/back_button"
-        android:icon="?attr/actionModeCloseDrawable"
-        android:orderInCategory="200"
-        android:title="Back"
-        app:showAsAction="always" />
 </menu>

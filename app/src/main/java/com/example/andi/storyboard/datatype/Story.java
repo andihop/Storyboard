@@ -14,6 +14,7 @@ public class Story {
     private String documentID;
     private Boolean is_private;
     private Boolean in_progress;
+    private String authorID;
 
     //For backwards compatibility with previous version.
     /*
@@ -31,7 +32,7 @@ public class Story {
     */
 
     public Story(String title, String authorName, String text, String genre, String summary,
-                 long views, Date created, Date last, String documentID, Boolean is_private, Boolean in_progress) {
+                 long views, Date created, Date last, String documentID, Boolean is_private, Boolean in_progress, String authorID) {
         this.title = title;
         this.authorName = authorName;
         this.text = text;
@@ -43,6 +44,7 @@ public class Story {
         this.documentID = documentID;
         this.is_private = is_private;
         this.in_progress = in_progress;
+        this.authorID = authorID;
     }
 
     @Override
@@ -95,6 +97,10 @@ public class Story {
     public Boolean getIn_Progress() {
         return in_progress;
     }
+    public String getAuthorID() {
+        return authorID;
+    }
+
 
 
 }
