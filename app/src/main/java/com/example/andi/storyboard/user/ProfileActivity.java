@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -17,7 +19,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.andi.storyboard.MainActivity;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
@@ -36,8 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private Button viewArchive;
     StoriesResultAdapter mAdapter;
-    private HorizontalScrollView featuredStoryList;
-    private HorizontalScrollView recentStoryList;
+    private ListView featuredStoryList;
+    private ListView recentStoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,10 @@ public class ProfileActivity extends AppCompatActivity {
         setTitle(username + "'s Profile");
         numSubscribers = (TextView) findViewById(R.id.numSubscribers);
         numStories = (TextView) findViewById(R.id.numStories);
+
         ArrayList<Story> stories = FireStoreOps.stories;
-        featuredStoryList = findViewById(R.id.featured_stories_list);
-        recentStoryList = findViewById(R.id.recent_stories_list);
+        //featuredStoryList = findViewById(R.id.featured_stories_list);
+        //recentStoryList = findViewById(R.id.recent_stories_list);
 
         mAdapter = new StoriesResultAdapter(getApplicationContext(), stories);
 
@@ -71,74 +73,86 @@ public class ProfileActivity extends AppCompatActivity {
         recent_3 = (TextView) findViewById(R.id.recent_story_3);
         recent_4 = (TextView) findViewById(R.id.recent_story_4);
         recent_5 = (TextView) findViewById(R.id.recent_story_5);
-
         propic = (ImageView) findViewById(R.id.profilepic);
         viewArchive = (Button) findViewById(R.id.btn_story_archive);
+
+
 
         //Set the username, # subscribers and # stories
         username.setText(auth.getCurrentUser().getDisplayName());
         //numSubscribers
         //numStories.setText(auth.getCurrentUser().collection("stories").size());
 
+
+        featuredStoryList.setAdapter(mAdapter);
+
+        FireStoreOps.getFeaturedUserStories(auth.getCurrentUser().getUid(), auth, mAdapter);
+        featuredStoryList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         feature_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         feature_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         feature_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         feature_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         feature_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
 
         recent_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         recent_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         recent_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         recent_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
         recent_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+
             }
         });
 
