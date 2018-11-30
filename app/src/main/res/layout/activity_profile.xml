@@ -141,10 +141,12 @@
     </RelativeLayout>
 
     <!--Stories-->
-    <ScrollView
+
+    <com.example.andi.storyboard.util.VerticalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp">
+
         <LinearLayout
             android:layout_gravity="center"
             android:background="@color/white"
@@ -183,7 +185,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
+<!--
                 <HorizontalScrollView
                     android:id="@+id/featured_stories_list"
                     android:fillViewport="true"
@@ -259,6 +261,12 @@
                             android:layout_height="match_parent" />
                     </LinearLayout>
                 </HorizontalScrollView>
+                -->
+                <ListView
+                    android:id="@+id/featured_stories_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fadeScrollbars="false"/>
             </LinearLayout>
 
             <View
@@ -297,7 +305,12 @@
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
+                <ListView
+                    android:id="@+id/recent_stories_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fadeScrollbars="false"/>
+    <!--
                 <HorizontalScrollView
                     android:id="@+id/recent_stories_list"
                     android:fillViewport="true"
@@ -373,6 +386,7 @@
                             android:layout_height="match_parent" />
                     </LinearLayout>
                 </HorizontalScrollView>
+                -->
             </LinearLayout>
 
             <View
@@ -413,5 +427,6 @@
                     android:layout_height="35dp" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.example.andi.storyboard.util.VerticalScrollView>
+
 </LinearLayout>
