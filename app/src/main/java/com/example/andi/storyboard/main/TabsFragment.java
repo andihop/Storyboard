@@ -57,6 +57,7 @@ public class TabsFragment extends Fragment {
 
         // RECENT STORIES
         if (position == 0) {
+            FireStoreOps.recentStoriesRead.clear();
             ArrayList<Story> recentStoriesRead = FireStoreOps.recentStoriesRead;
             ListView recent_stories_listview = view.findViewById(R.id.featured_stories_list);
 
@@ -92,6 +93,7 @@ public class TabsFragment extends Fragment {
         }
         // FEATURED STORIES
         else if (position == 2) {
+            FireStoreOps.stories.clear();
             ArrayList<Story> stories = FireStoreOps.stories;
             ListView featured_stories_listview = view.findViewById(R.id.featured_stories_list);
 
@@ -122,4 +124,6 @@ public class TabsFragment extends Fragment {
             });
         }
     }
+
+
 }

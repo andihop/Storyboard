@@ -26,6 +26,7 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_list_filtered_stories);
+        FireStoreOps.stories.clear();
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 

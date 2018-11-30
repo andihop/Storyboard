@@ -51,10 +51,13 @@ public class ProfileActivity extends AppCompatActivity {
         setTitle(username + "'s Profile");
         numSubscribers = (TextView) findViewById(R.id.numSubscribers);
         numStories = (TextView) findViewById(R.id.numStories);
+
         FireStoreOps.featuredProfileStories.clear();
         ArrayList<Story> stories = FireStoreOps.featuredProfileStories;
+
         FireStoreOps.recentProfileStories.clear();
         ArrayList<Story> recentStories = FireStoreOps.recentProfileStories;
+
         featuredStoryList = findViewById(R.id.featured_stories_list);
         recentStoryList = findViewById(R.id.recent_stories_list);
 
