@@ -84,15 +84,15 @@ public class ProfileActivity extends AppCompatActivity {
         //numStories.setText(auth.getCurrentUser().collection("stories").size());
 
 
-        featuredStoryList.setAdapter(mAdapter);
-
-        FireStoreOps.getFeaturedUserStories(auth.getCurrentUser().getUid(), auth, mAdapter);
-        featuredStoryList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        featuredStoryList.setAdapter(mAdapter);
+//
+//        FireStoreOps.getFeaturedUserStories(auth.getCurrentUser().getUid(), auth, mAdapter);
+//        featuredStoryList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         feature_1.setOnClickListener(new View.OnClickListener() {
             @Override
