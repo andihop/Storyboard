@@ -17,10 +17,13 @@ import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
 public class TabsFragment extends Fragment {
+
+    FirebaseAuth auth;
 
     int position;
     FragmentManager fM;
@@ -37,6 +40,8 @@ public class TabsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+
         fM = getFragmentManager();
         position = getArguments().getInt("position");
     }
@@ -52,11 +57,35 @@ public class TabsFragment extends Fragment {
 
         // RECENT STORIES
         if (position == 0) {
+            ArrayList<Story> recentStoriesRead = FireStoreOps.recentStoriesRead;
+            ListView recent_stories_listview = view.findViewById(R.id.featured_stories_list);
 
+            final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), recentStoriesRead);
+            recent_stories_listview.setAdapter(mAdapter);
+
+            FireStoreOps.getRecentStoriesRead(auth.getCurrentUser().getUid(), auth, mAdapter);
+            recent_stories_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    Intent intent = new Intent(getContext(), StoryReadActivity.class);
+                    intent.putExtra("title", mAdapter.getItem(i).getTitle());
+                    intent.putExtra("author", mAdapter.getItem(i).getAuthorName());
+                    intent.putExtra("text", mAdapter.getItem(i).getText());
+                    intent.putExtra("summary", mAdapter.getItem(i).getSummary());
+                    intent.putExtra("views", "" + mAdapter.getItem(i).getViews());
+                    intent.putExtra("created_on", mAdapter.getItem(i).getCreated_On().toString());
+                    intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
+                    intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
+                    intent.putExtra("in_progress", mAdapter.getItem(i).getIn_Progress());
+
+                    startActivity(intent);
+                }
+            });
         }
         // WRITING PROMPTS
         else if (position == 1) {
-            
+
         }
         // FEATURED STORIES
         else if (position == 2) {

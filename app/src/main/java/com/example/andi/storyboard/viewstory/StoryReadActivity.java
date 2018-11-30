@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.main.TabsAdapter;
 import com.example.andi.storyboard.main.TabsFragment;
 
 public class StoryReadActivity extends AppCompatActivity {
