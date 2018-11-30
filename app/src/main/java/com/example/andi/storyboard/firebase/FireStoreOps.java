@@ -278,7 +278,8 @@ public class FireStoreOps {
                                                                             // add that story to our list of stories
                                                                             recentStoriesRead.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
                                                                                     genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
-                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress")));
+                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
+                                                                                    story.get("authorID").toString()));
                                                                             Log.i("getRecentStoriesRead", "retrieved story");
                                                                             mAdapter.notifyDataSetChanged();
                                                                         }
