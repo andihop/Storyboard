@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
+import com.example.andi.storyboard.search.ListUserStoriesActivity;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -212,14 +213,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
+*/
         viewArchive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, StoryArchiveActivity.class));
+                startActivity(new Intent(ProfileActivity.this, ListUserStoriesActivity.class));
             }
         });
-        */
+
     }
 
     @Override

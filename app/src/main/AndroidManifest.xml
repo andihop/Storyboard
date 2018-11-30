@@ -70,6 +70,8 @@
             android:name=".user.StoryArchiveActivity"
             android:label="@string/title_activity_story_archive"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".search.ListUserStoriesActivity"
+            android:label="User Stories" />
     </application>
 
 </manifest>
