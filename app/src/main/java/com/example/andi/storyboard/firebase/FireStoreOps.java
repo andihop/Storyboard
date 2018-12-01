@@ -245,7 +245,7 @@ public class FireStoreOps {
                                     Log.d("updateTopTen", "list size equal to 10!!!");
                                     DocumentSnapshot smallestViewCount = result.get(0);
                                     // since we sorted by ascending order, this should replace the smallest value
-                                    if ((int) smallestViewCount.get("views") < viewCount) {
+                                    if ((long) smallestViewCount.get("views") < viewCount) {
                                         // find the story id in the stories collection
                                         storyMap.put("storyid", documentID);
                                         storyMap.put("views", viewCount);
@@ -886,6 +886,30 @@ public class FireStoreOps {
         );
 
 
+    }
+
+    public static void getAllWritingPrompts(final BaseAdapter mAdapter) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("writing_prompts")
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    writingprompts.clear();
+                                    for (final QueryDocumentSnapshot document : task.getResult()) {
+                                        Log.i("WP", "get writing prompt");
+                                        writingprompts.add(new WritingPrompt(document.get("prompt").toString(), (ArrayList<String>)document.get("categories"), document.getDate("time_posted"),
+                                                document.get("user").toString(), document.get("tag").toString()));
+                                        Log.i("writing prompt", "match");
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                        }
+                );
     }
 
     public static void searchWritingPromptByMultipleGenres(final List<String> genreList, final BaseAdapter mAdapter) {

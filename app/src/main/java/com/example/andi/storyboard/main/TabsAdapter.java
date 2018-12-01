@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class TabsAdapter extends FragmentPagerAdapter{
     private String title[] = {"Recent\nStories", "Writing\nPrompts", "Featured\nStories"};
+    // private String title[] = {"Recent\nStories", "Featured\nStories"};
 
     public TabsAdapter(FragmentManager manager) {
         super(manager);

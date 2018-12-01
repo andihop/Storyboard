@@ -1,8 +1,8 @@
-package com.example.andi.storyboard.create;
+package com.example.andi.storyboard.search;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,31 +11,31 @@ import android.widget.Button;
 
 import com.example.andi.storyboard.R;
 
-public class CreateMaterialChoosingActivity extends AppCompatActivity {
+public class SearchChoosingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_material_choosing);
+        setContentView(R.layout.activity_search_choosing);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(com.example.andi.storyboard.R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button goto_create_story_button = findViewById(R.id.goto_create_story_button);
-        goto_create_story_button.setOnClickListener(new View.OnClickListener() {
+        Button goto_search_story_button = findViewById(R.id.goto_search_story_button);
+        goto_search_story_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), CreateStoryActivity.class);
+                Intent intent = new Intent(getBaseContext(), FilterByGenreSearchActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-        Button goto_create_prompt_button = findViewById(R.id.goto_create_prompt_button);
-        goto_create_prompt_button.setOnClickListener(new View.OnClickListener() {
+        Button goto_search_prompt_button = findViewById(R.id.goto_search_writing_prompts_button);
+        goto_search_prompt_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), WritingPromptActivity.class);
+                Intent intent = new Intent(getBaseContext(), WritingPromptFilterByGenreSearchActivity.class);
                 startActivity(intent);
                 finish();
             }

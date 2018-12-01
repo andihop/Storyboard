@@ -15,12 +15,16 @@ import android.widget.TextView;
 
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
+import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
+import com.example.andi.storyboard.search.WritingPromptResultAdapter;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
+import com.example.andi.storyboard.viewstory.WritingPromptReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TabsFragment extends Fragment {
 
@@ -60,7 +64,7 @@ public class TabsFragment extends Fragment {
         if (position == 0) {
             FireStoreOps.recentStoriesRead.clear();
             ArrayList<Story> recentStoriesRead = FireStoreOps.recentStoriesRead;
-            ListView recent_stories_listview = view.findViewById(R.id.featured_stories_list);
+            ListView recent_stories_listview = view.findViewById(R.id.featured_stories_list_tabs);
 
             final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), recentStoriesRead);
             recent_stories_listview.setAdapter(mAdapter);
@@ -90,13 +94,34 @@ public class TabsFragment extends Fragment {
         }
         // WRITING PROMPTS
         else if (position == 1) {
+            FireStoreOps.writingprompts.clear();
+            ArrayList<WritingPrompt> writing_prompts = FireStoreOps.writingprompts;
+            ListView writing_prompts_listview = view.findViewById(R.id.featured_stories_list_tabs);
+
+            final WritingPromptResultAdapter mAdapter = new WritingPromptResultAdapter(getContext(), writing_prompts);
+            writing_prompts_listview.setAdapter(mAdapter);
+
+            FireStoreOps.getAllWritingPrompts(mAdapter);
+            writing_prompts_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    Intent intent = new Intent(getContext(), WritingPromptReadActivity.class);
+                    intent.putExtra("text", mAdapter.getItem(i).toString());
+                    intent.putExtra("date", mAdapter.getItem(i).getPostedTime().toString());
+
+                    startActivity(intent);
+                }
+            });
+
+
 
         }
         // FEATURED STORIES
         else if (position == 2) {
             FireStoreOps.stories.clear();
             ArrayList<Story> stories = FireStoreOps.stories;
-            ListView featured_stories_listview = view.findViewById(R.id.featured_stories_list);
+            ListView featured_stories_listview = view.findViewById(R.id.featured_stories_list_tabs);
 
             final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), stories);
             featured_stories_listview.setAdapter(mAdapter);

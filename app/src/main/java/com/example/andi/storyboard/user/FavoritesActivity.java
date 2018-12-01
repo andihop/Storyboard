@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
+
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.example.andi.storyboard.R;
@@ -30,6 +32,9 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_display_favorites);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         userHeading = (TextView) findViewById(R.id.toolbar_title);
 
         String toDisplay = FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + "'s FavoritesActivity!";

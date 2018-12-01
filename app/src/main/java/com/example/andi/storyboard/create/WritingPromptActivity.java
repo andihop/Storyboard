@@ -70,7 +70,7 @@ public class WritingPromptActivity extends AppCompatActivity {
                                 mUserGenres.add(which);
                             }
                         } else if (mUserGenres.contains(which)) {
-                            mUserGenres.remove((Integer)which);
+                            mUserGenres.remove((Integer) which);
                         }
                     }
                 });
@@ -80,7 +80,8 @@ public class WritingPromptActivity extends AppCompatActivity {
                 mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String genre = ""; genresToPost.clear();
+                        String genre = "";
+                        genresToPost.clear();
 
                         for (int i = 0; i < mUserGenres.size(); i++) {
                             genre = genre + listGenres[mUserGenres.get(i)];
@@ -172,9 +173,15 @@ public class WritingPromptActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Date currentTime = Calendar.getInstance().getTime();
-                                Timestamp ts = new Timestamp(currentTime);
+                                final Timestamp ts = new Timestamp(currentTime);
 
-                                FireStoreOps.createWritingPrompt(FirebaseAuth.getInstance().getCurrentUser().getUid(), ts, writingPrompt, genresToPost, tag);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // change UI elements here
+                                        FireStoreOps.createWritingPrompt(FirebaseAuth.getInstance().getCurrentUser().getUid(), ts, writingPrompt, genresToPost, tag);
+                                    }
+                                });
 
                                 dialog.dismiss();
 
