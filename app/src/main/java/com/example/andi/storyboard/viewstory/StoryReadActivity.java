@@ -17,6 +17,8 @@ import com.example.andi.storyboard.main.TabsAdapter;
 import com.example.andi.storyboard.main.TabsFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Calendar;
+
 public class StoryReadActivity extends AppCompatActivity {
 
     @Override
@@ -88,6 +90,7 @@ public class StoryReadActivity extends AppCompatActivity {
                 // change UI elements here
                 FireStoreOps.incrementViewCount(getIntent().getStringExtra("documentID"));
                 FireStoreOps.updateTopTen(getIntent().getStringExtra("documentID"), Integer.parseInt(getIntent().getStringExtra("views")) + 1);
+                FireStoreOps.updateRecentStoriesRead(FirebaseAuth.getInstance().getCurrentUser().getUid(), getIntent().getStringExtra("documentID"), Calendar.getInstance().getTime());
             }
         });
         super.onDestroy();

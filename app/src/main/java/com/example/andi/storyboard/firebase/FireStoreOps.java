@@ -89,6 +89,100 @@ public class FireStoreOps {
         );
     }
 
+    // When the user reads a story, the story is added as the most recently read story to their top five most recently read
+    public static void updateRecentStoriesRead(final String userID, final String storyID, final Date dateRead) {
+        Log.d("updateRecentStoriesRead", "starting update");
+        Log.d("updateRecentStoriesRead", "userID " + userID);
+        Log.d("updateRecentStoriesRead", "storyID " + storyID);
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference story = firestore.collection("stories").document(storyID);
+        firestore.collection("authors").document(userID).get().addOnCompleteListener(
+                new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task_user) {
+                        if (task_user.isSuccessful()) {
+                            DocumentSnapshot user = task_user.getResult();
+                            Map<String, Object> updateUser = new HashMap<String, Object>();
+                            List<Map<String, Object>> recents = (List<Map<String, Object>>) user.get("recent_stories");
+                            Map<String, Object> newEntry = new HashMap<String, Object>();
+                            newEntry.put("dateRead", (Date) dateRead);
+                            newEntry.put("storyID", (DocumentReference) story);
+
+                            if (recents != null) {
+                                int j;
+                                boolean alreadyThere = false;
+                                for (j = 0; j < recents.size(); j++) {
+                                    Log.d("updateRecentStoriesRead", "inside loop at " + j);
+                                    Log.d("updateRecentStoriesRead", "storyID " + recents.get(j).get("storyID") + ", update? " + story);
+                                    if (recents.get(j).get("storyID").equals(story)) {
+                                        alreadyThere = true;
+                                        break;
+                                    }
+                                }
+
+                                if (alreadyThere) {
+                                    Log.d("updateRecentStoriesRead", "already exists " + recents.get(j));
+                                    recents.remove(j);
+                                    recents.add(newEntry);
+                                    Log.d("updateRecentStoriesRead", "update, after update: " + recents);
+                                    updateUser.put("recent_stories", recents);
+                                    user.getReference().update(updateUser);
+                                } else {
+
+
+                                    if (recents.size() < 5) {
+                                        // if it doesn't have 5 stories in recents, just add this story
+                                        Log.d("updateRecentStoriesRead", "less than five, adding new entry " + newEntry);
+                                        recents.add(newEntry);
+                                        updateUser.put("recent_stories", recents);
+                                        user.getReference().update(updateUser);
+                                    } else {
+                                        // it already has 5 stories
+                                        // get the oldest read receipt story, remove it
+                                        // add this story to the end of the list
+
+                                        Log.d("updateRecentStoriesRead", "equal to five, finding oldest.");
+
+                                        Date oldestDate = null;
+                                        int oldestEntry = -1;
+                                        int i;
+                                        for (i = 0; i < recents.size(); i++) {
+                                            Map<String, Object> item = recents.get(i);
+                                            if (item != null) {
+                                                long time = ((Date) (item.get("dateRead"))).getTime();
+                                                if (oldestDate == null) {
+                                                    oldestDate = (Date) item.get("dateRead");
+                                                    oldestEntry = i;
+                                                } else {
+                                                    if (time < oldestDate.getTime()) {
+                                                        oldestDate = (Date) item.get("dateRead");
+                                                        oldestEntry = i;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        // we now have the oldest recently read story
+                                        Log.d("updateRecentStoriesRead", "removing " + recents.get(oldestEntry));
+                                        recents.remove(oldestEntry);
+                                        Log.d("updateRecentStoriesRead", "adding entry " + newEntry);
+                                        recents.add(newEntry);
+                                        updateUser.put("recent_stories", recents);
+                                        user.getReference().update(updateUser);
+                                    }
+                                }
+                            } else {
+                                Log.d("updateRecentStoriesRead", "adding recent_stories field to " + user.getId());
+                                // add the new field "recent_stories" to the author's info
+                                List<Map<String, Object>> newRecentStoriesField = new ArrayList<>();
+                                newRecentStoriesField.add(newEntry);
+                                updateUser.put("recent_stories", newRecentStoriesField);
+                                user.getReference().update(updateUser);
+                            }
+                        }
+                    }
+                });
+    }
+
     //When a story is selected and read from the search, increment view count by using this method:
     public static void updateTopTen(final String documentID, final int viewCount) {
         Log.d("updateTopTen", "starting update");
@@ -230,139 +324,7 @@ public class FireStoreOps {
     //Pass in user ID via auth.getCurrentUser().getUid()
     //Pass in auth as well, so only if current user = profile user the private stories are returned.
     //otherwise, only public ones are returned.
-    //Returns at most 5 most recently read stories in the stories list.
-    public static void getRecentStoriesRead(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
-        Log.d("getRecentStoriesRead", "in getRecentStoriesRead");
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        final DocumentReference authorRef = firestore.collection("authors").document(userID);
-
-        Log.d("getRecentStoriesRead", "attempt?");
-        Log.d("getRecentStoriesRead", "" + authorRef);
-
-        firestore.collection("authors").document(userID).get().addOnCompleteListener(
-                new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_user) {
-                        if (task_user.isSuccessful()) {
-                            DocumentSnapshot user = task_user.getResult();
-                            Log.d("getRecentStoriesRead", user.get("username") + " -> " + user.getData());
-                            recentStoriesRead.clear();
-
-                            final List<DocumentReference> recents = (List<DocumentReference>) user.get("recent_stories");
-                            if (recents != null) {
-                                for (DocumentReference recentStory : recents) {
-                                    if (recentStory != null) {
-                                        // try to dereference the story
-                                        recentStory.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_story) {
-                                                if (task_story.isSuccessful()) {
-                                                    final DocumentSnapshot story = task_story.getResult();
-                                                    Log.d("getRecentStoriesRead", "story " + story.getId() + " => " + story.getData());
-                                                    story.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
-                                                            //we have dereferenced the author of a story.
-                                                            if (task_author.isSuccessful()) {
-                                                                final DocumentSnapshot author = task_author.getResult();
-                                                                Log.d("getRecentStoriesRead", "author " + author.getId() + " => " + author.getData());
-                                                                //get the genre of the story.
-                                                                ((List<DocumentReference>) story.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_genre) {
-                                                                        //we have dereferenced the generes of a story
-                                                                        if (task_genre.isSuccessful()) {
-                                                                            final DocumentSnapshot genre = task_genre.getResult();
-                                                                            Log.d("getRecentStoriesRead", "genre " + genre.getId() + " => " + genre.getData());
-                                                                            // add that story to our list of stories
-                                                                            recentStoriesRead.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
-                                                                                    genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
-                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
-                                                                                    author.getId().toString()));
-                                                                            Log.i("getRecentStoriesRead", "retrieved story");
-                                                                            mAdapter.notifyDataSetChanged();
-                                                                        }
-
-                                                                        // public static Story story = new Story("", "", "", "", "", 0, new Date(), new Date(), "", true, true, "");
-                                                                    }
-                                                                });
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                                // end for loop for getting all recent stories
-
-                            }
-                        }
-                    }
-                });
-    }
-
-//
-//                    if (recents != null) {
-//                        for (DocumentReference refs : recents) {
-//                            if (refs != null) {
-//                                refs.get().addOnCompleteListener(
-//                                        new OnCompleteListener<DocumentSnapshot>() {
-//                                            @Override
-//                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_refs) {
-//                                                // we have dereferenced a story.
-//                                                if (task_refs.isSuccessful()) {
-//                                                    // get the author
-//                                                    final DocumentSnapshot story = task_refs.getResult();
-//                                                    Log.d("getRecentStoriesRead", story.getId() + " => " + story.getData());
-
-//                                                    story.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                                        @Override
-//                                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
-//                                                            //we have dereferenced the author of a story.
-//                                                            if (task_author.isSuccessful()) {
-//                                                                final DocumentSnapshot author = task_author.getResult();
-//                                                                Log.d("getRecentStoriesRead", author.getId() + " => " + author.getData());
-//                                                                //get the genre of the story.
-//                                                                ((List<DocumentReference>) story.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                                                    @Override
-//                                                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_genre) {
-//                                                                        //we have dereferenced the generes of a story
-//                                                                        if (task_genre.isSuccessful()) {
-//                                                                            final DocumentSnapshot genre = task_genre.getResult();
-//                                                                            Log.d("getRecentStoriesRead", genre.getId() + " => " + genre.getData());
-//                                                                            // add that story to our list of stories
-//                                                                            recentStoriesRead.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
-//                                                                                    genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
-//                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
-//                                                                                    story.get("authorID").toString()));
-//                                                                            Log.i("getRecentStoriesRead", "retrieved story");
-//                                                                            mAdapter.notifyDataSetChanged();
-//                                                                        }
-//                                                                    }
-//                                                                });
-//                                                            }
-//                                                        }
-//                                                    });
-//                                                }
-//                                            }
-//                                        }
-//                                );
-//                            }
-//                        }
-//                    }
-//
-//                } else {
-//                    Log.d("getRecentStoriesRead", "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
-
-
-    //Pass in user ID via auth.getCurrentUser().getUid()
-    //Pass in auth as well, so only if current user = profile user the private stories are returned.
-    //otherwise, only public ones are returned.
-    //Returns at most 5 most recentlyupdated stories in the static stories list.
+    //Returns at most 5 most recently updated stories in the static stories list.
     public static void getRecentUserStories(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         DocumentReference authorRef = firestore.collection("authors").document(userID);
@@ -527,6 +489,78 @@ public class FireStoreOps {
                             }
                         } else {
                             Log.d("getTopTenStories", "Error getting documents: ", task_get_top_ten.getException());
+                        }
+                    }
+                });
+    }
+
+    //Pass in user ID via auth.getCurrentUser().getUid()
+    //Returns at most 5 most recently read stories in the stories list.
+    public static void getRecentStoriesRead(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
+        Log.d("getRecentStoriesRead", "in getRecentStoriesRead");
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference authorRef = firestore.collection("authors").document(userID);
+
+        Log.d("getRecentStoriesRead", "attempt?");
+        Log.d("getRecentStoriesRead", "" + authorRef);
+
+        firestore.collection("authors").document(userID).get().addOnCompleteListener(
+                new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_user) {
+                        if (task_user.isSuccessful()) {
+                            DocumentSnapshot user = task_user.getResult();
+                            Log.d("getRecentStoriesRead", user.get("username") + " -> " + user.getData());
+                            recentStoriesRead.clear();
+
+                            final List<Map<String, Object>> recents = (List<Map<String, Object>>) user.get("recent_stories");
+                            if (recents != null) {
+                                for (Map<String, Object> recentStoryEntry : recents) {
+                                    if (recentStoryEntry != null) {
+                                        DocumentReference recentStory = (DocumentReference)recentStoryEntry.get("storyID");
+                                        // try to dereference the story
+                                        recentStory.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_story) {
+                                                if (task_story.isSuccessful()) {
+                                                    final DocumentSnapshot story = task_story.getResult();
+                                                    Log.d("getRecentStoriesRead", "story " + story.getId() + " => " + story.getData());
+                                                    story.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+                                                            //we have dereferenced the author of a story.
+                                                            if (task_author.isSuccessful()) {
+                                                                final DocumentSnapshot author = task_author.getResult();
+                                                                Log.d("getRecentStoriesRead", "author " + author.getId() + " => " + author.getData());
+                                                                //get the genre of the story.
+                                                                ((List<DocumentReference>) story.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_genre) {
+                                                                        //we have dereferenced the generes of a story
+                                                                        if (task_genre.isSuccessful()) {
+                                                                            final DocumentSnapshot genre = task_genre.getResult();
+                                                                            Log.d("getRecentStoriesRead", "genre " + genre.getId() + " => " + genre.getData());
+                                                                            // add that story to our list of stories
+                                                                            recentStoriesRead.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
+                                                                                    genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
+                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
+                                                                                    author.getId().toString()));
+                                                                            Log.i("getRecentStoriesRead", "retrieved story");
+                                                                            mAdapter.notifyDataSetChanged();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                // end for loop for getting all recent stories
+
+                            }
                         }
                     }
                 });
