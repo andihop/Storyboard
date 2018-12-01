@@ -237,70 +237,78 @@ public class FireStoreOps {
         final DocumentReference authorRef = firestore.collection("authors").document(userID);
 
         Log.d("getRecentStoriesRead", "attempt?");
+        Log.d("getRecentStoriesRead", "" + authorRef);
 
-        authorRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        firestore.collection("authors").document(userID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    recentStoriesRead.clear();
-                    DocumentSnapshot author = task.getResult();
-                    Log.d("getRecentStoriesRead", author.getId() + " => " + author.getData());
-
-                    final List<DocumentReference> recents = (List<DocumentReference>) author.get("recent_stories");
-
-                    if (recents != null) {
-                        for (DocumentReference refs : recents) {
-                            if (refs != null) {
-                                refs.get().addOnCompleteListener(
-                                        new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_refs) {
-                                                // we have dereferenced a story.
-                                                if (task_refs.isSuccessful()) {
-                                                    // get the author
-                                                    final DocumentSnapshot story = task_refs.getResult();
-                                                    Log.d("getRecentStoriesRead", story.getId() + " => " + story.getData());
-                                                    story.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
-                                                            //we have dereferenced the author of a story.
-                                                            if (task_author.isSuccessful()) {
-                                                                final DocumentSnapshot author = task_author.getResult();
-                                                                Log.d("getRecentStoriesRead", author.getId() + " => " + author.getData());
-                                                                //get the genre of the story.
-                                                                ((List<DocumentReference>) story.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_genre) {
-                                                                        //we have dereferenced the generes of a story
-                                                                        if (task_genre.isSuccessful()) {
-                                                                            final DocumentSnapshot genre = task_genre.getResult();
-                                                                            Log.d("getRecentStoriesRead", genre.getId() + " => " + genre.getData());
-                                                                            // add that story to our list of stories
-                                                                            recentStoriesRead.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
-                                                                                    genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
-                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
-                                                                                    story.get("authorID").toString()));
-                                                                            Log.i("getRecentStoriesRead", "retrieved story");
-                                                                            mAdapter.notifyDataSetChanged();
-                                                                        }
-                                                                    }
-                                                                });
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        }
-                                );
-                            }
-                        }
-                    }
-
-                } else {
-                    Log.d("getRecentStoriesRead", "Error getting documents: ", task.getException());
-                }
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d("getRecentStoriesRead", "" + documentSnapshot.get("username"));
             }
         });
+
+//        firestore.collection("authors").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
+//                if (task.isComplete()) {
+//                    recentStoriesRead.clear();
+//                    DocumentSnapshot author = task.getResult();
+//                    Log.d("getRecentStoriesRead", author.getId() + " => " + author.getData());
+//
+//                    final List<DocumentReference> recents = (List<DocumentReference>) author.get("recent_stories");
+//
+//                    if (recents != null) {
+//                        for (DocumentReference refs : recents) {
+//                            if (refs != null) {
+//                                refs.get().addOnCompleteListener(
+//                                        new OnCompleteListener<DocumentSnapshot>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_refs) {
+//                                                // we have dereferenced a story.
+//                                                if (task_refs.isSuccessful()) {
+//                                                    // get the author
+//                                                    final DocumentSnapshot story = task_refs.getResult();
+//                                                    Log.d("getRecentStoriesRead", story.getId() + " => " + story.getData());
+//                                                    story.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                                        @Override
+//                                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+//                                                            //we have dereferenced the author of a story.
+//                                                            if (task_author.isSuccessful()) {
+//                                                                final DocumentSnapshot author = task_author.getResult();
+//                                                                Log.d("getRecentStoriesRead", author.getId() + " => " + author.getData());
+//                                                                //get the genre of the story.
+//                                                                ((List<DocumentReference>) story.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                                                    @Override
+//                                                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_genre) {
+//                                                                        //we have dereferenced the generes of a story
+//                                                                        if (task_genre.isSuccessful()) {
+//                                                                            final DocumentSnapshot genre = task_genre.getResult();
+//                                                                            Log.d("getRecentStoriesRead", genre.getId() + " => " + genre.getData());
+//                                                                            // add that story to our list of stories
+//                                                                            recentStoriesRead.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
+//                                                                                    genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
+//                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
+//                                                                                    story.get("authorID").toString()));
+//                                                                            Log.i("getRecentStoriesRead", "retrieved story");
+//                                                                            mAdapter.notifyDataSetChanged();
+//                                                                        }
+//                                                                    }
+//                                                                });
+//                                                            }
+//                                                        }
+//                                                    });
+//                                                }
+//                                            }
+//                                        }
+//                                );
+//                            }
+//                        }
+//                    }
+//
+//                } else {
+//                    Log.d("getRecentStoriesRead", "Error getting documents: ", task.getException());
+//                }
+//            }
+//        });
     }
 
 
