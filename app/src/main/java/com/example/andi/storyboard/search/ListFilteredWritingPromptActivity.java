@@ -26,6 +26,7 @@ public class ListFilteredWritingPromptActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_list_filtered_stories);
+        FireStoreOps.writingprompts.clear();
         ArrayList<WritingPrompt> writing_prompts = FireStoreOps.writingprompts;
         ListView resultsList = findViewById(R.id.stories_result_list);
 

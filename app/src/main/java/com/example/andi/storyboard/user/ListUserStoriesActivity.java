@@ -1,4 +1,4 @@
-package com.example.andi.storyboard.search;
+package com.example.andi.storyboard.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
+import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -25,6 +26,7 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_list_filtered_stories);
+        FireStoreOps.stories.clear();
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 

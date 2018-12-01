@@ -58,6 +58,7 @@ public class TabsFragment extends Fragment {
 
         // RECENT STORIES
         if (position == 0) {
+            FireStoreOps.recentStoriesRead.clear();
             ArrayList<Story> recentStoriesRead = FireStoreOps.recentStoriesRead;
             ListView recent_stories_listview = view.findViewById(R.id.featured_stories_list);
 
@@ -79,6 +80,9 @@ public class TabsFragment extends Fragment {
                     intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
                     intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
                     intent.putExtra("in_progress", mAdapter.getItem(i).getIn_Progress());
+                    intent.putExtra("is_private", mAdapter.getItem(i).getIs_Private());
+                    intent.putExtra("genre", mAdapter.getItem(i).getGenre());
+                    intent.putExtra("userID", mAdapter.getItem(i).getAuthorID());
 
                     startActivity(intent);
                 }
@@ -90,6 +94,7 @@ public class TabsFragment extends Fragment {
         }
         // FEATURED STORIES
         else if (position == 2) {
+            FireStoreOps.stories.clear();
             ArrayList<Story> stories = FireStoreOps.stories;
             ListView featured_stories_listview = view.findViewById(R.id.featured_stories_list);
 
@@ -120,4 +125,6 @@ public class TabsFragment extends Fragment {
             });
         }
     }
+
+
 }
