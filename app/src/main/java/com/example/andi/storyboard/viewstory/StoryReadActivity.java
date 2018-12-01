@@ -87,7 +87,7 @@ public class StoryReadActivity extends AppCompatActivity {
             public void run(){
                 // change UI elements here
                 FireStoreOps.incrementViewCount(getIntent().getStringExtra("documentID"));
-                //FireStoreOps.updateTopTen(getIntent().getStringExtra("documentID"), Integer.parseInt(getIntent().getStringExtra("views")) + 1);
+                FireStoreOps.updateTopTen(getIntent().getStringExtra("documentID"), Integer.parseInt(getIntent().getStringExtra("views")) + 1);
             }
         });
         super.onDestroy();
