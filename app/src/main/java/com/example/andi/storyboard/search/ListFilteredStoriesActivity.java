@@ -1,6 +1,8 @@
 package com.example.andi.storyboard.search;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
@@ -79,13 +82,45 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Intent intent;
+        AlertDialog.Builder alert = new AlertDialog.Builder(ListFilteredStoriesActivity.this);
 
-        switch (item.getItemId()) {
+        switch (id) {
             case R.id.action_settings:
                 return true;
-            case android.R.id.home:
+            case R.id.back_button:
                 finish();
+                break;
+            case R.id.about_us:
+                alert.setTitle("About Us");
+                alert.setMessage(R.string.about_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
+            case R.id.contact_us:
+                alert.setTitle("Contact Us");
+                alert.setMessage(R.string.contact_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

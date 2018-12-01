@@ -1,7 +1,9 @@
 package com.example.andi.storyboard.user;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
+import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -41,7 +44,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
 
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -138,7 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_side_activity, menu);
         return true;
     }
 
@@ -148,10 +150,39 @@ public class ProfileActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent intent;
+        AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.back_button:
+                finish();
+                break;
+            case R.id.about_us:
+                alert.setTitle("About Us");
+                alert.setMessage(R.string.about_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
+            case R.id.contact_us:
+                alert.setTitle("Contact Us");
+                alert.setMessage(R.string.contact_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,8 +1,10 @@
 package com.example.andi.storyboard.search;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.main.MainActivity;
 import com.example.andi.storyboard.R;
 
@@ -120,12 +123,38 @@ public class WritingPromptFilterByGenreSearchActivity extends AppCompatActivity 
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Intent intent;
+        AlertDialog.Builder alert = new AlertDialog.Builder(WritingPromptFilterByGenreSearchActivity.this);
 
-        switch(id) {
+        switch (id) {
             case R.id.action_settings:
                 return true;
             case R.id.back_button:
                 finish();
+                break;
+            case R.id.about_us:
+                alert.setTitle("About Us");
+                alert.setMessage(R.string.about_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
+            case R.id.contact_us:
+                alert.setTitle("Contact Us");
+                alert.setMessage(R.string.contact_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

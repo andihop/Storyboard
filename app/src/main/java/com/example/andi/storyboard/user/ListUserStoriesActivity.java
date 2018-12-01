@@ -1,8 +1,12 @@
 package com.example.andi.storyboard.user;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +16,7 @@ import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
+import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -31,7 +36,8 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
         ListView resultsList = findViewById(R.id.stories_result_list);
 
         setTitle("User Archive");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         mAdapter = new StoriesResultAdapter(getApplicationContext(), stories);
 
@@ -59,16 +65,6 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
-
-        //Test Query
-        //FireStoreOps.createStory("Sample 2", "Sample Text","null", "4hQDx7MZsoTvwdOp8EEB");
-        //FireStoreOps.searchByRef("stories","authors","S4TEFok6UlrLTa64RHv3", "Author", mAdapter);
-        //FireStoreOps.getAllStories(mAdapter);
-
-        //FireStoreOps.getStory("iIU7KOxtGTsUZ9LeKS5v",mAdapter);
-        //FireStoreOps.createStory("Sample 3", "Sample Text 3","null", "4hQDx7MZsoTvwdOp8EEB", "sample summary");
-        //FireStoreOps.editStory("iIU7KOxtGTsUZ9LeKS5v", null, null, "science fiction" , "new summary");
-        //FireStoreOps.getStory("iIU7KOxtGTsUZ9LeKS5v",mAdapter);
     }
 
     @Override
@@ -78,13 +74,53 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_side_activity, menu);
+        return true;
+    }
 
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Intent intent;
+        AlertDialog.Builder alert = new AlertDialog.Builder(ListUserStoriesActivity.this);
+
+        switch (id) {
+            case R.id.action_settings:
                 return true;
+            case R.id.back_button:
+                finish();
+                break;
+            case R.id.about_us:
+                alert.setTitle("About Us");
+                alert.setMessage(R.string.about_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
+            case R.id.contact_us:
+                alert.setTitle("Contact Us");
+                alert.setMessage(R.string.contact_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
