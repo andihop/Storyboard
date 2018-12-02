@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class FireStoreOps {
     public static ArrayList<Story> stories = new ArrayList<>();
+    public static ArrayList<Story> favoriteStories = new ArrayList<>();
     public static ArrayList<Story> featuredProfileStories = new ArrayList<>();
     public static ArrayList<Story> recentProfileStories = new ArrayList<>();
     public static ArrayList<Story> recentStoriesRead = new ArrayList<>();
@@ -262,6 +263,82 @@ public class FireStoreOps {
                         }
                     }
                 });
+    }
+
+    //Pass in user ID via auth.getCurrentUser().getUid()
+    //Pass in auth as well, so only if current user = profile user the private stories are returned.
+    //otherwise, only public ones are returned.
+    public static void getFavoriteStories(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
+        Log.d("getFavoriteStories", "in getFavoriteStories");
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final DocumentReference authorRef = firestore.collection("favorites").document(userID);
+
+        Log.d("getFavoriteStories", "attempt?");
+
+        authorRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    favoriteStories.clear();
+                    DocumentSnapshot author = task.getResult();
+                    Log.d("getFavoriteStories", author.getId() + " => " + author.getData());
+
+                    final List<DocumentReference> recents = (List<DocumentReference>) author.get("stories");
+
+                    if (recents != null) {
+                        for (DocumentReference refs : recents) {
+                            if (refs != null) {
+                                refs.get().addOnCompleteListener(
+                                        new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_refs) {
+                                                // we have dereferenced a story.
+                                                if (task_refs.isSuccessful()) {
+                                                    // get the author
+                                                    final DocumentSnapshot story = task_refs.getResult();
+                                                    Log.d("getFavoriteStories", story.getId() + " => " + story.getData());
+                                                    story.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+                                                            //we have dereferenced the author of a story.
+                                                            if (task_author.isSuccessful()) {
+                                                                final DocumentSnapshot author = task_author.getResult();
+                                                                Log.d("getFavoriteStories", author.getId() + " => " + author.getData());
+                                                                //get the genre of the story.
+                                                                ((List<DocumentReference>) story.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_genre) {
+                                                                        //we have dereferenced the generes of a story
+                                                                        if (task_genre.isSuccessful()) {
+                                                                            final DocumentSnapshot genre = task_genre.getResult();
+                                                                            Log.d("getFavoriteStories", genre.getId() + " => " + genre.getData());
+                                                                            // add that story to our list of stories
+                                                                            favoriteStories.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
+                                                                                    genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
+                                                                                    story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
+                                                                                    story.get("authorID").toString()));
+                                                                            Log.i("getFavoriteStories", "retrieved story");
+                                                                            mAdapter.notifyDataSetChanged();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        }
+                                );
+                            }
+                        }
+                    }
+
+                } else {
+                    Log.d("getFavoriteStories", "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     //Pass in user ID via auth.getCurrentUser().getUid()

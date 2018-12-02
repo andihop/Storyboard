@@ -19,7 +19,7 @@ import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.create.WritingPromptActivity;
 import com.example.andi.storyboard.login.LoginActivity;
 import com.example.andi.storyboard.search.SearchChoosingActivity;
-import com.example.andi.storyboard.user.FavoritesActivity;
+import com.example.andi.storyboard.user.FavoritesMain;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.view_favorites:
-                intent = new Intent(getBaseContext(), FavoritesActivity.class);
+                intent = new Intent(getBaseContext(), FavoritesMain.class);
                 startActivity(intent);
                 break;
             case R.id.about_us:

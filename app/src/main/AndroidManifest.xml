@@ -73,7 +73,7 @@
             android:name=".EditStoryActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".user.FavoritesActivity"
+            android:name=".user.FavoritesMain"
             android:label="Favorites"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
