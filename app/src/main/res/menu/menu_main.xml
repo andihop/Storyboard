@@ -26,20 +26,20 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/signout_button"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:orderInCategory="400"
-        android:title="Sign Out"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/about_us"
-        android:orderInCategory="500"
+        android:orderInCategory="400"
         android:title="About Us"
         app:showAsAction="never" />
     <item
         android:id="@+id/contact_us"
-        android:orderInCategory="600"
+        android:orderInCategory="500"
         android:title="Contact Us"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/signout_button"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:orderInCategory="600"
+        android:title="Sign Out"
+        app:showAsAction="ifRoom" />
 
 </menu>
