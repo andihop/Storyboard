@@ -59,7 +59,7 @@ public class FavoritesFragment extends Fragment {
             FireStoreOps.favoriteStories.clear();
             ArrayList<Story> favoriteStories = FireStoreOps.favoriteStories;
             // says R.id.featured_stories_list to reference the list view in fragment_tabs.xml
-            ListView favorite_stories_listview = view.findViewById(R.id.featured_stories_list);
+            ListView favorite_stories_listview = view.findViewById(R.id.featured_stories_list_tabs);
 
             final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), favoriteStories);
             favorite_stories_listview.setAdapter(mAdapter);
@@ -92,7 +92,7 @@ public class FavoritesFragment extends Fragment {
             FireStoreOps.favoriteStories.clear();
             //NEED TO CHANGE. COPY FROM POSITION 0 SET FOR TESTING PURPOSES ONLY
             ArrayList<Story> favoriteStories = FireStoreOps.favoriteStories;
-            ListView favorite_stories_listview = view.findViewById(R.id.featured_stories_list);
+            ListView favorite_stories_listview = view.findViewById(R.id.featured_stories_list_tabs);
 
             final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), favoriteStories);
             favorite_stories_listview.setAdapter(mAdapter);
