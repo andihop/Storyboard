@@ -1,7 +1,9 @@
 package com.example.andi.storyboard.create;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -9,19 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-
 import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.main.MainActivity;
 
 public class CreateMaterialChoosingActivity extends AppCompatActivity {
 
-//    FirebaseAuth auth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        auth = FirebaseAuth.getInstance();
-//        if (auth.getCurrentUser() == null) {
-//            finish();
-//        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_material_choosing);
 
@@ -35,7 +31,6 @@ public class CreateMaterialChoosingActivity extends AppCompatActivity {
                 Intent intent = new Intent(getBaseContext(), CreateStoryActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -46,7 +41,6 @@ public class CreateMaterialChoosingActivity extends AppCompatActivity {
                 Intent intent = new Intent(getBaseContext(), WritingPromptActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -66,12 +60,38 @@ public class CreateMaterialChoosingActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Intent intent;
+        AlertDialog.Builder alert = new AlertDialog.Builder(CreateMaterialChoosingActivity.this);
 
-        switch(id) {
+        switch (id) {
             case R.id.action_settings:
                 return true;
             case R.id.back_button:
                 finish();
+                break;
+            case R.id.about_us:
+                alert.setTitle("About Us");
+                alert.setMessage(R.string.about_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
+            case R.id.contact_us:
+                alert.setTitle("Contact Us");
+                alert.setMessage(R.string.contact_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

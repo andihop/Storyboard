@@ -1,20 +1,20 @@
-package com.example.andi.storyboard.main;
+package com.example.andi.storyboard.user;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class TabsAdapter extends FragmentPagerAdapter{
-    private String title[] = {"Recent\nStories", "Writing\nPrompts", "Featured\nStories"};
-    // private String title[] = {"Recent\nStories", "Featured\nStories"};
 
-    public TabsAdapter(FragmentManager manager) {
+public class FavoritesAdapter extends FragmentPagerAdapter {
+    private String title[] = {"Stories", "Prompts"};
+
+    public FavoritesAdapter(FragmentManager manager) {
         super(manager);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return TabsFragment.getInstance(position);
+        return FavoritesFragment.getInstance(position);
     }
 
     @Override

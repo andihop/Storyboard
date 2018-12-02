@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,14 +8,28 @@
     tools:context=".user.ProfileActivity">
 
     <RelativeLayout
+        android:name="@+id/topbarprofilepage"
         android:layout_width="match_parent"
-        android:layout_height="235dp">
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay" >
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+
+        </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
             android:background="@drawable/profile_bg_header"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="235dp">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appbar" >
 
             <ImageView
                 android:id="@+id/profilepic"
@@ -72,8 +84,8 @@
                 <View
                     android:layout_gravity="center"
                     android:weightSum="3"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_width="1dp"
                     android:layout_height="40dp"
                     android:background="#d9d9d9" />
@@ -102,59 +114,22 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-<!--        <android.support.v7.widget.CardView
-            android:id="@+id/infoBar"
-
-            android:layout_marginTop="170dp"
-            android:layout_centerHorizontal="true"
-            android:backgroundTint="#FFF"
-            android:layout_width="300dp"
-            android:layout_height="80dp">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:text="Subscribers"
-                        android:textColor="#313131"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        tools:text="230"
-                        android:textStyle="bold"
-                        android:textSize="24dp"
-                        android:textColor="#313131"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>-->
     </RelativeLayout>
 
     <!--Stories-->
-    <ScrollView
+
+    <com.example.andi.storyboard.util.VerticalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" >
+
         <LinearLayout
             android:layout_gravity="center"
             android:background="@color/white"
             android:orientation="vertical"
-            android:layout_marginTop="70dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="40dp"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
 
             <!--Featured stories-->
             <LinearLayout
@@ -182,83 +157,14 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="100dp">
 
-                <HorizontalScrollView
+                <ListView
                     android:id="@+id/featured_stories_list"
-                    android:fillViewport="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_above="@id/featured_stories_header"
-                    android:layout_marginBottom="5dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fadeScrollbars="false" />
 
-                    <LinearLayout
-                        android:visibility="visible"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/featured_story_1"
-                            tools:text="Featured 1"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/featured_story_2"
-                            tools:text="Featured 2"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/featured_story_3"
-                            tools:text="Featured 3"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/featured_story_4"
-                            tools:text="Featured 4"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/featured_story_5"
-                            tools:text="Featured 5"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-                </HorizontalScrollView>
             </LinearLayout>
 
             <View
@@ -296,83 +202,13 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <HorizontalScrollView
+                android:layout_height="100dp">
+                <ListView
                     android:id="@+id/recent_stories_list"
-                    android:fillViewport="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_above="@id/featured_stories_header"
-                    android:layout_marginBottom="5dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fadeScrollbars="false"/>
 
-                    <LinearLayout
-                        android:visibility="visible"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/recent_story_1"
-                            tools:text="Recent 1"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/recent_story_2"
-                            tools:text="Recent 2"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/recent_story_3"
-                            tools:text="Recent 3"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/recent_story_4"
-                            tools:text="Recent 4"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:id="@+id/recent_story_5"
-                            tools:text="Recent 5"
-                            android:autoSizeTextType="uniform"
-                            android:clickable="true"
-                            android:background="@drawable/profile_story_border"
-                            android:gravity="center"
-                            android:padding="15dp"
-                            android:layout_marginRight="15dp"
-                            android:layout_width="90dp"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-                </HorizontalScrollView>
             </LinearLayout>
 
             <View
@@ -411,7 +247,9 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="30dp"
                     android:layout_height="35dp" />
+
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.example.andi.storyboard.util.VerticalScrollView>
+
 </LinearLayout>

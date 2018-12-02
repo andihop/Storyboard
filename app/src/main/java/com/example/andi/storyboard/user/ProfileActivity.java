@@ -1,28 +1,26 @@
 package com.example.andi.storyboard.user;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
+import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
+import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -47,128 +45,96 @@ public class ProfileActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-
         setContentView(R.layout.activity_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
         username = (TextView) findViewById(R.id.username);
-        setTitle(username + "'s Profile");
         numSubscribers = (TextView) findViewById(R.id.numSubscribers);
         numStories = (TextView) findViewById(R.id.numStories);
-
-        ArrayList<Story> stories = FireStoreOps.stories;
-        //featuredStoryList = findViewById(R.id.featured_stories_list);
         //recentStoryList = findViewById(R.id.recent_stories_list);
-
-        mAdapter = new StoriesResultAdapter(getApplicationContext(), stories);
-
-        feature_1 = (TextView) findViewById(R.id.featured_story_1);
-        feature_2 = (TextView) findViewById(R.id.featured_story_2);
-        feature_3 = (TextView) findViewById(R.id.featured_story_3);
-        feature_4 = (TextView) findViewById(R.id.featured_story_4);
-        feature_5 = (TextView) findViewById(R.id.featured_story_5);
-        recent_1 = (TextView) findViewById(R.id.recent_story_1);
-        recent_2 = (TextView) findViewById(R.id.recent_story_2);
-        recent_3 = (TextView) findViewById(R.id.recent_story_3);
-        recent_4 = (TextView) findViewById(R.id.recent_story_4);
-        recent_5 = (TextView) findViewById(R.id.recent_story_5);
-        propic = (ImageView) findViewById(R.id.profilepic);
         viewArchive = (Button) findViewById(R.id.btn_story_archive);
-
-
 
         //Set the username, # subscribers and # stories
         username.setText(auth.getCurrentUser().getDisplayName());
         //numSubscribers
         //numStories.setText(auth.getCurrentUser().collection("stories").size());
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(username.getText() + "'s Profile");
 
-//        featuredStoryList.setAdapter(mAdapter);
-//
-//        FireStoreOps.getFeaturedUserStories(auth.getCurrentUser().getUid(), auth, mAdapter);
-//        featuredStoryList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        FireStoreOps.featuredProfileStories.clear();
+        ArrayList<Story> stories = FireStoreOps.featuredProfileStories;
 
-        feature_1.setOnClickListener(new View.OnClickListener() {
+        FireStoreOps.recentProfileStories.clear();
+        ArrayList<Story> recentStories = FireStoreOps.recentProfileStories;
+
+        featuredStoryList = findViewById(R.id.featured_stories_list);
+        recentStoryList = findViewById(R.id.recent_stories_list);
+
+        final StoriesResultAdapter mAdapter = new StoriesResultAdapter(this, stories);
+        featuredStoryList.setAdapter(mAdapter);
+
+        FireStoreOps.getFeaturedUserStories(auth.getCurrentUser().getUid(),auth, mAdapter);
+        featuredStoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            }
-        });
-        feature_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, StoryReadActivity.class);
+                intent.putExtra("title", mAdapter.getItem(i).getTitle());
+                intent.putExtra("author", mAdapter.getItem(i).getAuthorName());
+                intent.putExtra("text", mAdapter.getItem(i).getText());
+                intent.putExtra("summary", mAdapter.getItem(i).getSummary());
+                intent.putExtra("views", "" + mAdapter.getItem(i).getViews());
+                intent.putExtra("created_on", mAdapter.getItem(i).getCreated_On().toString());
+                intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
+                intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
+                intent.putExtra("in_progress", mAdapter.getItem(i).getIn_Progress());
+                intent.putExtra("is_private", mAdapter.getItem(i).getIs_Private());
+                intent.putExtra("genre", mAdapter.getItem(i).getGenre());
+                intent.putExtra("userID", mAdapter.getItem(i).getAuthorID());
 
-            }
-        });
-        feature_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        feature_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        feature_5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+                startActivity(intent);
             }
         });
 
-        recent_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        final StoriesResultAdapter mRecentAdapter = new StoriesResultAdapter(this, recentStories);
+        recentStoryList.setAdapter(mRecentAdapter);
 
+        FireStoreOps.getRecentUserStories(auth.getCurrentUser().getUid(),auth, mRecentAdapter);
+        recentStoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent = new Intent(ProfileActivity.this, StoryReadActivity.class);
+                intent.putExtra("title", mAdapter.getItem(i).getTitle());
+                intent.putExtra("author", mAdapter.getItem(i).getAuthorName());
+                intent.putExtra("text", mAdapter.getItem(i).getText());
+                intent.putExtra("summary", mAdapter.getItem(i).getSummary());
+                intent.putExtra("views", "" + mAdapter.getItem(i).getViews());
+                intent.putExtra("created_on", mAdapter.getItem(i).getCreated_On().toString());
+                intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
+                intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
+                intent.putExtra("in_progress", mAdapter.getItem(i).getIn_Progress());
+                intent.putExtra("is_private", mAdapter.getItem(i).getIs_Private());
+                intent.putExtra("genre", mAdapter.getItem(i).getGenre());
+                intent.putExtra("userID", mAdapter.getItem(i).getAuthorID());
+
+                startActivity(intent);
             }
         });
-        recent_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        recent_3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        recent_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        recent_5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
 
         viewArchive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, StoryArchiveActivity.class));
+                startActivity(new Intent(ProfileActivity.this, ListUserStoriesActivity.class));
             }
         });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_side_activity, menu);
         return true;
     }
 
@@ -178,10 +144,39 @@ public class ProfileActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent intent;
+        AlertDialog.Builder alert = new AlertDialog.Builder(ProfileActivity.this);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.back_button:
+                finish();
+                break;
+            case R.id.about_us:
+                alert.setTitle("About Us");
+                alert.setMessage(R.string.about_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
+            case R.id.contact_us:
+                alert.setTitle("Contact Us");
+                alert.setMessage(R.string.contact_us);
+                alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

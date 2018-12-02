@@ -1,10 +1,10 @@
-package com.example.andi.storyboard.search;
+package com.example.andi.storyboard.user;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,16 +12,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
+import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
-import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.search.StoriesResultAdapter;
+import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class ListFilteredStoriesActivity extends AppCompatActivity  {
+public class ListUserStoriesActivity extends AppCompatActivity  {
 
     StoriesResultAdapter mAdapter;
 
@@ -30,20 +31,19 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_list_filtered_stories);
-        Toolbar toolbar = (Toolbar) findViewById(com.example.andi.storyboard.R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         FireStoreOps.stories.clear();
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 
-        setTitle("Story Result");
+        setTitle("User Archive");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         mAdapter = new StoriesResultAdapter(getApplicationContext(), stories);
 
         resultsList.setAdapter(mAdapter);
 
-        FireStoreOps.searchByMultipleGenres(getIntent().getStringArrayListExtra("genre_filters"), mAdapter);
+        FireStoreOps.getUserStories(FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance(), mAdapter);
         resultsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -87,7 +87,7 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Intent intent;
-        AlertDialog.Builder alert = new AlertDialog.Builder(ListFilteredStoriesActivity.this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(ListUserStoriesActivity.this);
 
         switch (id) {
             case R.id.action_settings:

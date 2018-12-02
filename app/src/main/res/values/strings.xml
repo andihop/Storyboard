@@ -223,4 +223,22 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
+    <string name="about_us">
+        "We are a team of engineers that got our start at the University of Maryland. By mere "
+        "happenstance, we all took CMSC436, an Android Development course, in the fall semester "
+        "of 2018. Thrown together on a team a mere month and a half before final projects were due, "
+        "the team worked hard and pulled some late nights working through the bugs and lines of "
+        "Android code. Even with all the work they had to put into the project, they enjoyed their "
+        "time working together, and hope to continue this project after the class. \n"
+
+        "\nTeam:"
+        "\n\tAndrew Cheung\n\tCarlos Garcia\n\tAndi Hopkins\n\tMichael Huang\n\tJee Kang\n\tJoseph Thomas\n\n"
+    </string>
+
+    <string name="contact_us">
+        "Contact us at: storyboard@email.com \n\nVisit our github page at: "
+        "https://github.com/andihop/Storyboard \n\n"
+    </string>
+
+
 </resources>

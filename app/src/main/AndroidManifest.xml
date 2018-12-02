@@ -21,7 +21,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".create.WritingPromptActivity"
-            android:label="@string/title_writing_prompt" />
+            android:label="@string/title_writing_prompt"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/app_name">
@@ -31,8 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".search.ListFilteredStoriesActivity" />
-        <activity android:name=".search.ListFilteredWritingPromptActivity" />
+        <activity
+            android:name=".search.ListFilteredStoriesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".search.ListFilteredWritingPromptActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".login.SignupActivity"
             android:label="Sign up" />
@@ -54,7 +59,9 @@
         <activity
             android:name=".viewstory.WritingPromptReadActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".viewstory.StoryCommentsActivity" />
+        <activity
+            android:name=".viewstory.StoryCommentsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".create.CreateStoryActivity"
             android:label="Create Story"
@@ -62,14 +69,24 @@
         <activity
             android:name=".login.ResetPasswordActivity"
             android:label="Reset Password" />
-        <activity android:name=".EditStoryActivity" />
+        <activity
+            android:name=".EditStoryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".user.FavoritesMain"
+            android:label="Favorites"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".user.ProfileActivity"
-            android:label="User Profile" />
+            android:label="User Profile"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".user.StoryArchiveActivity"
-            android:label="@string/title_activity_story_archive"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".user.ListUserStoriesActivity"
+            android:label="User Stories"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".search.SearchChoosingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

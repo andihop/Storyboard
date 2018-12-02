@@ -3,14 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".main.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/back_button"
+        android:icon="?attr/actionModeCloseDrawable"
         android:orderInCategory="100"
+        android:title="Back"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="200"
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/back_button"
-        android:icon="?attr/actionModeCloseDrawable"
-        android:orderInCategory="200"
-        android:title="Back"
-        app:showAsAction="always" />
+        android:id="@+id/about_us"
+        android:orderInCategory="500"
+        android:title="About Us"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/contact_us"
+        android:orderInCategory="600"
+        android:title="Contact Us"
+        app:showAsAction="never" />
+
+
 </menu>
