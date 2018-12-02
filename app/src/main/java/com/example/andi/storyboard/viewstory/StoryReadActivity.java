@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.andi.storyboard.EditStoryActivity;
@@ -41,11 +42,46 @@ public class StoryReadActivity extends AppCompatActivity {
             inProg = "In Progress";
         }
         FloatingActionButton editButton = (FloatingActionButton) findViewById(R.id.edit_button);
+        Button viewProfile = findViewById(R.id.view_profile);
 
         if (getIntent().getStringExtra("userID").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             editButton.setVisibility(View.VISIBLE);
+            viewProfile.setVisibility(View.INVISIBLE);
+
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getBaseContext(), EditStoryActivity.class);
+                    // TODO: intent filter to get the list of comments for current story being read
+                    intent.putExtra("title", getIntent().getStringExtra("title"));
+                    intent.putExtra("documentID", getIntent().getStringExtra("documentID"));
+                    intent.putExtra("summary", getIntent().getStringExtra("summary"));
+                    intent.putExtra("text", getIntent().getStringExtra("text"));
+                    intent.putExtra("genre", getIntent().getStringExtra("genre"));
+                    intent.putExtra("is_private", getIntent().getStringExtra("is_private"));
+                    intent.putExtra("in_progress", getIntent().getBooleanExtra("in_progress", true));
+                    startActivity(intent);
+
+                }
+            });
+
         } else {
             editButton.setVisibility(View.INVISIBLE);
+            viewProfile.setVisibility(View.VISIBLE);
+            viewProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(StoryReadActivity.this, ProfileActivity.class);
+                    intent.putExtra("username", getIntent().getStringExtra("author"));
+                    intent.putExtra("uid", getIntent().getStringExtra("userID"));
+                    startActivity(intent);
+                    finish();
+
+                    //Subscribe to author
+
+                }
+            });
+
         }
 
         str = "By " + getIntent().getStringExtra("author") + "\nCreated on " + getIntent().getStringExtra("created_on") + "\nLast update on " + getIntent().getStringExtra("last_update")
@@ -67,24 +103,7 @@ public class StoryReadActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), EditStoryActivity.class);
-                // TODO: intent filter to get the list of comments for current story being read
-                intent.putExtra("title", getIntent().getStringExtra("title"));
-                intent.putExtra("documentID", getIntent().getStringExtra("documentID"));
-                intent.putExtra("summary", getIntent().getStringExtra("summary"));
-                intent.putExtra("text", getIntent().getStringExtra("text"));
-                intent.putExtra("genre", getIntent().getStringExtra("genre"));
-                intent.putExtra("is_private", getIntent().getStringExtra("is_private"));
-                intent.putExtra("in_progress", getIntent().getBooleanExtra("in_progress", true));
-                startActivity(intent);
 
-
-
-            }
-        });
     }
 
     @Override
