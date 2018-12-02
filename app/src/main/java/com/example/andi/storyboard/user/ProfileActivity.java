@@ -46,13 +46,20 @@ public class ProfileActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         setContentView(R.layout.activity_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         username = (TextView) findViewById(R.id.username);
-        setTitle(username + "'s Profile");
         numSubscribers = (TextView) findViewById(R.id.numSubscribers);
         numStories = (TextView) findViewById(R.id.numStories);
+        //recentStoryList = findViewById(R.id.recent_stories_list);
+        viewArchive = (Button) findViewById(R.id.btn_story_archive);
+
+        //Set the username, # subscribers and # stories
+        username.setText(auth.getCurrentUser().getDisplayName());
+        //numSubscribers
+        //numStories.setText(auth.getCurrentUser().collection("stories").size());
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(username.getText() + "'s Profile");
 
         FireStoreOps.featuredProfileStories.clear();
         ArrayList<Story> stories = FireStoreOps.featuredProfileStories;
@@ -114,19 +121,6 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-        //recentStoryList = findViewById(R.id.recent_stories_list);
-
-
-        viewArchive = (Button) findViewById(R.id.btn_story_archive);
-
-        //Set the username, # subscribers and # stories
-        username.setText(auth.getCurrentUser().getDisplayName());
-        //numSubscribers
-        //numStories.setText(auth.getCurrentUser().collection("stories").size());
 
         viewArchive.setOnClickListener(new View.OnClickListener() {
             @Override
