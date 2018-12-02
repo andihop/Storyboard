@@ -79,6 +79,11 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_writing_prompt">Writing Prompt</string>
+    <string name="featured_stories">Featured Stories</string>
+    <string name="subscribers">Subscribers</string>
+    <string name="stories">Stories</string>
+    <string name="recent_stories">Recent Stories</string>
+    <string name="archive">Archive</string>
 
 
     <!-- Genres to select in dialog box for writing prompt activity -->
