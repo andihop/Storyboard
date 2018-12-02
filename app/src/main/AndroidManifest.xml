@@ -71,7 +71,7 @@
             android:label="Reset Password" />
         <activity
             android:name=".EditStoryActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".user.FavoritesActivity"
             android:label="Favorites"
@@ -84,7 +84,8 @@
             android:name=".user.ListUserStoriesActivity"
             android:label="User Stories"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".search.SearchChoosingActivity"
+        <activity
+            android:name=".search.SearchChoosingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
