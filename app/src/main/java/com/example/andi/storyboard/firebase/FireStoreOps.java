@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class FireStoreOps {
     public static ArrayList<Story> stories = new ArrayList<>();
     public static ArrayList<Story> favoriteStories = new ArrayList<>();
+    public static ArrayList<WritingPrompt> favoritePrompts = new ArrayList<>();
     public static ArrayList<Story> featuredProfileStories = new ArrayList<>();
     public static ArrayList<Story> recentProfileStories = new ArrayList<>();
     public static ArrayList<Story> recentStoriesRead = new ArrayList<>();
@@ -268,7 +269,7 @@ public class FireStoreOps {
     //Pass in user ID via auth.getCurrentUser().getUid()
     //Pass in auth as well, so only if current user = profile user the private stories are returned.
     //otherwise, only public ones are returned.
-    public static void getFavoriteStories(final String userID, final FirebaseAuth auth, final BaseAdapter mAdapter) {
+    public static void getFavoriteStories(final String userID, final BaseAdapter mAdapter) {
         Log.d("getFavoriteStories", "in getFavoriteStories");
 
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -284,10 +285,10 @@ public class FireStoreOps {
                     DocumentSnapshot author = task.getResult();
                     Log.d("getFavoriteStories", author.getId() + " => " + author.getData());
 
-                    final List<DocumentReference> recents = (List<DocumentReference>) author.get("stories");
+                    final List<DocumentReference> storyRefs = (List<DocumentReference>) author.get("stories");
 
-                    if (recents != null) {
-                        for (DocumentReference refs : recents) {
+                    if (storyRefs != null) {
+                        for (DocumentReference refs : storyRefs) {
                             if (refs != null) {
                                 refs.get().addOnCompleteListener(
                                         new OnCompleteListener<DocumentSnapshot>() {
@@ -317,7 +318,7 @@ public class FireStoreOps {
                                                                             favoriteStories.add(new Story(story.get("title").toString(), author.get("username").toString(), story.get("text").toString(),
                                                                                     genre.get("type").toString(), story.get("summary").toString(), story.getLong("views"), story.getDate("Created_On"),
                                                                                     story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
-                                                                                    story.get("authorID").toString()));
+                                                                                    userID));
                                                                             Log.i("getFavoriteStories", "retrieved story");
                                                                             mAdapter.notifyDataSetChanged();
                                                                         }
@@ -336,6 +337,62 @@ public class FireStoreOps {
 
                 } else {
                     Log.d("getFavoriteStories", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    //Pass in user ID via auth.getCurrentUser().getUid()
+    //Pass in auth as well, so only if current user = profile user the private stories are returned.
+    //otherwise, only public ones are returned.
+    public static void getFavoritePrompts(final String userID, final BaseAdapter mAdapter) {
+        Log.d("getFavoritePrompts", "in getFavoritePrompts");
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        // favoritesRef is the path favorites/'user reference' in fire store, basically the path for the specific user's favorites
+        final DocumentReference favoritesRef = firestore.collection("favorites").document(userID);
+
+        Log.d("getFavoritePrompts", "attempt?");
+
+        favoritesRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    favoritePrompts.clear();
+                    DocumentSnapshot authorsFavorites = task.getResult();
+                    Log.d("getFavoritePrompts", authorsFavorites.getId() + " => " + authorsFavorites.getData());
+
+                    final List<DocumentReference> prompts = (List<DocumentReference>) authorsFavorites.get("prompts");
+
+                    if (prompts != null) {
+                        for (DocumentReference refs : prompts) {
+                            if (refs != null) {
+                                refs.get().addOnCompleteListener(
+                                        new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull final Task<DocumentSnapshot> task_refs) {
+                                                // we have dereferenced a prompt.
+                                                if (task_refs.isSuccessful()) {
+                                                    // get the prompt
+                                                    final DocumentSnapshot promptRef = task_refs.getResult();
+                                                    Log.d("getFavoritePrompts", promptRef.getId() + " => " + promptRef.getData());
+
+                                                    // add that prompt to our list of prompts
+                                                    favoritePrompts.add(new WritingPrompt(promptRef.get("prompt").toString(), (ArrayList<String>) promptRef.get("categories"), promptRef.getDate("time_posted"),
+                                                            promptRef.get("user").toString(), promptRef.get("tag").toString()));
+                                                    Log.i("getFavoritePrompts", "retrieved prompt");
+                                                    mAdapter.notifyDataSetChanged();
+                                                }
+                                            }
+                                        }
+                                );
+                            }
+                        }
+                    }
+
+                } else {
+                    Log.d("getFavoritePrompts", "Error getting documents: ", task.getException());
                 }
             }
         });

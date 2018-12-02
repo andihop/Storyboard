@@ -13,9 +13,12 @@ import android.widget.ListView;
 
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.datatype.Story;
+import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
+import com.example.andi.storyboard.search.WritingPromptResultAdapter;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
+import com.example.andi.storyboard.viewstory.WritingPromptReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -64,7 +67,7 @@ public class FavoritesFragment extends Fragment {
             final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), favoriteStories);
             favorite_stories_listview.setAdapter(mAdapter);
 
-            FireStoreOps.getFavoriteStories(auth.getCurrentUser().getUid(), auth, mAdapter);
+            FireStoreOps.getFavoriteStories(auth.getCurrentUser().getUid(), mAdapter);
             favorite_stories_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -89,25 +92,21 @@ public class FavoritesFragment extends Fragment {
         }
         // FAVORITE PROMPTS
         else if (position == 1) {
-            FireStoreOps.favoriteStories.clear();
-            //NEED TO CHANGE. COPY FROM POSITION 0 SET FOR TESTING PURPOSES ONLY
-            ArrayList<Story> favoriteStories = FireStoreOps.favoriteStories;
-            ListView favorite_stories_listview = view.findViewById(R.id.featured_stories_list_tabs);
+            FireStoreOps.favoritePrompts.clear();
+            ArrayList<WritingPrompt> favoritePrompts = FireStoreOps.favoritePrompts;
+            ListView favorite_prompts_listview = view.findViewById(R.id.featured_stories_list_tabs);
 
-            final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), favoriteStories);
-            favorite_stories_listview.setAdapter(mAdapter);
+            final WritingPromptResultAdapter mAdapter = new WritingPromptResultAdapter(getContext(), favoritePrompts);
+            favorite_prompts_listview.setAdapter(mAdapter);
 
-            FireStoreOps.getFavoriteStories(auth.getCurrentUser().getUid(), auth, mAdapter);
-            favorite_stories_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            FireStoreOps.getFavoritePrompts(auth.getCurrentUser().getUid(), mAdapter);
+            favorite_prompts_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Intent intent = new Intent(getContext(), StoryReadActivity.class);
-                    intent.putExtra("title", mAdapter.getItem(i).getTitle());
-                    intent.putExtra("author", mAdapter.getItem(i).getAuthorName());
-                    intent.putExtra("text", mAdapter.getItem(i).getText());
-                    intent.putExtra("summary", mAdapter.getItem(i).getSummary());
-                    intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
+                    Intent intent = new Intent(getContext(), WritingPromptReadActivity.class);
+                    intent.putExtra("text", mAdapter.getItem(i).toString());
+                    intent.putExtra("date", mAdapter.getItem(i).getPostedTime().toString());
 
                     startActivity(intent);
                 }
