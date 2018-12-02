@@ -229,7 +229,7 @@ public class FireStoreOps {
                                     Log.d("updateTopTen", "list size less than 10!!!");
                                     Map<String, Object> newRef = new HashMap<String, Object>();
 
-                                    newRef.put("storyid", storyid);
+                                    newRef.put("storyid", (DocumentReference)storyid);
                                     newRef.put("views", viewCount);
                                     firestore.collection("toptenstories").add(newRef)
                                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -247,7 +247,7 @@ public class FireStoreOps {
                                     // since we sorted by ascending order, this should replace the smallest value
                                     if ((long) smallestViewCount.get("views") < viewCount) {
                                         // find the story id in the stories collection
-                                        storyMap.put("storyid", documentID);
+                                        storyMap.put("storyid", (DocumentReference)storyid);
                                         storyMap.put("views", viewCount);
                                         Log.d("updateTopTen", "need to update item");
                                         smallestViewCount.getReference().update(storyMap).addOnSuccessListener(new OnSuccessListener<Void>() {
