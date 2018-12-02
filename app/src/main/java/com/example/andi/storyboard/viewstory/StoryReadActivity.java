@@ -1,5 +1,6 @@
 package com.example.andi.storyboard.viewstory;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,27 +8,57 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.andi.storyboard.EditStoryActivity;
+import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.main.TabsAdapter;
 import com.example.andi.storyboard.main.TabsFragment;
+import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class StoryReadActivity extends AppCompatActivity {
+
+    ScaleAnimation scaleAnimation;
+    BounceInterpolator bounceInterpolator;
+    ToggleButton buttonFavorite;
+    StoriesResultAdapter mAdapter;
+
+    FirebaseFirestore firestore;
+    DocumentReference favoritesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firestore = FirebaseFirestore.getInstance();
+        ArrayList<Story> favoriteStories = FireStoreOps.favoriteStories;
+        mAdapter = new StoriesResultAdapter(getApplicationContext(), favoriteStories);
+        FireStoreOps.getFavoritePrompts(FirebaseAuth.getInstance().getCurrentUser().getUid(), mAdapter);
 
         setContentView(R.layout.activity_story_read);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -35,6 +66,49 @@ public class StoryReadActivity extends AppCompatActivity {
 
         String str = getIntent().getStringExtra("title");
         getSupportActionBar().setTitle(str);
+
+        // favorites button
+        buttonFavorite = (ToggleButton) findViewById(R.id.btn_favorite);
+
+        // if story is already in user's favorites, set checked status to true
+        Boolean storyIsInFavorites = false;
+
+        for (int i = 0; i < favoriteStories.size(); i++) {
+            if (favoriteStories.get(i).getDocumentID().equals(getIntent().getStringExtra("documentID"))) {
+                storyIsInFavorites = true;
+                break;
+            }
+        }
+
+        if (storyIsInFavorites) {
+            buttonFavorite.setChecked(true);
+        } else {
+            buttonFavorite.setChecked(false);
+        }
+
+        // animation to make the favorites button bounce when clicked
+        scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+        scaleAnimation.setDuration(500);
+        bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+        buttonFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                //animation
+                compoundButton.startAnimation(scaleAnimation);
+
+                favoritesRef = firestore.collection("favorites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                // add to favorites, remove from favorites
+                if (isChecked) {
+                    favoritesRef.update("stories", FieldValue.arrayUnion(firestore.collection("stories").document(getIntent().getStringExtra("documentID"))));
+                    Toast.makeText(getApplicationContext(), "Story added to favorites!", Toast.LENGTH_SHORT).show();
+                } else {
+                    favoritesRef.update("stories", FieldValue.arrayRemove(firestore.collection("stories").document(getIntent().getStringExtra("documentID"))));
+                    Toast.makeText(getApplicationContext(), "Story removed from favorites.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         String inProg = "Completed!";
         if (getIntent().getBooleanExtra("in_progress", true)) {
