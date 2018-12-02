@@ -58,7 +58,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                
+
                 <LinearLayout
                     android:layout_gravity="center"
                     android:orientation="vertical"
@@ -252,7 +252,17 @@
                     android:layout_width="30dp"
                     android:layout_height="35dp" />
 
+
             </LinearLayout>
+            <Button
+                android:id="@+id/subscribeButton"
+                android:layout_marginStart="5dp"
+                android:background="@color/colorAccent"
+                android:text="Subscribe!"
+                android:textColor="@color/white"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="35dp" />
         </LinearLayout>
     </com.example.andi.storyboard.util.VerticalScrollView>
 
