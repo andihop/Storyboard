@@ -28,6 +28,7 @@
             android:background="@drawable/profile_bg_header"
             android:orientation="vertical"
             android:layout_marginBottom="20dp"
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/appbar" >
@@ -258,7 +259,7 @@
                 android:id="@+id/subscribeButton"
                 android:layout_marginStart="5dp"
                 android:background="@color/colorAccent"
-                android:text="Subscribe!"
+                android:text="Subscribe to this Author"
                 android:textColor="@color/white"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"

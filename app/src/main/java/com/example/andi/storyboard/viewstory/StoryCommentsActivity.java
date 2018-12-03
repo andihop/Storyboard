@@ -23,6 +23,7 @@ import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.search.*;
 import com.example.andi.storyboard.user.ProfileActivity;
+import com.example.andi.storyboard.user.SettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import android.view.inputmethod.InputMethodManager;
 
@@ -138,7 +139,9 @@ public class StoryCommentsActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;

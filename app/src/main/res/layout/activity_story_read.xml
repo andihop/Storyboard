@@ -61,8 +61,8 @@
         android:layout_margin="20dp"
         android:background="@android:color/transparent"
         android:clickable="true"
-        android:paddingTop="50dp"
-        android:text="View Profile"
+        android:paddingTop="60dp"
+        android:text="View Author Profile"
         android:textColor="@android:color/white"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="top|right" />

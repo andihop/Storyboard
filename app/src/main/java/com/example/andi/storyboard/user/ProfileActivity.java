@@ -185,6 +185,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         Button subscribe = findViewById(R.id.subscribeButton);
+
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
