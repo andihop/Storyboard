@@ -1,6 +1,5 @@
 package com.example.andi.storyboard.viewstory;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +22,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.andi.storyboard.create.EditStoryActivity;
-import com.example.andi.storyboard.EditStoryActivity;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
-import com.example.andi.storyboard.main.TabsAdapter;
-import com.example.andi.storyboard.main.TabsFragment;
-import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,12 +34,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
