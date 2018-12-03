@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class ListUserStoriesActivity extends AppCompatActivity  {
 
     StoriesResultAdapter mAdapter;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,9 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 
-        setTitle("User Archive");
+        auth = FirebaseAuth.getInstance();
+
+        setTitle("Stories by " + auth.getCurrentUser().getDisplayName());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -91,7 +94,9 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;

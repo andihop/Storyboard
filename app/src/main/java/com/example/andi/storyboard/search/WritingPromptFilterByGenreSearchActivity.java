@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.main.MainActivity;
 import com.example.andi.storyboard.R;
+import com.example.andi.storyboard.user.SettingsActivity;
 
 import java.util.ArrayList;
 
@@ -127,7 +128,9 @@ public class WritingPromptFilterByGenreSearchActivity extends AppCompatActivity 
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;

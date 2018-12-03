@@ -24,6 +24,7 @@ import com.example.andi.storyboard.search.SearchChoosingActivity;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.user.FavoritesMain;
 import com.example.andi.storyboard.user.ProfileActivity;
+import com.example.andi.storyboard.user.SettingsActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 //Jee Kang Query database edits
@@ -145,7 +146,9 @@ public class MainActivity extends AppCompatActivity {
         //I forgot to add a commit message
         switch(id) {
             case com.example.andi.storyboard.R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case com.example.andi.storyboard.R.id.search_button:
                 intent = new Intent(getBaseContext(), SearchChoosingActivity.class);
                 startActivityForResult(intent, SEARCH_STORIES_REQUEST);

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.andi.storyboard.main.MainActivity;
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.firebase.FireStoreOps;
+import com.example.andi.storyboard.user.SettingsActivity;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -93,7 +94,9 @@ public class CreateStoryActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;

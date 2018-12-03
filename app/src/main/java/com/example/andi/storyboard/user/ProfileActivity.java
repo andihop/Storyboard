@@ -3,9 +3,11 @@ package com.example.andi.storyboard.user;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,20 +23,38 @@ import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.search.WritingPromptFilterByGenreSearchActivity;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Document;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.reflect.Array.getLength;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private final String TAG = "ProfileActivity";
     private TextView username, numSubscribers, numStories;
-    private TextView feature_1, feature_2, feature_3, feature_4, feature_5;
-    private TextView recent_1, recent_2, recent_3, recent_4, recent_5;
     private ImageView propic;
     private FirebaseAuth auth;
+    FirebaseFirestore db;
     private Button viewArchive;
     StoriesResultAdapter mAdapter;
+    private ArrayList<String> storiesList;
     private ListView featuredStoryList;
     private ListView recentStoryList;
     private String user;
@@ -44,8 +64,9 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Get Firebase auth instance
+        //Firebase
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         String userTemp = getIntent().getStringExtra("username");
         String uidTemp = getIntent().getStringExtra("uid");
 
@@ -62,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         username = (TextView) findViewById(R.id.username);
         numSubscribers = (TextView) findViewById(R.id.numSubscribers);
         numStories = (TextView) findViewById(R.id.numStories);
-        //recentStoryList = findViewById(R.id.recent_stories_list);
+
         viewArchive = (Button) findViewById(R.id.btn_story_archive);
 
         //Set the username, # subscribers and # stories
@@ -138,6 +159,47 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        CollectionReference storiesList = db.collection("authors");
+        DocumentReference docRef = db.collection("authors").document(auth.getCurrentUser().getUid());
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                int storyCount = 0;
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    if (doc.exists()) {
+                        List<DocumentReference> list = (List<DocumentReference>) doc.get("stories");
+
+                        if (list == null) {
+                            numStories.setText("0");
+                        } else {
+                            numStories.setText("" + list.size());
+                        }
+
+                    }
+
+                }
+            }
+        });
+
+        CollectionReference subscriberList = db.collection("subscription");
+        subscriberList.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int subscriberCount = 0;
+
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        if (doc.get("author").equals(auth.getCurrentUser().getUid())) {
+                            subscriberCount++;
+                        }
+                    }
+                    numSubscribers.setText("" + subscriberCount);
+                }
+            }
+        });
+
         viewArchive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +208,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         Button subscribe = findViewById(R.id.subscribeButton);
+
         subscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +235,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;
