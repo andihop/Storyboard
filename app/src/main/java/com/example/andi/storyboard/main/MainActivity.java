@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.create.WritingPromptActivity;
+import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.login.LoginActivity;
 import com.example.andi.storyboard.search.SearchChoosingActivity;
+import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.user.FavoritesMain;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.example.andi.storyboard.user.SettingsActivity;
@@ -66,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
         tabsPager = (ViewPager) findViewById(R.id.tabspager);
         adapter = new TabsAdapter(getSupportFragmentManager());
         tabsPager.setAdapter(adapter);
+
+        // need this code here to prefill favoriteStories and favoritePrompts
+        // so we can decide whether or not to activate the favorites icon in
+        // the StoryReadActivity view and the WritingPromptReadActivity, respectively
+        FireStoreOps.favoriteStories.clear();
+        FireStoreOps.getFavoriteStories(auth.getCurrentUser().getUid(), null);
+        FireStoreOps.favoritePrompts.clear();
+        FireStoreOps.getFavoritePrompts(auth.getCurrentUser().getUid(), null);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(tabsPager);

@@ -107,6 +107,8 @@ public class FavoritesFragment extends Fragment {
                     Intent intent = new Intent(getContext(), WritingPromptReadActivity.class);
                     intent.putExtra("text", mAdapter.getItem(i).toString());
                     intent.putExtra("date", mAdapter.getItem(i).getPostedTime().toString());
+                    intent.putExtra("author", mAdapter.getItem(i).getPrompt_author());
+                    intent.putExtra("prompt", mAdapter.getItem(i).getText());
 
                     startActivity(intent);
                 }

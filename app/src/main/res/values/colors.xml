@@ -18,4 +18,6 @@
     <color name="btn_login_bg">#eceef1</color>
     <color name="lbl_name">#333333</color>
     <color name="btn_logut_bg">#ff6861</color>
+    <color name="btn_favorite_gold">#FFD700</color>
+    <color name="btn_favorite_grey">#696969</color>
 </resources>

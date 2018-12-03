@@ -8,7 +8,7 @@
     tools:context=".user.ProfileActivity">
 
     <RelativeLayout
-        android:name="@+id/topbarprofilepage"
+        android:id="@+id/topbarprofilepage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

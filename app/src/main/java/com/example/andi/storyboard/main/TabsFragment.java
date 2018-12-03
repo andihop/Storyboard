@@ -69,6 +69,9 @@ public class TabsFragment extends Fragment {
             final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), recentStoriesRead);
             recent_stories_listview.setAdapter(mAdapter);
 
+            FireStoreOps.favoriteStories.clear();
+            FireStoreOps.getFavoriteStories(auth.getCurrentUser().getUid(), mAdapter);
+
             FireStoreOps.getRecentStoriesRead(auth.getCurrentUser().getUid(), auth, mAdapter);
             recent_stories_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -101,6 +104,9 @@ public class TabsFragment extends Fragment {
             final WritingPromptResultAdapter mAdapter = new WritingPromptResultAdapter(getContext(), writing_prompts);
             writing_prompts_listview.setAdapter(mAdapter);
 
+            FireStoreOps.favoritePrompts.clear();
+            FireStoreOps.getFavoritePrompts(auth.getCurrentUser().getUid(), mAdapter);
+
             FireStoreOps.getAllWritingPrompts(mAdapter);
             writing_prompts_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -109,6 +115,8 @@ public class TabsFragment extends Fragment {
                     Intent intent = new Intent(getContext(), WritingPromptReadActivity.class);
                     intent.putExtra("text", mAdapter.getItem(i).toString());
                     intent.putExtra("date", mAdapter.getItem(i).getPostedTime().toString());
+                    intent.putExtra("author", mAdapter.getItem(i).getPrompt_author());
+                    intent.putExtra("prompt", mAdapter.getItem(i).getText());
 
                     startActivity(intent);
                 }
@@ -125,6 +133,9 @@ public class TabsFragment extends Fragment {
 
             final StoriesResultAdapter mAdapter = new StoriesResultAdapter(getContext(), stories);
             featured_stories_listview.setAdapter(mAdapter);
+
+            FireStoreOps.favoriteStories.clear();
+            FireStoreOps.getFavoriteStories(auth.getCurrentUser().getUid(), mAdapter);
 
             FireStoreOps.getTopTenStories(mAdapter);
             featured_stories_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

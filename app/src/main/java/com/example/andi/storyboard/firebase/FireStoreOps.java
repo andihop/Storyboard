@@ -420,7 +420,7 @@ public class FireStoreOps {
                                                                                     story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
                                                                                     userID));
                                                                             Log.i("getFavoriteStories", "retrieved story");
-                                                                            mAdapter.notifyDataSetChanged();
+                                                                            if (mAdapter != null) mAdapter.notifyDataSetChanged();
                                                                         }
                                                                     }
                                                                 });
@@ -482,7 +482,7 @@ public class FireStoreOps {
                                                     favoritePrompts.add(new WritingPrompt(promptRef.get("prompt").toString(), (ArrayList<String>) promptRef.get("categories"), promptRef.getDate("time_posted"),
                                                             promptRef.get("user").toString(), promptRef.get("tag").toString()));
                                                     Log.i("getFavoritePrompts", "retrieved prompt");
-                                                    mAdapter.notifyDataSetChanged();
+                                                    if (mAdapter != null) mAdapter.notifyDataSetChanged();
                                                 }
                                             }
                                         }
