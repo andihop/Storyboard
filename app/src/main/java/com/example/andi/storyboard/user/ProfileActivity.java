@@ -67,7 +67,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Set the username, # subscribers and # stories
         username.setText(user);
-        //numSubscribers
+        FireStoreOps.storyCountArr.clear();
+        FireStoreOps.getSubNum(uid,numSubscribers);
+        FireStoreOps.getStoryNum(uid,auth, numStories);
+
         //numStories.setText(auth.getCurrentUser().collection("stories").size());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
