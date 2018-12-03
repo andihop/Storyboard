@@ -118,15 +118,13 @@ public class WritingPromptReadActivity extends AppCompatActivity {
                                 ArrayList<DocumentReference> prompts = new ArrayList<>();
                                 Map<String, Object> favorites = new HashMap<>();
                                 favorites.put("prompts", prompts);
-                                favoritesRef.set(favorites);
+                                favoritesRef.set(favorites, SetOptions.merge());
                             }
                         }
-                    }
-                });
 
-                firestore.collection("writing_prompts")
-                        .whereEqualTo("prompt", getIntent().getStringExtra("prompt"))
-                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        firestore.collection("writing_prompts")
+                                .whereEqualTo("prompt", getIntent().getStringExtra("prompt"))
+                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -149,6 +147,8 @@ public class WritingPromptReadActivity extends AppCompatActivity {
                                     }
                                 }
                             }
+                        });
+                    }
                 });
             }
         });

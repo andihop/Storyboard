@@ -33,6 +33,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,7 +91,7 @@ public class StoryReadActivity extends AppCompatActivity {
         scaleAnimation.setInterpolator(bounceInterpolator);
         buttonFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton compoundButton, final boolean isChecked) {
                 //animation
                 compoundButton.startAnimation(scaleAnimation);
 
@@ -105,24 +106,24 @@ public class StoryReadActivity extends AppCompatActivity {
                                 ArrayList<DocumentReference> prompts = new ArrayList<>();
                                 Map<String, Object> favorites = new HashMap<>();
                                 favorites.put("stories", prompts);
-                                favoritesRef.set(favorites);
+                                favoritesRef.set(favorites, SetOptions.merge());
                             }
+                        }
+
+                        // add to favorites, remove from favorites
+                        if (isChecked) {
+                            favoritesRef.update("stories",
+                                    FieldValue.arrayUnion(firestore.collection("stories")
+                                            .document(getIntent().getStringExtra("documentID"))));
+                            Toast.makeText(getApplicationContext(), "Story added to favorites!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            favoritesRef.update("stories",
+                                    FieldValue.arrayRemove(firestore.collection("stories")
+                                            .document(getIntent().getStringExtra("documentID"))));
+                            Toast.makeText(getApplicationContext(), "Story removed from favorites.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-                // add to favorites, remove from favorites
-                if (isChecked) {
-                    favoritesRef.update("stories",
-                            FieldValue.arrayUnion(firestore.collection("stories")
-                                    .document(getIntent().getStringExtra("documentID"))));
-                    Toast.makeText(getApplicationContext(), "Story added to favorites!", Toast.LENGTH_SHORT).show();
-                } else {
-                    favoritesRef.update("stories",
-                            FieldValue.arrayRemove(firestore.collection("stories")
-                                    .document(getIntent().getStringExtra("documentID"))));
-                    Toast.makeText(getApplicationContext(), "Story removed from favorites.", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
