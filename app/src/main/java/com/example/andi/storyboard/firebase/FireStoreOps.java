@@ -78,6 +78,18 @@ public class FireStoreOps {
     };
 
     public static void subscribe(final String authorID, final Context mContext) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        if (authorID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            handler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, "You cannot subscribe to yourself!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return;
+        }
+
         final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         final Map<String, Object> subMap = new HashMap<String, Object>();
         subMap.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
