@@ -92,7 +92,7 @@ public class FireStoreOps {
 
         authors.clear();
 
-        firestore.collection("subscription").whereEqualTo("uid", uid)
+        firestore.collection("subscription").whereEqualTo("author", uid)
                 .get()
                 .addOnCompleteListener(
                         new OnCompleteListener<QuerySnapshot>() {
