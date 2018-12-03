@@ -24,6 +24,7 @@ import com.example.andi.storyboard.create.CreateStoryActivity;
 import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.user.ProfileActivity;
+import com.example.andi.storyboard.user.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -186,7 +187,9 @@ public class WritingPromptReadActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;

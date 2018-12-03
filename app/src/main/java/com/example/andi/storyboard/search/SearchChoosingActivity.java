@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
+import com.example.andi.storyboard.user.SettingsActivity;
 
 public class SearchChoosingActivity extends AppCompatActivity {
 
@@ -64,7 +65,9 @@ public class SearchChoosingActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;
