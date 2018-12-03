@@ -34,6 +34,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
@@ -165,14 +167,32 @@ public class ProfileActivity extends AppCompatActivity {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
                         List<DocumentReference> list = (List<DocumentReference>) doc.get("stories");
-                        storyCount = list.size();
 
-                        numStories.setText("" + storyCount);
-                        for (DocumentReference ref : list) {
-                            Log.i(TAG, "Story : " + ref);
+                        if (list == null) {
+                            numStories.setText("0");
+                        } else {
+                            numStories.setText("" + list.size());
                         }
+
                     }
 
+                }
+            }
+        });
+
+        CollectionReference subscriberList = db.collection("subscription");
+        subscriberList.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int subscriberCount = 0;
+
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        if (doc.get("author").equals(auth.getCurrentUser().getUid())) {
+                            subscriberCount++;
+                        }
+                    }
+                    numSubscribers.setText("" + subscriberCount);
                 }
             }
         });
