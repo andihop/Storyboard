@@ -38,6 +38,7 @@ public class StoryCommentsActivity extends AppCompatActivity {
         ListView resultsList = findViewById(R.id.comment_list);
 
         setTitle(getIntent().getStringExtra("Comments"));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
