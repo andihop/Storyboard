@@ -145,32 +145,23 @@ public class FireStoreOps {
                                     @Override
                                     public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
                                         if (task_author.isSuccessful()) {
-                                            ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                                                                                      @Override
-                                                                                                                                      public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
-                                                                                                                                          if (task_genre.isSuccessful()) {
-                                                                                                                                              if ((Boolean) document.get("is_private")) {
-                                                                                                                                                  if (userID.equals(auth.getCurrentUser().getUid())) {
-                                                                                                                                                      storyCountArr.add(1);
-                                                                                                                                                      handler.post(new Runnable() {
+                                            ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(
+                                                    new OnCompleteListener<DocumentSnapshot>() {
+                                                          @Override
+                                                          public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
+                                                              if (task_genre.isSuccessful()) {
 
-                                                                                                                                                          @Override
-                                                                                                                                                          public void run() {
-                                                                                                                                                              ((TextView) view).setText(storyCountArr.size()+"");
-                                                                                                                                                          }
-                                                                                                                                                      });                                                                                                                                                  }
-                                                                                                                                              } else {
-                                                                                                                                                  storyCountArr.add(1);
-                                                                                                                                                  handler.post(new Runnable() {
+                                                                      storyCountArr.add(1);
+                                                                      handler.post(new Runnable() {
 
-                                                                                                                                                      @Override
-                                                                                                                                                      public void run() {
-                                                                                                                                                          ((TextView) view).setText(storyCountArr.size()+"");
-                                                                                                                                                      }
-                                                                                                                                                  });                                                                                                                                              }
-                                                                                                                                          }
-                                                                                                                                      }
-                                                                                                                                  }
+                                                                          @Override
+                                                                          public void run() {
+                                                                              ((TextView) view).setText(storyCountArr.size()+"");
+                                                                          }
+                                                                      });                                                                                                                                              }
+
+                                                          }
+                                                      }
                                             );
                                         }
                                     }
