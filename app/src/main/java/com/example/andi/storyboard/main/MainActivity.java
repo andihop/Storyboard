@@ -24,6 +24,7 @@ import com.example.andi.storyboard.search.SearchChoosingActivity;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.user.FavoritesMain;
 import com.example.andi.storyboard.user.ProfileActivity;
+import com.example.andi.storyboard.user.ListSubscribedAuthorsActivity;
 import com.example.andi.storyboard.user.SettingsActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -164,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.view_favorites:
                 intent = new Intent(getBaseContext(), FavoritesMain.class);
+                startActivity(intent);
+                break;
+            case R.id.view_subscriptions:
+                intent = new Intent(getBaseContext(), ListSubscribedAuthorsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.about_us:
