@@ -46,7 +46,6 @@ public class StoryReadActivity extends AppCompatActivity {
     ScaleAnimation scaleAnimation;
     BounceInterpolator bounceInterpolator;
     ToggleButton buttonFavorite;
-    StoriesResultAdapter mAdapter;
 
     FirebaseFirestore firestore;
     DocumentReference favoritesRef;
@@ -57,8 +56,6 @@ public class StoryReadActivity extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
         ArrayList<Story> favoriteStories = FireStoreOps.favoriteStories;
-        mAdapter = new StoriesResultAdapter(getApplicationContext(), favoriteStories);
-        FireStoreOps.getFavoritePrompts(FirebaseAuth.getInstance().getCurrentUser().getUid(), mAdapter);
 
         setContentView(R.layout.activity_story_read);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,7 +67,9 @@ public class StoryReadActivity extends AppCompatActivity {
         // favorites button
         buttonFavorite = (ToggleButton) findViewById(R.id.btn_favorite);
 
-        // if story is already in user's favorites, set checked status to true
+        // if story is already in user's favorites, set checked status of favorite icon to true
+        FireStoreOps.getFavoriteStories(FirebaseAuth.getInstance().getCurrentUser().getUid(), null);
+
         Boolean storyIsInFavorites = false;
 
         for (int i = 0; i < favoriteStories.size(); i++) {

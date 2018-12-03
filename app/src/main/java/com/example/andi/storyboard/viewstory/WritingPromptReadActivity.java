@@ -3,6 +3,7 @@ package com.example.andi.storyboard.viewstory;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,24 +11,56 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.andi.storyboard.R;
 import com.example.andi.storyboard.create.CreateStoryActivity;
 import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.user.ProfileActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class WritingPromptReadActivity extends AppCompatActivity {
+
+    ScaleAnimation scaleAnimation;
+    BounceInterpolator bounceInterpolator;
+    ToggleButton buttonFavorite;
+
+    FirebaseFirestore firestore;
+    DocumentReference favoritesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firestore = FirebaseFirestore.getInstance();
+        ArrayList<WritingPrompt> favoritePrompts = FireStoreOps.favoritePrompts;
+
         setContentView(R.layout.activity_prompt_read);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Writing Prompt");
+
+        // favorites button
+        buttonFavorite = (ToggleButton) findViewById(R.id.btn_favorite);
 
         String str = "Posted On: " + getIntent().getStringExtra("date") + "\n\n" + "The Prompt:\n\n" +
                 getIntent().getStringExtra("text");
@@ -35,6 +68,65 @@ public class WritingPromptReadActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.story_text);
 
         textView.setText(str);
+
+        // if story is already in user's favorites, set checked status of favorite icon to true
+        FireStoreOps.getFavoriteStories(FirebaseAuth.getInstance().getCurrentUser().getUid(), null);
+
+        Boolean storyIsInFavorites = false;
+
+        for (int i = 0; i < favoritePrompts.size(); i++) {
+            if (favoritePrompts.get(i).getPrompt_author().equals(getIntent().getStringExtra("author"))
+                    && favoritePrompts.get(i).getText().equals(getIntent().getStringExtra("prompt"))
+                    && favoritePrompts.get(i).getPostedTime().toString().equals(getIntent().getStringExtra("date"))) {
+                storyIsInFavorites = true;
+                break;
+            }
+        }
+
+        if (storyIsInFavorites) {
+            buttonFavorite.setChecked(true);
+        } else {
+            buttonFavorite.setChecked(false);
+        }
+
+        // animation to make the favorites button bounce when clicked
+        scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+        scaleAnimation.setDuration(500);
+        bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+        buttonFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, final boolean isChecked) {
+                //animation
+                compoundButton.startAnimation(scaleAnimation);
+
+
+                favoritesRef = firestore.collection("favorites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                firestore.collection("writing_prompts")
+                        .whereEqualTo("prompt", getIntent().getStringExtra("prompt"))
+                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                String doc = queryDocumentSnapshots.getDocuments().get(0).getId();
+
+                                if (isChecked) {
+
+                                    favoritesRef.update("prompts",
+                                            FieldValue.arrayUnion(firestore.collection("writing_prompts")
+                                                    .document(doc)));
+                                    Toast.makeText(getApplicationContext(), "Prompt added to favorites!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    favoritesRef.update("prompts",
+                                            FieldValue.arrayRemove(firestore.collection("writing_prompts")
+                                                    .document(doc)));
+                                    Toast.makeText(getApplicationContext(), "Prompt removed from favorites.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
 
         FloatingActionButton commentButton = (FloatingActionButton) findViewById(R.id.comment_button);
         commentButton.setOnClickListener(new View.OnClickListener() {
