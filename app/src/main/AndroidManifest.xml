@@ -70,7 +70,7 @@
             android:name=".login.ResetPasswordActivity"
             android:label="Reset Password" />
         <activity
-            android:name=".EditStoryActivity"
+            android:name=".create.EditStoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".user.FavoritesMain"

@@ -14,11 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.andi.storyboard.EditStoryActivity;
+import com.example.andi.storyboard.create.EditStoryActivity;
 import com.example.andi.storyboard.firebase.FireStoreOps;
 import com.example.andi.storyboard.R;
-import com.example.andi.storyboard.main.TabsAdapter;
-import com.example.andi.storyboard.main.TabsFragment;
 import com.example.andi.storyboard.user.ProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
