@@ -36,8 +36,11 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +69,29 @@ public class StoryReadActivity extends AppCompatActivity {
 
         // favorites button
         buttonFavorite = (ToggleButton) findViewById(R.id.btn_favorite);
+
+        String dateStr1 = getIntent().getStringExtra("created_on");
+        String dateStr2 = getIntent().getStringExtra("last_update");
+        DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+        Date date1 = new Date();
+        Date date2 = new Date();
+        try {
+            date1 = (Date)formatter.parse(dateStr1);
+            date2 = (Date)formatter.parse(dateStr2);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        final Story s = new Story(getIntent().getStringExtra("title"),
+                getIntent().getStringExtra("author"),
+                getIntent().getStringExtra("text"),
+                getIntent().getStringExtra("genre"),
+                getIntent().getStringExtra("summary"),
+                Long.valueOf(getIntent().getStringExtra("views")),
+                date1, date2,
+                getIntent().getStringExtra("documentID"),
+                Boolean.valueOf(getIntent().getStringExtra("is_private")),
+                Boolean.valueOf(getIntent().getStringExtra("in_progress")),
+                getIntent().getStringExtra("userID"));
 
         // if story is already in user's favorites, set checked status of favorite icon to true
         FireStoreOps.getFavoriteStories(FirebaseAuth.getInstance().getCurrentUser().getUid(), null);
@@ -116,11 +142,16 @@ public class StoryReadActivity extends AppCompatActivity {
                             favoritesRef.update("stories",
                                     FieldValue.arrayUnion(firestore.collection("stories")
                                             .document(getIntent().getStringExtra("documentID"))));
+                            for (int i = 0; i < FireStoreOps.favoriteStories.size(); i++) {
+                                if (FireStoreOps.favoriteStories.get(i).equals(s)) {break;}
+                                if (i == (FireStoreOps.favoriteStories.size() - 1)) {FireStoreOps.favoriteStories.add(s);}
+                            }
                             Toast.makeText(getApplicationContext(), "Story added to favorites!", Toast.LENGTH_SHORT).show();
                         } else {
                             favoritesRef.update("stories",
                                     FieldValue.arrayRemove(firestore.collection("stories")
                                             .document(getIntent().getStringExtra("documentID"))));
+                            FireStoreOps.getFavoriteStories(FirebaseAuth.getInstance().getCurrentUser().getUid(), null);
                             Toast.makeText(getApplicationContext(), "Story removed from favorites.", Toast.LENGTH_SHORT).show();
                         }
                     }
