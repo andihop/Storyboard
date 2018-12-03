@@ -126,10 +126,8 @@
         android:layout_marginBottom="10dp" >
 
         <LinearLayout
-            android:layout_gravity="center"
             android:background="@color/white"
             android:orientation="vertical"
-            android:layout_marginTop="90dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="30dp"
