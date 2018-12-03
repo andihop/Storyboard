@@ -84,7 +84,9 @@
     <string name="stories">Stories</string>
     <string name="recent_stories">Recent Stories</string>
     <string name="archive">Archive</string>
-
+    <string name="night_mode_title">Enable Night Mode</string>
+    <string name="night_mode_summary">Enable night mode to allow better viewing in a darker environment.</string>
+    <string name="display_name">Display Name.</string>
 
     <!-- Genres to select in dialog box for writing prompt activity -->
     <string name="select_genres">Select genres</string>

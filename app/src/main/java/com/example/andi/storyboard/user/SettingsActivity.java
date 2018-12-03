@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -20,6 +21,9 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.example.andi.storyboard.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -169,18 +173,33 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
+        private FirebaseAuth auth;
+        private FirebaseUser user;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
+            auth = FirebaseAuth.getInstance();
+            user = auth.getCurrentUser();
+
+            EditTextPreference displayName = (EditTextPreference) findPreference("display_name");
+            EditTextPreference email = (EditTextPreference) findPreference("email");
+            EditTextPreference password = (EditTextPreference) findPreference("password");
+
+            displayName.setText(user.getDisplayName());
+            email.setText(user.getEmail());
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference("display_name"));
+            bindPreferenceSummaryToValue(findPreference("email"));
+
+            user.updateEmail("" + email);
+
         }
 
         @Override
