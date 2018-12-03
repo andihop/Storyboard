@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,8 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
 
     StoriesResultAdapter mAdapter;
     private FirebaseAuth auth;
+    private String user;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,19 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
         ListView resultsList = findViewById(R.id.stories_result_list);
 
         auth = FirebaseAuth.getInstance();
+        String userTemp = getIntent().getStringExtra("username");
+        String uidTemp = getIntent().getStringExtra("uid");
+        if (userTemp != null && uidTemp != null) {
+            user = userTemp;
+            uid = uidTemp;
+        } else {
+            user = auth.getCurrentUser().getDisplayName();
+            uid = auth.getCurrentUser().getUid();
+        }
+        Log.i("user", user);
 
-        setTitle("Stories by " + auth.getCurrentUser().getDisplayName());
+
+        setTitle("Stories by " + user);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,7 +60,7 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
 
         resultsList.setAdapter(mAdapter);
 
-        FireStoreOps.getUserStories(FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance(), mAdapter);
+        FireStoreOps.getUserStories(uid,FirebaseAuth.getInstance(), mAdapter);
         resultsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

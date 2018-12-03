@@ -203,7 +203,11 @@ public class ProfileActivity extends AppCompatActivity {
         viewArchive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, ListUserStoriesActivity.class));
+                Intent intent = new Intent(ProfileActivity.this, ListUserStoriesActivity.class);
+                intent.putExtra("uid", uid);
+                intent.putExtra("username", user);
+                Log.i("user", user);
+                startActivity(intent);
             }
         });
 
