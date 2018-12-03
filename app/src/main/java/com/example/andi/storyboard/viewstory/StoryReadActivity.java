@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +30,11 @@ import com.example.andi.storyboard.main.TabsAdapter;
 import com.example.andi.storyboard.main.TabsFragment;
 import com.example.andi.storyboard.search.StoriesResultAdapter;
 import com.example.andi.storyboard.user.ProfileActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -40,6 +44,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StoryReadActivity extends AppCompatActivity {
 
@@ -97,13 +103,32 @@ public class StoryReadActivity extends AppCompatActivity {
                 compoundButton.startAnimation(scaleAnimation);
 
                 favoritesRef = firestore.collection("favorites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                //checking whether user has favorites list or not
+                favoritesRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            //if user does not have favorite stories, add the the favorite stories array field
+                            if (task.getResult().get("stories") == null) {
+                                ArrayList<DocumentReference> prompts = new ArrayList<>();
+                                Map<String, Object> favorites = new HashMap<>();
+                                favorites.put("stories", prompts);
+                                favoritesRef.set(favorites);
+                            }
+                        }
+                    }
+                });
 
                 // add to favorites, remove from favorites
                 if (isChecked) {
-                    favoritesRef.update("stories", FieldValue.arrayUnion(firestore.collection("stories").document(getIntent().getStringExtra("documentID"))));
+                    favoritesRef.update("stories",
+                            FieldValue.arrayUnion(firestore.collection("stories")
+                                    .document(getIntent().getStringExtra("documentID"))));
                     Toast.makeText(getApplicationContext(), "Story added to favorites!", Toast.LENGTH_SHORT).show();
                 } else {
-                    favoritesRef.update("stories", FieldValue.arrayRemove(firestore.collection("stories").document(getIntent().getStringExtra("documentID"))));
+                    favoritesRef.update("stories",
+                            FieldValue.arrayRemove(firestore.collection("stories")
+                                    .document(getIntent().getStringExtra("documentID"))));
                     Toast.makeText(getApplicationContext(), "Story removed from favorites.", Toast.LENGTH_SHORT).show();
                 }
             }

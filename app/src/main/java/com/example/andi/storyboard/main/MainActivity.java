@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
             username_greeting.setText("Hello, " + username + "!");
         }
 
+        tabsPager = (ViewPager) findViewById(R.id.tabspager);
+        adapter = new TabsAdapter(getSupportFragmentManager());
+        tabsPager.setAdapter(adapter);
+
         // need this code here to prefill favoriteStories and favoritePrompts
         // so we can decide whether or not to activate the favorites icon in
         // the StoryReadActivity view and the WritingPromptReadActivity, respectively
@@ -72,10 +76,6 @@ public class MainActivity extends AppCompatActivity {
         FireStoreOps.getFavoriteStories(auth.getCurrentUser().getUid(), null);
         FireStoreOps.favoritePrompts.clear();
         FireStoreOps.getFavoritePrompts(auth.getCurrentUser().getUid(), null);
-
-        tabsPager = (ViewPager) findViewById(R.id.tabspager);
-        adapter = new TabsAdapter(getSupportFragmentManager());
-        tabsPager.setAdapter(adapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(tabsPager);

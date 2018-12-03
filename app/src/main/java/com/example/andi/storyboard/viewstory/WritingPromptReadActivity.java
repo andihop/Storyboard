@@ -34,8 +34,14 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class WritingPromptReadActivity extends AppCompatActivity {
 
@@ -101,30 +107,49 @@ public class WritingPromptReadActivity extends AppCompatActivity {
                 //animation
                 compoundButton.startAnimation(scaleAnimation);
 
-
                 favoritesRef = firestore.collection("favorites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                //checking whether user has favorites list or not
+                favoritesRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            //if user does not have favorite prompts, add the the favorite prompts array field
+                            if (task.getResult().get("prompts") == null) {
+                                ArrayList<DocumentReference> prompts = new ArrayList<>();
+                                Map<String, Object> favorites = new HashMap<>();
+                                favorites.put("prompts", prompts);
+                                favoritesRef.set(favorites);
+                            }
+                        }
+                    }
+                });
 
                 firestore.collection("writing_prompts")
                         .whereEqualTo("prompt", getIntent().getStringExtra("prompt"))
-                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                String doc = queryDocumentSnapshots.getDocuments().get(0).getId();
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (!task.getResult().getDocuments().isEmpty()) {
+                                        DocumentSnapshot result = task.getResult().getDocuments().get(0);
+                                        String doc = result.getId();
 
-                                if (isChecked) {
-
-                                    favoritesRef.update("prompts",
-                                            FieldValue.arrayUnion(firestore.collection("writing_prompts")
-                                                    .document(doc)));
-                                    Toast.makeText(getApplicationContext(), "Prompt added to favorites!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    favoritesRef.update("prompts",
-                                            FieldValue.arrayRemove(firestore.collection("writing_prompts")
-                                                    .document(doc)));
-                                    Toast.makeText(getApplicationContext(), "Prompt removed from favorites.", Toast.LENGTH_SHORT).show();
+                                        // add to favorites, remove from favorites
+                                        if (isChecked) {
+                                            favoritesRef.update("prompts",
+                                                    FieldValue.arrayUnion(firestore.collection("writing_prompts")
+                                                            .document(doc)));
+                                            Toast.makeText(getApplicationContext(), "Prompt added to favorites!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            favoritesRef.update("prompts",
+                                                    FieldValue.arrayRemove(firestore.collection("writing_prompts")
+                                                            .document(doc)));
+                                            Toast.makeText(getApplicationContext(), "Prompt removed from favorites.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 }
                             }
-                        });
+                });
             }
         });
 
