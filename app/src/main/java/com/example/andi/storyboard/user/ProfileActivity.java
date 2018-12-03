@@ -159,7 +159,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        CollectionReference storiesList = db.collection("authors");
+/*        CollectionReference storiesList = db.collection("authors");
         DocumentReference docRef = db.collection("authors").document(auth.getCurrentUser().getUid());
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -198,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity {
                     numSubscribers.setText("" + subscriberCount);
                 }
             }
-        });
+        });*/
 
         viewArchive.setOnClickListener(new View.OnClickListener() {
             @Override
