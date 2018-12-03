@@ -65,4 +65,18 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_create" />
 
+    <Button
+        android:id="@+id/view_profile"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="15dp"
+        android:text="View Profile"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/app_bar"
+        />
+
 </android.support.design.widget.CoordinatorLayout>

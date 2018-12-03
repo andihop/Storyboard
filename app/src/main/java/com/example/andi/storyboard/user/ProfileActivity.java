@@ -37,6 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
     StoriesResultAdapter mAdapter;
     private ListView featuredStoryList;
     private ListView recentStoryList;
+    private String user;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        String userTemp = getIntent().getStringExtra("username");
+        String uidTemp = getIntent().getStringExtra("uid");
+
+        if (userTemp != null && uidTemp != null) {
+            user = userTemp;
+            uid = uidTemp;
+        } else {
+            user = auth.getCurrentUser().getDisplayName();
+            uid = auth.getCurrentUser().getUid();
+        }
+
 
         setContentView(R.layout.activity_profile);
         username = (TextView) findViewById(R.id.username);
@@ -53,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         viewArchive = (Button) findViewById(R.id.btn_story_archive);
 
         //Set the username, # subscribers and # stories
-        username.setText(auth.getCurrentUser().getDisplayName());
+        username.setText(user);
         //numSubscribers
         //numStories.setText(auth.getCurrentUser().collection("stories").size());
 
@@ -73,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
         final StoriesResultAdapter mAdapter = new StoriesResultAdapter(this, stories);
         featuredStoryList.setAdapter(mAdapter);
 
-        FireStoreOps.getFeaturedUserStories(auth.getCurrentUser().getUid(),auth, mAdapter);
+        FireStoreOps.getFeaturedUserStories(uid,auth, mAdapter);
         featuredStoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -99,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
         final StoriesResultAdapter mRecentAdapter = new StoriesResultAdapter(this, recentStories);
         recentStoryList.setAdapter(mRecentAdapter);
 
-        FireStoreOps.getRecentUserStories(auth.getCurrentUser().getUid(),auth, mRecentAdapter);
+        FireStoreOps.getRecentUserStories(uid,auth, mRecentAdapter);
         recentStoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -129,6 +142,13 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        Button subscribe = findViewById(R.id.subscribeButton);
+        subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FireStoreOps.subscribe(uid, getApplicationContext());
+            }
+        });
     }
 
     @Override

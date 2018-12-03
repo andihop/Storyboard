@@ -6,74 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".create.WritingPromptActivity">
 
-    <EditText
-        android:id="@+id/prompt"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="100dp"
-        android:hint="@string/writing_prompt_here"
-        android:inputType="textMultiLine"
-        android:maxLines="10"
-        android:textSize="20sp" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <Button
-        android:id="@+id/btn_select_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/prompt"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="102dp"
-        android:background="@color/colorPrimary"
-        android:padding="10dp"
-        android:text="@string/select_genres"
-        android:textColor="@color/white" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <TextView
-        android:id="@+id/display_selected_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/genres_selected_text"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="134dp"
-        android:layout_marginTop="0dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="17sp"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/genres_selected_text"
-        android:layout_width="115dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_select_genres"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="26dp"
-        android:textSize="15sp"
-        android:text="@string/genres_selected" />
+    </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:id="@+id/tag_as_text"
-        android:layout_width="55dp"
-        android:layout_height="58dp"
-        android:layout_alignStart="@+id/btn_select_genres"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-112dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:textSize="15sp"
         android:text="@string/tag_as" />
 
     <RadioGroup
         android:id="@+id/tag_group"
-        android:layout_width="311dp"
-        android:layout_height="58dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-184dp"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@+id/btn_select_genres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tag_as_text"
+        android:layout_alignTop="@id/tag_as_text"
+        android:layout_alignBottom="@id/tag_as_text"
         android:orientation="horizontal">
 
         <RadioButton
@@ -102,10 +68,56 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="82dp"
+        android:layout_below="@id/tag_as_text"
+        android:layout_margin="10dp"
         android:background="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/btn_select_genres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:layout_centerInParent="true"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:text="@string/select_genres"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/genres_selected_text"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_select_genres"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="26dp"
+        android:textSize="15sp"
+        android:text="@string/genres_selected" />
+
+    <TextView
+        android:id="@+id/display_selected_genres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/genres_selected_text"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="134dp"
+        android:layout_marginTop="0dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="17sp"
+        android:textStyle="italic" />
+
+    <EditText
+        android:id="@+id/prompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="100dp"
+        android:hint="@string/writing_prompt_here"
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/post"

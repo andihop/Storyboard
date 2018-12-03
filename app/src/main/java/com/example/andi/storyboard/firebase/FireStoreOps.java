@@ -1,7 +1,10 @@
 package com.example.andi.storyboard.firebase;
 
+import android.content.Context;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.BaseAdapter;
 
 import com.example.andi.storyboard.datatype.Author;
@@ -26,6 +29,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import android.os.Handler;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -43,6 +48,8 @@ public class FireStoreOps {
     public static ArrayList<Chapter> chapters = new ArrayList<>();
     public static ArrayList<String> comments = new ArrayList<>();
     public static ArrayList<WritingPrompt> writingprompts = new ArrayList<>();
+
+
 
     public static Story story = new Story("", "", "", "", "", 0, new Date(), new Date(), "", true, true, "");
     private FirebaseAuth auth;
@@ -69,6 +76,95 @@ public class FireStoreOps {
         }
 
     };
+
+    public static void subscribe(final String authorID, final Context mContext) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        if (authorID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            handler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, "You cannot subscribe to yourself!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return;
+        }
+
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final Map<String, Object> subMap = new HashMap<String, Object>();
+        subMap.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        subMap.put("author", authorID);
+        firestore.collection("subscription").whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (final QueryDocumentSnapshot document : task.getResult()) {
+                                        if (document.get("author").equals(authorID)) {
+                                            Handler handler = new Handler(Looper.getMainLooper());
+
+                                            handler.post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(mContext, "You are already subscribed to this author!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            return;
+                                        }
+
+                                    }
+                                    Handler handler = new Handler(Looper.getMainLooper());
+                                    firestore.collection("subscription").add(subMap);
+                                    handler.post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(mContext, "You have successfully subscribed to this author!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                                }
+                            }
+                        }
+                );
+    }
+
+    public static void getSubscribedAuthors(final BaseAdapter mAdapter, final Context mContext) {
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        authors.clear();
+
+        firestore.collection("subscription").whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<QuerySnapshot>() {
+                           @Override
+                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                               if (task.isSuccessful()) {
+                                   for (final QueryDocumentSnapshot document : task.getResult()) {
+                                       final DocumentReference author = firestore.collection("authors").document((String) document.get("author"));
+                                       author.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<DocumentSnapshot> taskauthor) {
+                                               if (taskauthor.isSuccessful()) {
+                                                   Log.i("subscriptions", "sub2");
+
+                                                   authors.add(new Author((String) taskauthor.getResult().get("username"), author));
+                                                   mAdapter.notifyDataSetChanged();
+
+                                               }
+                                           }
+                                       });
+
+                                   }
+
+                               }
+                           }
+                       }
+                );
+    }
 
     //When a story is selected and read from the search, increment view count by using this method:
     public static void incrementViewCount(String documentID) {
@@ -115,10 +211,12 @@ public class FireStoreOps {
                                 boolean alreadyThere = false;
                                 for (j = 0; j < recents.size(); j++) {
                                     Log.d("updateRecentStoriesRead", "inside loop at " + j);
-                                    Log.d("updateRecentStoriesRead", "storyID " + recents.get(j).get("storyID") + ", update? " + story);
-                                    if (recents.get(j).get("storyID").equals(story)) {
-                                        alreadyThere = true;
-                                        break;
+                                    //Log.d("updateRecentStoriesRead", "storyID " + recents.get(j).get("storyID") + ", update? " + story);
+                                    if (recents.get(j) != null) {
+                                        if (recents.get(j).get("storyID").equals(story)) {
+                                            alreadyThere = true;
+                                            break;
+                                        }
                                     }
                                 }
 
@@ -164,8 +262,10 @@ public class FireStoreOps {
                                             }
                                         }
                                         // we now have the oldest recently read story
-                                        Log.d("updateRecentStoriesRead", "removing " + recents.get(oldestEntry));
-                                        recents.remove(oldestEntry);
+                                        if (oldestEntry != -1) {
+                                            Log.d("updateRecentStoriesRead", "removing " + recents.get(oldestEntry));
+                                            recents.remove(oldestEntry);
+                                        }
                                         Log.d("updateRecentStoriesRead", "adding entry " + newEntry);
                                         recents.add(newEntry);
                                         updateUser.put("recent_stories", recents);
