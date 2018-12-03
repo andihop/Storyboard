@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,19 +7,27 @@
     tools:context=".user.FavoritesMain">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay" >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
     </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:id="@+id/username_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/app_bar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="15dp"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -28,10 +35,10 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/username_greeting"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@id/username_greeting"
         app:tabGravity="fill"
         app:tabMode="fixed" />
 
