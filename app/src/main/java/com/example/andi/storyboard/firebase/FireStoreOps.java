@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import android.os.Handler;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,6 +43,7 @@ public class FireStoreOps {
     public static ArrayList<Story> featuredProfileStories = new ArrayList<>();
     public static ArrayList<Story> recentProfileStories = new ArrayList<>();
     public static ArrayList<Story> recentStoriesRead = new ArrayList<>();
+    public static ArrayList<Integer> storyCountArr = new ArrayList<>();
 
     public static ArrayList<Author> authors = new ArrayList<>();
     public static ArrayList<Genre> genres = new ArrayList<>();
@@ -77,7 +79,117 @@ public class FireStoreOps {
 
     };
 
+    public static void getSubNum(final String uid, final View view) {
+        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                ((TextView) view).setText(0+"");
+            }
+        });
+
+        authors.clear();
+
+        firestore.collection("subscription").whereEqualTo("author", uid)
+                .get()
+                .addOnCompleteListener(
+                        new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull final Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    handler.post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            ((TextView) view).setText(task.getResult().size()+"");
+                                        }
+                                    });
+
+                                }
+                            }
+                        }
+                );
+    }
+
+    //Pass in user ID via auth.getCurrentUser().getUid()
+    //Pass in auth as well, so only if current user = profile user the private stories are returned.
+    //otherwise, only public ones are returned.
+    public static void getStoryNum(final String userID, final FirebaseAuth auth, final TextView view) {
+        Log.d("getUserStories", "Entered Function");
+        storyCountArr.clear();
+
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                ((TextView) view).setText(0+"");
+            }
+        });
+
+        DocumentReference authorRef = firestore.collection("authors").document(userID);
+
+        firestore.collection("stories").whereEqualTo("author", authorRef).orderBy("title")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("getAllStories", document.getId() + " => " + document.getData());
+                                document.getDocumentReference("author").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull final Task<DocumentSnapshot> task_author) {
+                                        if (task_author.isSuccessful()) {
+                                            ((List<DocumentReference>) document.get("genres")).get(0).get().addOnCompleteListener(
+                                                    new OnCompleteListener<DocumentSnapshot>() {
+                                                          @Override
+                                                          public void onComplete(@NonNull Task<DocumentSnapshot> task_genre) {
+                                                              if (task_genre.isSuccessful()) {
+
+                                                                      storyCountArr.add(1);
+                                                                      handler.post(new Runnable() {
+
+                                                                          @Override
+                                                                          public void run() {
+                                                                              ((TextView) view).setText(storyCountArr.size()+"");
+                                                                          }
+                                                                      });                                                                                                                                              }
+
+                                                          }
+                                                      }
+                                            );
+                                        }
+                                    }
+                                });
+                            }
+
+                        } else {
+                            Log.d("userStories", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
     public static void subscribe(final String authorID, final Context mContext) {
+        final Handler handler = new Handler(Looper.getMainLooper());
+        if (authorID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            handler.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, "You cannot subscribe to yourself!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return;
+        }
+
         final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         final Map<String, Object> subMap = new HashMap<String, Object>();
         subMap.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -408,7 +520,7 @@ public class FireStoreOps {
                                                                                     story.getDate("Last_Updated"), story.getId(), (Boolean) story.get("is_private"), (Boolean) story.get("in_progress"),
                                                                                     userID));
                                                                             Log.i("getFavoriteStories", "retrieved story");
-                                                                            mAdapter.notifyDataSetChanged();
+                                                                            if (mAdapter != null) mAdapter.notifyDataSetChanged();
                                                                         }
                                                                     }
                                                                 });
@@ -470,7 +582,7 @@ public class FireStoreOps {
                                                     favoritePrompts.add(new WritingPrompt(promptRef.get("prompt").toString(), (ArrayList<String>) promptRef.get("categories"), promptRef.getDate("time_posted"),
                                                             promptRef.get("user").toString(), promptRef.get("tag").toString()));
                                                     Log.i("getFavoritePrompts", "retrieved prompt");
-                                                    mAdapter.notifyDataSetChanged();
+                                                    if (mAdapter != null) mAdapter.notifyDataSetChanged();
                                                 }
                                             }
                                         }

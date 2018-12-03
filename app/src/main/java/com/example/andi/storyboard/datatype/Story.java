@@ -1,6 +1,7 @@
 package com.example.andi.storyboard.datatype;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Story {
     private String title;

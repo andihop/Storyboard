@@ -17,6 +17,7 @@ import com.example.andi.storyboard.create.CreateMaterialChoosingActivity;
 import com.example.andi.storyboard.datatype.Story;
 import com.example.andi.storyboard.datatype.WritingPrompt;
 import com.example.andi.storyboard.firebase.FireStoreOps;
+import com.example.andi.storyboard.user.SettingsActivity;
 import com.example.andi.storyboard.viewstory.StoryReadActivity;
 import com.example.andi.storyboard.viewstory.WritingPromptReadActivity;
 
@@ -81,7 +82,9 @@ public class ListFilteredWritingPromptActivity extends AppCompatActivity  {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;

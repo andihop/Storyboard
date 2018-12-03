@@ -19,16 +19,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="?android:attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <ToggleButton
+                android:id="@+id/btn_favorite"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:background="@drawable/favorite_button"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -63,7 +74,7 @@
         android:clickable="true"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="15dp"
-        android:text="View Profile"
+        android:text="View Author Profile"
         android:textColor="@android:color/white"
         android:layout_below="@id/app_bar"
         />

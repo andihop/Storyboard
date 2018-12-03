@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,9 @@ import java.util.ArrayList;
 public class ListUserStoriesActivity extends AppCompatActivity  {
 
     StoriesResultAdapter mAdapter;
+    private FirebaseAuth auth;
+    private String user;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,20 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 
-        setTitle("User Archive");
+        auth = FirebaseAuth.getInstance();
+        String userTemp = getIntent().getStringExtra("username");
+        String uidTemp = getIntent().getStringExtra("uid");
+        if (userTemp != null && uidTemp != null) {
+            user = userTemp;
+            uid = uidTemp;
+        } else {
+            user = auth.getCurrentUser().getDisplayName();
+            uid = auth.getCurrentUser().getUid();
+        }
+        Log.i("user", user);
+
+
+        setTitle("Stories by " + user);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,7 +60,7 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
 
         resultsList.setAdapter(mAdapter);
 
-        FireStoreOps.getUserStories(FirebaseAuth.getInstance().getCurrentUser().getUid(),FirebaseAuth.getInstance(), mAdapter);
+        FireStoreOps.getUserStories(uid,FirebaseAuth.getInstance(), mAdapter);
         resultsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -91,7 +108,9 @@ public class ListUserStoriesActivity extends AppCompatActivity  {
 
         switch (id) {
             case R.id.action_settings:
-                return true;
+                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.back_button:
                 finish();
                 break;

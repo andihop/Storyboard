@@ -4,7 +4,7 @@
     tools:context=".main.MainActivity">
     <item
         android:id="@+id/back_button"
-        android:icon="?attr/actionModeCloseDrawable"
+        android:icon="?android:attr/actionModeCloseDrawable"
         android:orderInCategory="100"
         android:title="Back"
         app:showAsAction="always" />

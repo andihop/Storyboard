@@ -47,8 +47,9 @@ public class WritingPrompt {
         return tag;
     }
 
-
-
+    public String getPrompt_author() {
+        return prompt_author;
+    }
 
 }
 
