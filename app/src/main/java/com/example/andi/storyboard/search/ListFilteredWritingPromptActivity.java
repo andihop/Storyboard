@@ -39,7 +39,7 @@ public class ListFilteredWritingPromptActivity extends AppCompatActivity  {
         ArrayList<WritingPrompt> writing_prompts = FireStoreOps.writingprompts;
         ListView resultsList = findViewById(R.id.stories_result_list);
 
-        setTitle("Writing Prompts");
+        setTitle("" + getIntent().getStringArrayListExtra("genre_filters"));
 
         mAdapter = new WritingPromptResultAdapter(getApplicationContext(), writing_prompts);
 

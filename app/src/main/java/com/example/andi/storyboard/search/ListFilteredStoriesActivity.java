@@ -38,7 +38,7 @@ public class ListFilteredStoriesActivity extends AppCompatActivity  {
         ArrayList<Story> stories = FireStoreOps.stories;
         ListView resultsList = findViewById(R.id.stories_result_list);
 
-        setTitle("Story Result");
+        setTitle("" + getIntent().getStringArrayListExtra("genre_filters"));
 
         mAdapter = new StoriesResultAdapter(getApplicationContext(), stories);
 
