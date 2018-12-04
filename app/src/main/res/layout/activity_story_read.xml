@@ -19,19 +19,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?android:attr/colorPrimary"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+            <ToggleButton
+                android:id="@+id/btn_favorite"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:background="@drawable/favorite_button"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
 
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_story_read" />
@@ -45,36 +55,12 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/comment_icon" />
 
-    <ToggleButton
-        android:id="@+id/btn_favorite"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:clickable="true"
-        android:foreground="@drawable/favorite_button"
-        android:background="@drawable/background_green_button"
-        android:text=""
-        android:textOff=""
-        android:textOn=""
-        app:layout_anchor="@id/edit_button"
-        app:layout_anchorGravity="center" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/background_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="80dp"
-        android:clickable="false"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_favorite_border" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/edit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="80dp"
         android:clickable="true"
-        android:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_create" />
