@@ -21,6 +21,13 @@
         android:title="Favorites"
         app:showAsAction="never" />
     <item
+        android:id="@+id/view_subscriptions"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:orderInCategory="325"
+        android:title="Subscriptions"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="350"
         android:title="@string/action_settings"

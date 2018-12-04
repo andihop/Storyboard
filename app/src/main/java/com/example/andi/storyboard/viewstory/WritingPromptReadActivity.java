@@ -37,8 +37,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,8 +79,8 @@ public class WritingPromptReadActivity extends AppCompatActivity {
 
         textView.setText(str);
 
-        // if story is already in user's favorites, set checked status of favorite icon to true
-        FireStoreOps.getFavoriteStories(FirebaseAuth.getInstance().getCurrentUser().getUid(), null);
+        // if prompt is already in user's favorites, set checked status of favorite icon to true
+        FireStoreOps.getFavoritePrompts(FirebaseAuth.getInstance().getCurrentUser().getUid(), null);
 
         Boolean storyIsInFavorites = false;
 
@@ -95,6 +98,20 @@ public class WritingPromptReadActivity extends AppCompatActivity {
         } else {
             buttonFavorite.setChecked(false);
         }
+
+        String dateStr1 = getIntent().getStringExtra("date");
+        DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+        Date date = new Date();
+        try {
+            date = (Date)formatter.parse(dateStr1);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        final WritingPrompt p = new WritingPrompt(getIntent().getStringExtra("prompt"),
+                getIntent().getStringArrayListExtra("genres"),
+                date,
+                getIntent().getStringExtra("author"),
+                getIntent().getStringExtra("tag"));
 
         // animation to make the favorites button bounce when clicked
         scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
@@ -138,11 +155,16 @@ public class WritingPromptReadActivity extends AppCompatActivity {
                                             favoritesRef.update("prompts",
                                                     FieldValue.arrayUnion(firestore.collection("writing_prompts")
                                                             .document(doc)));
+                                            for (int i = 0; i < FireStoreOps.favoritePrompts.size(); i++) {
+                                                if (FireStoreOps.favoritePrompts.get(i).equals(p)) {break;}
+                                                if (i == (FireStoreOps.favoritePrompts.size() - 1)) {FireStoreOps.favoritePrompts.add(p);}
+                                            }
                                             Toast.makeText(getApplicationContext(), "Prompt added to favorites!", Toast.LENGTH_SHORT).show();
                                         } else {
                                             favoritesRef.update("prompts",
                                                     FieldValue.arrayRemove(firestore.collection("writing_prompts")
                                                             .document(doc)));
+                                            FireStoreOps.getFavoritePrompts(FirebaseAuth.getInstance().getCurrentUser().getUid(), null);
                                             Toast.makeText(getApplicationContext(), "Prompt removed from favorites.", Toast.LENGTH_SHORT).show();
                                         }
                                     }

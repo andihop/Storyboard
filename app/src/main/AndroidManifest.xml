@@ -88,6 +88,9 @@
             android:name=".search.SearchChoosingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".user.ListSubscribedAuthorsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".user.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
     </application>

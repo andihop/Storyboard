@@ -109,6 +109,8 @@ public class FavoritesFragment extends Fragment {
                     intent.putExtra("date", mAdapter.getItem(i).getPostedTime().toString());
                     intent.putExtra("author", mAdapter.getItem(i).getPrompt_author());
                     intent.putExtra("prompt", mAdapter.getItem(i).getText());
+                    intent.putExtra("genres", mAdapter.getItem(i).getGenres());
+                    intent.putExtra("tag", mAdapter.getItem(i).getTag());
 
                     startActivity(intent);
                 }
