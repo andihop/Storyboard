@@ -53,6 +53,7 @@ public class ListSubscribedAuthorsActivity extends AppCompatActivity  {
                 intent.putExtra("uid", mAdapter.getItem(i).getRef().getId());
 
                 startActivity(intent);
+                finish();
             }
         });
     }
