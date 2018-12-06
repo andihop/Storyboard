@@ -142,18 +142,18 @@ public class ProfileActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(ProfileActivity.this, StoryReadActivity.class);
-                intent.putExtra("title", mAdapter.getItem(i).getTitle());
-                intent.putExtra("author", mAdapter.getItem(i).getAuthorName());
-                intent.putExtra("text", mAdapter.getItem(i).getText());
-                intent.putExtra("summary", mAdapter.getItem(i).getSummary());
-                intent.putExtra("views", "" + mAdapter.getItem(i).getViews());
-                intent.putExtra("created_on", mAdapter.getItem(i).getCreated_On().toString());
-                intent.putExtra("last_update", mAdapter.getItem(i).getLast_Updated().toString());
-                intent.putExtra("documentID", mAdapter.getItem(i).getDocumentID());
-                intent.putExtra("in_progress", mAdapter.getItem(i).getIn_Progress());
-                intent.putExtra("is_private", mAdapter.getItem(i).getIs_Private());
-                intent.putExtra("genre", mAdapter.getItem(i).getGenre());
-                intent.putExtra("userID", mAdapter.getItem(i).getAuthorID());
+                intent.putExtra("title", mRecentAdapter.getItem(i).getTitle());
+                intent.putExtra("author", mRecentAdapter.getItem(i).getAuthorName());
+                intent.putExtra("text", mRecentAdapter.getItem(i).getText());
+                intent.putExtra("summary", mRecentAdapter.getItem(i).getSummary());
+                intent.putExtra("views", "" + mRecentAdapter.getItem(i).getViews());
+                intent.putExtra("created_on", mRecentAdapter.getItem(i).getCreated_On().toString());
+                intent.putExtra("last_update", mRecentAdapter.getItem(i).getLast_Updated().toString());
+                intent.putExtra("documentID", mRecentAdapter.getItem(i).getDocumentID());
+                intent.putExtra("in_progress", mRecentAdapter.getItem(i).getIn_Progress());
+                intent.putExtra("is_private", mRecentAdapter.getItem(i).getIs_Private());
+                intent.putExtra("genre", mRecentAdapter.getItem(i).getGenre());
+                intent.putExtra("userID", mRecentAdapter.getItem(i).getAuthorID());
 
                 startActivity(intent);
             }
